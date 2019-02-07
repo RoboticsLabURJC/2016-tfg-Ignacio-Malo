@@ -24,10 +24,28 @@ controller_list:
      - l_forearm_roll_joint
      - l_wrist_flex_joint
      - l_wrist_roll_joint
- - name: gripper_controller
+ - name: r_gripper_controller
    action_ns: gripper_action
    type: GripperCommand
    default: true
    joints:
-     - l_gripper_joint
      - r_gripper_joint
+     - r_gripper_l_finger_joint 
+     - r_gripper_motor_screw_joint 
+     - r_gripper_motor_slider_joint
+ #- name: r_gripper_controller
+  # action_ns: gripper_action   #gripper_action 
+   #type: GripperCommand     #GripperCommand
+   #default: false
+   #joints:
+    # - r_gripper_motor_screw_joint
+     #- r_gripper_motor_slider_joint
+     #- r_gripper_l_finger_joint   #en Gazebo
+     #- r_gripper_r_finger_joint   #en Gazebo
+     #- r_gripper_r_finger_tip_joint # sólo en Gazebo
+     #- r_gripper_l_finger_tip_joint # sólo en Gazebo
+     #- r_gripper_palm_joint #Añadido, sólo gazebo
+     #- r_gripper_led_joint
+     #- r_gripper_motor_accelerometer_joint
+     #- r_gripper_tool_joint
+     #- r_gripper_joint
