@@ -79,48 +79,9 @@
 				</visual>
 			</link>
 		</model>
-		<model name="Obstacle2_1"> <!-- muevo todo 0.6 a la dcha 
-			0.15, 0.01, 0.45, 0.6, 0.3, 0.6 -->
+		<model name="Obstacle1_1"> <!--	0.25, 0.01, 0.5, 0.6, 0.4, 0.6->
 			<!-- la mesa está a 35cm. POnemos dos laminas, separadas 10CM  -->
-			<pose>0.6 0.3 0.6 0 0 0</pose>
-			<static>true</static>
-			<link name="link">
-				<collision name="surface">
-					<pose>0.0 0.0 0.0 0 0 0</pose>
-					<geometry>
-						<box>
-							<size>0.15 0.01 0.45</size>
-						</box>
-					</geometry>
-					<surface>
-						<friction>
-							<ode>
-								<mu>10</mu>
-								<mu2>10</mu2>
-							</ode>
-						</friction>
-					</surface>
-				</collision>
-				<visual name="visual1">
-					<pose>0.0 0.0 0.0 0 0 0</pose>
-					<geometry>
-						<box>
-							<size>0.15 0.01 0.45</size>
-						</box>
-					</geometry>
-					<material>
-						<script>
-							<uri>file://media/materials/scripts/gazebo.material</uri>
-							<name>Gazebo/Black</name>
-						</script>
-					</material>
-				</visual>
-			</link>
-		</model>
-				<model name="Obstacle1_1"> <!-- muevo todo 0.6 a la dcha 
-				0.4, 0.01, 0.5, 0.6, 0.55, 0.6-->
-			<!-- la mesa está a 35cm. POnemos dos laminas, separadas 10CM  -->
-			<pose>0.6 0.55 0.6 0 0 0</pose>
+			<pose>0.6 0.4 0.6 0 0 0</pose>
 			<static>true</static>
 			<link name="link">
 				<collision name="surface">
@@ -149,45 +110,7 @@
 					<material>
 						<script>
 							<uri>file://media/materials/scripts/gazebo.material</uri>
-							<name>Gazebo/Black</name>
-						</script>
-					</material>
-				</visual>
-			</link>
-		</model>
-		<model name="Obstacle1_2"> <!-- muevo todo 0.6 a la dcha 
-				0.4, 0.01, 0.2, 0.6, 0.55, 0.95-->
-			<!-- la mesa está a 35cm. POnemos dos laminas, separadas 10CM  -->
-			<pose>0.6 0.55 1.05 0 0 0</pose>
-			<static>true</static>
-			<link name="link">
-				<collision name="surface">
-					<pose>0.0 0.0 0.0 0 0 0</pose>
-					<geometry>
-						<box>
-							<size>0.4 0.01 0.4</size>
-						</box>
-					</geometry>
-					<surface>
-						<friction>
-							<ode>
-								<mu>10</mu>
-								<mu2>10</mu2>
-							</ode>
-						</friction>
-					</surface>
-				</collision>
-				<visual name="visual1">
-					<pose>0.0 0.0 0.0 0 0 0</pose>
-					<geometry>
-						<box>
-							<size>0.4 0.01 0.4</size>
-						</box>
-					</geometry>
-					<material>
-						<script>
-							<uri>file://media/materials/scripts/gazebo.material</uri>
-							<name>Gazebo/Black</name>
+							<name>Gazebo/Wood</name>
 						</script>
 					</material>
 				</visual>
