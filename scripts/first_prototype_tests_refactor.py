@@ -59,31 +59,18 @@ def move_group_python_interface_tutorial():
     print robot.get_current_state()
     print "============"
     p = PlanningSceneInterface("base_link")
-    p.addBox("table",0.2 ,1.25 ,0.35 ,0.6 ,0.775 ,0.175)
-    p.addCylinder("redCylinder",0.3,0.03,0.6,0.7,0.5)
-    p.addCylinder("blueCylinder",0.3,0.03,0.6,0.8,0.5)
-    p.addCylinder("greenCylinder",0.3,0.03,0.6,0.9,0.5)
-    #p.addBox("obstacle1_1", 0.4, 0.01, 0.5, 0.6, 0.55, 0.6)
-    #p.addBox("obstacle1_2", 0.4, 0.01, 0.2, 0.6, 0.55, 0.95)#cambiar a 0.25 despues
-    #p.addBox("obstacle1_3", 0.4, 0.01, 0.2, 0.6, 0.55, 1.15)
-    p.addBox("obstacle1_1", 0.25, 0.01, 0.5, 0.6, 0.4, 0.6)
-    p.addBox("obstacle1_avoid1", 0.55, 0.01, 0.1, 0.35, 0.4, 0.4)
-    p.addBox("obstacle1_avoid2", 0.55, 0.01, 0.1, 0.35, 0.4, 1.1)
-    p.addBox("obstacle1_avoid3", 0.55, 0.01, 0.2, 0.05, 0.4, 0.95)
-    p.addBox("obstacle1_avoid", 0.01, 0.05, 0.5, -0.1, 0.4, 0.5)
-    '''p.addBox("obstacle1_1", 0.25, 0.01, 0.5, 0.6, 0.4, 0.6)
-    p.addBox("obstacle1_avoid1", 0.55, 0.01, 0.1, 0.35, 0.4, 0.4)
-    #p.addBox("obstacle1_avoid2", 0.55, 0.01, 0.2, 0.35, 0.4, 1.05)
-    p.addBox("obstacle1_avoid3", 0.55, 0.01, 0.1, 0.05, 0.4, 0.95)
-    p.addBox("obstacle1_avoid", 0.01, 0.05, 0.5, -0.1, 0.4, 0.5)'''
-    #p.addBox("obstacle1_1", 0.25, 0.01, 0.2, 0.6, 0.3, 0.45) #Estos estados para obstacle1 OK
-    #p.addBox("obstacle1_2", 0.65, 0.01, 0.2, 0.6, 0.3, 0.65)
-    #p.addBox("obstacle1_3", 0.65, 0.01, 0.2, 0.6, 0.3, 0.85)
-    #p.addBox("obstacle2_1", 1, 0.01, 0.2, 0.6, 0.6, 0.45)
-    #p.addBox("obstacle2_2", 0.25, 0.01, 0.2, 0.6, 0.6, 0.65)
-    #.addBox("obstacle2_3", 0.95, 0.01, 0.2, 0.6, 0.6, 0.85)
-    #p.addBox("obstacle2_4", 0.475, 0.01, 0.3, 0.2625, 0.4, 0.3)
-    #p.addBox("obstacle2_1", 0.15, 0.01, 0.45, 0.6, 0.3, 0.6)
+    p.addBox("table",0.2 ,1.25 ,0.55 ,0.6 ,0.775 ,0.275)
+    p.addCylinder("redCylinder",0.3,0.03,0.6,0.7,0.7)
+    p.addCylinder("blueCylinder",0.3,0.03,0.6,0.8,0.7)
+    p.addCylinder("greenCylinder",0.3,0.03,0.6,0.9,0.7)
+    p.addBox("obstacle1_1", 0.2, 0.1, 0.3, 0.6, 0.4, 0.7)#llega hasta 0.85
+    p.addBox("obstacle1_2", 0.25, 0.1, 0.70, 0.35, 0.4, 0.35)
+    p.addBox("obstacle1_3", 0.7, 0.1, 0.3, 0.6, 0.4, 1.35)
+    #p.addBox("obstacle1_11", 0.2, 0.1, 0.65, 0.6, 0.4, 1.175)
+    #p.addBox("obstacle1_21", 0.25, 0.1, 0.65, 0.35, 0.4, 1.275)
+    '''#PRUEBA 1
+    p.addBox("obstacle1_1", 0.2, 0.1, 0.25, 0.6, 0.4, 0.675)
+    p.addBox("obstacle1_2", 0.25, 0.1, 0.70, 0.35, 0.4, 0.35)'''
 
 def detect_objects(img, lower, upper, color):
     print(color)
@@ -228,13 +215,10 @@ def move_to_goal(color):
         pose_target.position.y = y_green
     else:
         print("No destination found")
-    pose_target.position.z = 0.6 #altura, esta es OK para golpear arriba
+    pose_target.position.z = 0.8 #altura, esta es OK para golpear arriba
     group_left.set_pose_target(pose_target)
     plan1 = group_left.plan()
     group_left.execute(plan1)
-    p.removeCollisionObject("obstacle1_avoid1")
-    p.removeCollisionObject("obstacle1_avoid2")
-    p.removeCollisionObject("obstacle1_avoid3")
     if color=='red':
         p.removeCollisionObject("redCylinder")
     elif color =='blue':
@@ -252,9 +236,9 @@ def move_to_goal(color):
     #pose_target.position.z = 0.6 #altura
     print(pose_target.position)
     group_left.set_pose_target(pose_target)
-    plan2 = group_left.plan()
+    #plan2 = group_left.plan()
     #rospy.sleep(2)
-    group_left.execute(plan2)
+    #group_left.execute(plan2)
     print "============ Waiting while RVIZ displays plan2..."
     rospy.sleep(2)
     moveit_commander.roscpp_shutdown()
