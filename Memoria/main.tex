@@ -164,15 +164,23 @@ Escuela Técnica Superior de Ingeniería de Telecomunicación
 \section{}
 
 \chapter{Infraestructura}
-
 En este capítulo se detalla el software necesario para el desarrollo de las aplicaciones construidas. Desde ROS Kinetic y JdeRobot como middlewares robóticos, pasando por la herramienta MoveIt! para facilitar el trabajo con robots(PR2) hasta el simulador Gazebo. Todo ello corriendo en el sistema operativo Ubuntu 16.04 y desarrollado en Python y C++.  Las comunicaciones entre los distintos componentes utilizan el motor de comunicaciones ICE además de ROS topics. 
-
 \section{PR2}
-El robot sobre el que se han desarrollado las aplicaciones es el PR2 de Willow Garage, empresa especializada en robótica responsable también del software ROS y otras herramientas open-source. Contiene dos brazos(derecho e izquierdo)capaces de generar un amplio abanico de oportunidades de movimiento que no serían posible con un único brazo, y que terminan en una pinza(gripper) que permite agarrar objetos. El nombre viene de 'Personal Robot 2', haciendo referencia a la idea de que fuera un asistente en casa y no un robot industrial como la mayoría de los comercializados hasta el momento.
+El robot sobre el que se han desarrollado las aplicaciones es el PR2 de Willow Garage, empresa especializada en robótica responsable también del software ROS y otras herramientas open-source. Se compone de dos brazos(derecho e izquierdo)capaces de generar un amplio abanico de oportunidades de movimiento que no serían posibles con un único brazo, y que terminan en una pinza o 'gripper' que permite agarrar objetos. El nombre viene de Personal Robot 2, haciendo referencia a la idea de que fuera un asistente en casa y no un robot industrial como la mayoría de los comercializados hasta el momento.
 Su diseño modular permite integrarlo con otros grippers, brazos o sensores.
+\begin{center}
+\includegraphics[width=12cm]{Figs/PR2_structure.png}
+\end{center}
 Su muñeca tiene dos grados de movimiento, que se suman a la libertad que aportan las articulaciones del hombro y el codo para permitir prácticamente cualquier movimiento necesario para una labor doméstica.
-
 Además de su estructura, una característica fundamental del robot PR2 son las cámaras y láseres que permiten conocer el entorno y actuar según lo que percibe: detectar objetos, saber a qué distancia se encuentran e identificar zonas objetivo permiten llevar a cabo acciones como abrir una puerta o llevar objetos de un lugar a otro.
+\subsection{Microsoft Kinect}
+La cámara Kinect permite conocer el entorno a través de imágenes procesadas en tiempo real. 
+Contiene un sensor de color(RGB) y uno de profundidad, y se sitúa en la parte superior del robot. 
+
+\begin{center}
+\includegraphics[width=12cm]{Figs/kinect.jpg}
+\end{center}
+
 
 \section{Gazebo}
 Este simulador open source nació en el año 2002 en la Universidad del Sur de California(USC) como proyecto entre un profesor y uno de sus estudiantes. El objetivo era poder trabajar con robots bajo condiciones de alta fidelidad, pensando principalmente en entornos exteriores. Se comenzó a integrar con ROS en 2009 y dos años después la citada Willow Garage comenzó a financiar el desarrollo para este software, del que se hizo cargo la Open Source Robotics Foundation(OSRF).
@@ -180,7 +188,9 @@ Gazebo fue adaptado para participar en la prestigiosa DARPA Robotics Challenge (
 
 Como simulador de robótica, lo que ofrece es crear aplicaciones para robots sin necesidad de depender de la máquina física. Así, las aplicaciones creadas para un modelo concreto podrán utilizarse posteriormente en el mundo real sin necesidad de realizar modificaciones, disminuyendo tanto los costes tanto económicos como derivados de la peligrosidad de las pruebas en fase de desarrollo.
 Ofrece visualización 3D y un potente motor de físicas para, en el caso de un brazo robótico, poder determinar parámetros como fricción, rango de movimiento, colisiones etc.
-
+\begin{center}
+\includegraphics[width=12cm]{Figs/GazeboWorld_PR2.png}
+\end{center}
 La simulación nace a partir de un fichero launch que arranca Gazebo. El entorno de la simulación está compuesto por un world que contiene diferentes models. Estos modelos están definidos en un fichero con formato SDF con los siguientes componentes principales:
 \begin{itemize}
 \item Links: contiene las propiedades físicas de un trozo del modelo, incluyendo algunas de visualización y colisión, sensores, inercias o iluminación.
@@ -220,6 +230,9 @@ También se pueden obtener por línea de comandos los mensajes publicados en un 
 \end{lstlisting}
 
 ROS dispone de herramientas como rqt que permiten observar grafos de las comunicaciones actuales. Si seguimos con el ejemplo de turtlesim:
+\begin{center}
+\includegraphics[width=12cm]{Figs/teleopTurtle.png}
+\end{center}
 \begin{lstlisting}
 $ rosrun rqt_graph rqt_graph
 \end{lstlisting}
@@ -250,10 +263,18 @@ Según el mencionado ranking TIOBE, Python es el cuarto lenguaje de programació
 
 Se ha utilizado la versión 2.7.12 debido principalmente a su compatibilidad con ROS Kinetic. En este lenguaje se han desarrollado las aplicaciones de planificación de movimientos y pick&place. 
 
+\subsection{OpenCV}
+Librería de código abierto enfocada a proyectos de visión artificial, con interfaces disponibles para varios lenguajes de programación(C++, Python, Java). 
+Open Source Computer Vision Library es muy utlizada, con un número de descargas de alrededor de 15 millones y una comunidad de 47000 seguidores.  
+Su integración en el proyecto permite aprovechar, en un entorno robótico, toda la potencia del análisis de imágenes. 
+
 \section{MoveIt!: Motion Planning Framework}
 MoveIt! nació en octubre del año 2011 con la idea de agrupar todos los avances relacionados con planificación de movimientos, manipulación, percepción 3D, cinemática, control y navegación en una única herramienta. Actualmente es el software open-source más utilizado para manipulación con robots, con más de 65 autómatas soportados. 
 Tiene un nodo principal llamado move\_group que actúa como integrador, permitiendo a todos los componentes comunicarse entre sí realizando las acciones soportadas. 
 Se puede acceder a move\_group por tres vías: C++, Python y RVIZ.
+\begin{center}
+\includegraphics[width=12cm]{Figs/moveGroup.png}
+\end{center}
 Como se puede ver en el esquema, move\_group necesita varios parámetros de entrada:
 \begin{itemize}
 \item URDF(Universal Robot Description Format): Es el formato que utiliza ROS para la descripción del robot. Se ha utilizado el del paquete ‘pr2\_description’, correspondiente al autómata utilizado.
