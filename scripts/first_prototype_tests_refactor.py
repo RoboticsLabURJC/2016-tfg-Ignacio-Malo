@@ -63,9 +63,13 @@ def move_group_python_interface_tutorial():
     p.addCylinder("redCylinder",0.3,0.03,0.6,0.7,0.7)
     p.addCylinder("blueCylinder",0.3,0.03,0.6,0.8,0.7)
     p.addCylinder("greenCylinder",0.3,0.03,0.6,0.9,0.7)
-    p.addBox("obstacle1_1", 0.2, 0.1, 0.3, 0.6, 0.4, 0.7)#llega hasta 0.85
+    p.addBox("obstacle1_1", 0.15, 0.1, 0.3, 0.6, 0.4, 0.7)#llega hasta 0.85
     p.addBox("obstacle1_2", 0.25, 0.1, 0.70, 0.35, 0.4, 0.35)
-    p.addBox("obstacle1_3", 0.7, 0.1, 0.3, 0.6, 0.4, 1.35)
+    #p.addBox("obstacle1_3", 0.75, 0.8, 0.3, 0.6, 0.4, 1.32)
+    p.addBox("obstacle1_3", 0.75, 0.8, 0.1, 0.6, 0.4, 1.18)
+    #p.addBox("obstacle1_3_1", 0.3, 0.1, 0.04, 0.225, 0.4, 1.09)
+    p.addBox("obstacle1_1_bis", 0.3, 0.1, 0.4, 0.6, 0.00, 0.7)
+    #p.addBox("obstacle1_2_bis", 0.25, 0.1, 0.1, 0.35, 0.4, 1.12)
     #p.addBox("obstacle1_11", 0.2, 0.1, 0.65, 0.6, 0.4, 1.175)
     #p.addBox("obstacle1_21", 0.25, 0.1, 0.65, 0.35, 0.4, 1.275)
     '''#PRUEBA 1
@@ -236,9 +240,9 @@ def move_to_goal(color):
     #pose_target.position.z = 0.6 #altura
     print(pose_target.position)
     group_left.set_pose_target(pose_target)
-    #plan2 = group_left.plan()
-    #rospy.sleep(2)
-    #group_left.execute(plan2)
+    plan2 = group_left.plan()
+    rospy.sleep(2)
+    group_left.execute(plan2)
     print "============ Waiting while RVIZ displays plan2..."
     rospy.sleep(2)
     moveit_commander.roscpp_shutdown()
