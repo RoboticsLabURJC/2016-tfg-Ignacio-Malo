@@ -80,14 +80,14 @@
 			</link>
 		</model>
 		<model name="Obstacle1_1"> 
-			<pose>0.6 0.4 0.7 0 0 0</pose>
+			<pose>0.65 0.45 0.99 0 0 0</pose>
 			<static>true</static>
 			<link name="link">
 				<collision name="surface">
 					<pose>0.0 0.0 0.0 0 0 0</pose>
 					<geometry>
 						<box>
-							<size>0.15 0.1 0.3</size>
+							<size>0.6 0.2 0.4</size>
 						</box>
 					</geometry>
 					<surface>
@@ -103,7 +103,7 @@
 					<pose>0.0 0.0 0.0 0 0 0</pose>
 					<geometry>
 						<box>
-							<size>0.15 0.1 0.3</size>
+							<size>0.6 0.2 0.4</size>
 						</box>
 					</geometry>
 					<material>
@@ -115,15 +115,15 @@
 				</visual>
 			</link>
 		</model>
-		<model name="Obstacle1_3"> 
-			<pose>0.6 0.4 1.18 0 0 0</pose>
+		<model name="Obstacle1_2"> 
+			<pose>0.3 0.4 0.275 0 0 0</pose>
 			<static>true</static>
 			<link name="link">
 				<collision name="surface">
 					<pose>0.0 0.0 0.0 0 0 0</pose>
 					<geometry>
 						<box>
-							<size>0.2 0.8 0.1</size>
+							<size>0.45 0.01 0.55</size>
 						</box>
 					</geometry>
 					<surface>
@@ -139,7 +139,7 @@
 					<pose>0.0 0.0 0.0 0 0 0</pose>
 					<geometry>
 						<box>
-							<size>0.2 0.8 0.1</size>
+							<size>0.45 0.01 0.55</size>
 						</box>
 					</geometry>
 					<material>
@@ -236,7 +236,7 @@
 		<model name="my_cube_1">
 			<!--<pose>0.904292 0.350478 0.865 0 0 1.57</pose>-->
 			<!--<pose>0.867714 0.338958 0.833 0 0 0.866846</pose>-->
-			<pose>0.6 0.7 0.7 0 0 0</pose>
+			<pose>0.65 0.7 0.7 0 0 0</pose>
 			<static>false</static>
 			<link name="link">
 				<inertial>
@@ -318,7 +318,7 @@
 		<model name="my_cube_2">
 			<!--<pose>0.904292 0.350478 0.865 0 0 1.57</pose>-->
 			<!--<pose>0.867714 0.338958 0.833 0 0 0.866846</pose>-->
-			<pose>0.6 0.8 0.7 0 0 0</pose>
+			<pose>0.65 0.8 0.7 0 0 0</pose>
 			<static>false</static>
 			<link name="link">
 				<inertial>
@@ -400,7 +400,7 @@
 		<model name="my_cube_3">
 			<!--<pose>0.904292 0.350478 0.865 0 0 1.57</pose>-->
 			<!--<pose>0.867714 0.338958 0.833 0 0 0.866846</pose>-->
-			<pose>0.6 0.9 0.7 0 0 0</pose>
+			<pose>0.65 0.9 0.7 0 0 0</pose>
 			<static>false</static>
 			<link name="link">
 				<inertial>

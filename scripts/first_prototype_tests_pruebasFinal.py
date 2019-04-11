@@ -66,9 +66,9 @@ def move_group_python_interface_tutorial():
     p.addBox("obstacle1_1", 0.6, 0.2, 0.4, 0.65, 0.45, 0.95)
     p.addBox("obstacle1_2", 0.45, 0.01, 0.50, 0.3, 0.4, 0.3)
     print group_left.get_planning_time()
-    group_left.set_planning_time(20)
+    group_left.set_planning_time(15)
     print group_left.get_planning_time()
-    group_left.set_num_planning_attempts(10)
+    group_left.set_num_planning_attempts(20)
     '''p.addBox("obstacle1_1", 0.15, 0.1, 0.3, 0.6, 0.4, 0.7)#llega hasta 0.85
     p.addBox("obstacle1_2", 0.25, 0.1, 0.70, 0.35, 0.4, 0.35)
     #p.addBox("obstacle1_3", 0.75, 0.8, 0.3, 0.6, 0.4, 1.32)
@@ -251,7 +251,7 @@ def move_to_goal(color):
     pose_target.position.z = 0.8 #altura, esta es OK para golpear arriba
     group_left.set_pose_target(pose_target)
     plan1 = group_left.plan()
-    #group_left.execute(plan1)
+    group_left.execute(plan1)
     if color=='red':
         p.removeCollisionObject("redCylinder")
     elif color =='blue':
@@ -263,15 +263,15 @@ def move_to_goal(color):
     rospy.sleep(1)
     #pose_target = geometry_msgs.msg.Pose()
     #pose_target.orientation.w = 1.0
-    pose_target.position.x = pose_target.position.x + 0.1
+    pose_target.position.x = pose_target.position.x + 0.15
     #pose_target.position.x = 0.44 
     #pose_target.position.y = 0.8
     #pose_target.position.z = 0.6 #altura
     print(pose_target.position)
     group_left.set_pose_target(pose_target)
-    #plan2 = group_left.plan()
+    plan2 = group_left.plan()
     rospy.sleep(2)
-    #group_left.execute(plan2)
+    group_left.execute(plan2)
     print "============ Waiting while RVIZ displays plan2..."
     rospy.sleep(2)
     moveit_commander.roscpp_shutdown()
