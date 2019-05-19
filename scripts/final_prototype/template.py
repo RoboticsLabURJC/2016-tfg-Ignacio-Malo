@@ -16,7 +16,7 @@ import cv2
 import numpy as np
 from math import pi'''
 #import rospy
-from first_prototype_tests_template_ready import *
+from final_prototype_tests_template_ready import *
 '''EL objetivo es hacer 3 APIS:
 Interfaz de manejo de articulaciones
 look_at_object -> Mover la cabeza OK
@@ -102,7 +102,7 @@ def image_callback(msg):
         print("nothing to do here")
 
 def main():
-    print("started")
+    print("started 1")
     rospy.init_node('image_listener')
     #Set the target points to look
     x = 0.7

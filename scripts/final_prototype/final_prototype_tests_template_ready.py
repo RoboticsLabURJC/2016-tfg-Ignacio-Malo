@@ -63,12 +63,14 @@ def start_planning():
     p.addCylinder("redCylinder",0.3,0.03,0.65,0.7,0.7)
     p.addCylinder("blueCylinder",0.3,0.03,0.65,0.8,0.7)
     p.addCylinder("greenCylinder",0.3,0.03,0.65,0.9,0.7)
-    p.addBox("obstacle1_1", 0.6, 0.2, 0.4, 0.65, 0.45, 0.95)
+    p.addBox("obstacle1_1", 0.6, 0.02, 0.4, 0.65, 0.3, 0.95)
     p.addBox("obstacle1_2", 0.45, 0.01, 0.50, 0.3, 0.4, 0.3)
+    #p.addBox("obstacle1_3", 0.5, 0.02, 0.15, 0.65, 0.6, 0.625)
+    p.addBox("obstacle1_3", 0.65, 0.02, 0.2, 0.65, 0.6, 0.65)
     print group_left.get_planning_time()
-    group_left.set_planning_time(15)
+    group_left.set_planning_time(50)
     print group_left.get_planning_time()
-    group_left.set_num_planning_attempts(20)
+    group_left.set_num_planning_attempts(60)
 
 def detect_objects(img, lower, upper, color):
     print(color)
@@ -118,7 +120,7 @@ def set_orientation_constraints(link, orientation, x_tol,y_tol,z_tol):
     ocm.weight = 1.0
     test_constraints= moveit_msgs.msg.Constraints()
     test_constraints.orientation_constraints.append(ocm)
-    #ocm_forearm = moveit_msgs.msg.OrientationConstraint()
+    ocm_forearm = moveit_msgs.msg.OrientationConstraint()
     print("constraints set")
 def move_to_goal(color):
     global group_left
@@ -129,7 +131,17 @@ def move_to_goal(color):
     #global group_right
     print(color)
     #p = PlanningSceneInterface("base_link")
-
+    ocm = moveit_msgs.msg.OrientationConstraint()
+    ocm.link_name = "l_wrist_roll_link";
+    ocm.header.frame_id = "base_link";
+    ocm.orientation.w = 1.0;
+    ocm.absolute_x_axis_tolerance = 0.1;
+    ocm.absolute_y_axis_tolerance = 0.1;
+    ocm.absolute_z_axis_tolerance = 0.1;
+    ocm.weight = 1.0;
+    test_constraints= moveit_msgs.msg.Constraints()
+    test_constraints.orientation_constraints.append(ocm);
+    ocm_forearm = moveit_msgs.msg.OrientationConstraint()
     #start_planning()
     
     pose_target = geometry_msgs.msg.Pose()
