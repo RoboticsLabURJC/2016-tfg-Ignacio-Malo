@@ -1,0 +1,9 @@
+- git:
+    local-name: moveit_pr2
+    uri: https://github.com/ros-planning/moveit_pr2.git
+- git:
+    local-name: pr2_common
+    uri: https://github.com/PR2/pr2_common.git
+- git:
+    local-name: pr2_gazebo
+    uri: https://github.com/PR2/pr2_simulator.git
