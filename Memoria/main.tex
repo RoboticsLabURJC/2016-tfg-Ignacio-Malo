@@ -265,7 +265,7 @@ Podemos ver en cualquier momento los nodos o topics disponibles con los siguient
 \end{lstlisting}
 
 \section{ICE}
-Se trata de un framework RPC(Remote Procedure Call) compatible con lenguajes como C++, C#, Java, JavaScript o Python. Nace a partir de un modelo cliente-servidor con el objetivo de permitir la comunicación entre distintos lenguajes y sistemas operativos. Esta abstracción ofrece al desarrollador la capacidad de despreocuparse por cómo se gestionan las comunicaciones entre los diferentes módulos para así enfocarse en el problema a resolver. Permite comunicaciones bidireccionales, tanto síncronas como asíncronas. 
+Se trata de un framework RPC(Remote Procedure Call) compatible con lenguajes como C++, C\#, Java, JavaScript o Python. Nace a partir de un modelo cliente-servidor con el objetivo de permitir la comunicación entre distintos lenguajes y sistemas operativos. Esta abstracción ofrece al desarrollador la capacidad de despreocuparse por cómo se gestionan las comunicaciones entre los diferentes módulos para así enfocarse en el problema a resolver. Permite comunicaciones bidireccionales, tanto síncronas como asíncronas. 
 
 Fue diseñado para aplicaciones que requieren un performance y escalabilidad exigentes, minimizando el consumo de CPU y ancho de banda. IceSSL permite añadir seguridad a las comunicaciones, a través de autenticación y encriptación de los datos que viajan en las llamadas. 
 
@@ -283,7 +283,7 @@ Fue creado en los años 80 por Guido van Rossum. Es un lenguaje de programación
 Una característica interesante es que puede extenderse con módulos de C o C++.
 Según el mencionado ranking TIOBE, Python es el cuarto lenguaje de programación en popularidad llegando al máximo nivel en 2011. 
 
-Se ha utilizado la versión 2.7.12 debido principalmente a su compatibilidad con ROS Kinetic. En este lenguaje se han desarrollado las aplicaciones de planificación de movimientos y pick&place. 
+Se ha utilizado la versión 2.7.12 debido principalmente a su compatibilidad con ROS Kinetic. En este lenguaje se han desarrollado las aplicaciones de planificación de movimientos y pick\&place. 
 
 \subsection{OpenCV}
 Librería de código abierto enfocada a proyectos de visión artificial, con interfaces disponibles para varios lenguajes de programación(C++, Python, Java). 
@@ -314,18 +314,26 @@ Con el objetivo de conseguir la integración de MoveIt! con Gazebo, y poder así
 
 \chapter{Aplicación con brazo robótico y planificación de trayectorias}
 En este capítulo se describirán en detalle tanto el objetivo como el desarrollo técnico de la práctica "Movimiento de un brazo robótico" para el entorno Unibotics. 
-Incluye el enunciado de la misma, la infraestructura necesaria, la plantilla de código python, la solución de referencia y la experimentación. 
+Incluye el enunciado de la misma, la infraestructura necesaria y la plantilla de código python a utilizar. 
 
 \section{Enunciado}
 
 En este capítulo abordaremos el desarrollo de la solución escogida como objetivo del proyecto. Incluye la planificación de trayectorias con obstáculos en un entorno simulado, el reconocimiento de objetos analizando espacios de color, y la planificación y ejecución de movimientos. 
 
-El escenario de la práctica consiste en un mundo Gazebo que incluye dos zonas de acción(A y B) y un total de cuatro objetos, uno en la primera zona y tres en la segunda. Entre ellas, un robot PR2 y algunos obstáculos. Los objetos en la zona B tendrán los colores rojo, verde y azul, y el de la zona A tiene únicamente uno de los colores mencionados(azul por defecto). Una vez presentado el mundo, a continuación se relatará a grandes rasgos cuál es el funcionamiento esperado para la práctica. 
-\begin{center}
-\includegraphics[width=12cm]{Figs/pending.png}
-\end{center}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=12cm]{Figs/tfg_gazebo_world.png}
+\par
+\caption{\label{fig:Mundo-gazebo}Mundo Gazebo que incluye todo lo necesario para el desarrollo de la práctica: zonas,objetos,robot y obstáculos.}
+\end{figure}
+
+El escenario de la práctica consiste en un mundo Gazebo(Fig. \ref{fig:Mundo-gazebo}) que incluye dos zonas de acción(A y B) y un total de cuatro objetos, uno en la primera zona y tres en la segunda. Entre ellas, un robot PR2 y algunos obstáculos. Los objetos en la zona B tendrán los colores rojo, verde y azul, y el de la zona A tiene únicamente uno de los colores mencionados(azul por defecto). Una vez presentado el mundo, a continuación se relatará a grandes rasgos cuál es el funcionamiento esperado para la práctica. 
+
 En primer lugar,  el robot PR2 moverá la cabeza y observará la Zona A. En ese momento, debe ser capaz de obtener las imágenes de la cámara Kinect que incorpora, que serán analizadas mediante código python para determinar si hay o no un objeto y de qué color es. 
 Después, conociendo el color objetivo y las posiciones de los objetos en la zona B, será capaz de planificar ,y posteriormente ejecutar, una trayectoria que le sitúe frente al objeto en la zona B cuyo color coincida con el observado en la zona A. Para ello será necesario gestionar la planificación de trayectorias evitando los obstáculos necesarios y, por último, realizar un movimiento de derribo.
+
+
+
 
 \section{Infraestructura}
 Esta sección tiene como objetivo mostrar los elementos necesarios para lograr una práctica completa de planificación. Entre ellos se incluyen el mundo creado en Gazebo y todo lo que ello contiene, como el robot PR2 y los plugins utilizados para el procesado de imagen.  
@@ -333,9 +341,10 @@ Esta sección tiene como objetivo mostrar los elementos necesarios para lograr u
 \subsection{Mundo Gazebo}
 En primer lugar, ha sido necesaria la creación de un mundo en Gazebo que contiene los objetos a detectar y empujar, las dos zonas de acción, los obstáculos, el robot PR2 y la cámara Kinect.
 La cámara Kinect se incorpora en la parte superior de la cabeza del robot, de forma que se encuentran completamente integrados y podemos controlar la visión del robot a través de movimientos en su parte superior.
-Para lanzar este entorno, se debe ejecutar un fichero .launch, que pondrá en funcionamiento los modelos necesarios para las dos zonas de referencia, los modelos de los objetos y obstáculos, y el robot PR2 con todos sus controladores. La cámara Kinect integrada se pasa como parámetro, y está configurada para aparecer por defecto. El fichero contiene el siguiente código:
+Para lanzar este entorno, se debe ejecutar un fichero .launch [\ref{alg:tfg-launch}], que pondrá en funcionamiento los modelos necesarios para las dos zonas de referencia, los modelos de los objetos y obstáculos, y el robot PR2 con todos sus controladores. La cámara Kinect integrada se pasa como parámetro, y está configurada para aparecer por defecto. 
 \vspace{20pt}
-	\begin{lstlisting}[frame=single]
+\begin{algorithm}[htb!]
+\begin{lstlisting}[breaklines=true,language=python]
 <launch>
   <!-- start up world -->
   <arg name="gui" default="true"/>
@@ -356,15 +365,18 @@ Para lanzar este entorno, se debe ejecutar un fichero .launch, que pondrá en fu
     <arg name="KINECT2" value="$(arg KINECT2)" />
   </include>
 </launch>
-	\end{lstlisting}
+\end{lstlisting}
+
+\caption{\label{alg:tfg-launch}Fichero .launch para el mundo gazebo y el robot PR2.}
+\end{algorithm}
 
 \subsubsection{Modelo PR2}
-El modelado principal del robot PR2 utilizado en esta práctica corresponde al paquete pr2\_gazebo. Se trata de un paquete disponible para ROS Kinetic, que contiene todo lo necesario para simular el robot de Willow Garage, como  información sobre joints, físicas, colisiones o dimensiones.
-De cara a lograr el objetivo final, ha sido necesario añadir una cámara Kinect en la parte alta del modelo, y desactivar el sensor láser que utiliza por defecto el modelo, para evitar generar ruido en las imágenes RGB obtenidas. 
+El modelado principal del robot PR2 utilizado en esta práctica corresponde a los paquetes pr2\_gazebo y pr2\_common. Se trata de paquetes disponibles para ROS Kinetic, que contienen todo lo necesario para simular el robot de Willow Garage en Gazebo, como  información sobre joints, físicas, colisiones o dimensiones.
+De cara a lograr el objetivo final, ha sido necesario hacer ligeras modificaciones para añadir una cámara Kinect \cite{gazebo_plugins} en la parte alta del modelo, así como desactivar el sensor láser que utiliza por defecto, para evitar generar ruido en las imágenes RGB obtenidas. 
 
 \subsubsection{Modelos adicionales}
 Se ha desarrollado un fichero .world que define los modelos necesarios para la consecución de la práctica. Para cada uno de los elementos se establecen su posición, como será su visualización, sus criterios de colisión y sus dinámicas. 
-Para ello se utiliza el formato SDF, open-source y basado en XML y que permite describir modelos de cualquier complejidad a través de sencillas etiquetas, desde esferas o prismas, hasta robots completos.
+Para ello se utiliza el formato SDF \cite{sdf_format}, open-source y basado en XML y que permite describir modelos de cualquier complejidad a través de sencillas etiquetas, desde esferas o prismas, hasta robots completos.
 
 \vspace{20pt}
 	\begin{lstlisting}[frame=single]
@@ -406,79 +418,12 @@ Para ello se utiliza el formato SDF, open-source y basado en XML y que permite d
   </model>
 	\end{lstlisting}
 
-\vspace{20pt}
-	\begin{lstlisting}[frame=single]
-<model name="my_cube_1">
-   <pose>0.65 0.7 0.7 0 0 0</pose>
-   <static>false</static>
-   <link name="link">
-    <inertial>
-     <mass>0.2</mass>
-     <inertia> 
-      <ixx>2.1248e-04</ixx>       
-      <ixy>0.0</ixy>         
-      <ixz>0.0</ixz>         
-      <iyy>1.3149e-04</iyy>       
-      <iyz>0.0</iyz>         
-      <izz>1.3149e-04</izz>
-     </inertia>
-    </inertial>
-    <collision name="collision">
-     <geometry>
-      <cylinder>
-       <radius>0.03</radius>
-       <length>0.3</length>
-      </cylinder>
-     </geometry>
-     <surface>
-      <contact>
-       <ode>
-        <soft_cfm>0.2</soft_cfm>
-        <soft_erp>0.2</soft_erp>
-        <kp>1e5</kp>
-        <kd>1.0</kd>
-       </ode>
-      </contact>
-      <friction>
-       <ode>
-        <mu>1e10</mu>
-        <mu2>1e10</mu2>
-        <fdir1>0.000000 0.000000 1.000000</fdir1>
-       </ode>
-      </friction>
-      <contact>
-       <ode>
-        <max_vel>0.1</max_vel>
-        <min_depth>0.001</min_depth>
-       </ode>
-      </contact>
-     </surface>
-    </collision>
-    <visual name="visual">
-     <geometry>
-      <cylinder>
-       <radius>0.03</radius>
-       <length>0.3</length>
-      </cylinder>
-     </geometry>
-     <material>
-      <script> 
-       <uri>file://media/materials/scripts/gazebo.material</uri>
-       <name>Gazebo/Red</name>
-      </script>
-     </material>
-    </visual>
-   </link>
-  </model>
-	\end{lstlisting}
-
-
-
 \section{Plantilla}
 Como se muestra en la sección anterior, el nodo python será capaz de detectar a partir de una imagen de entrada si hay algo azul, rojo o verde delante de la cámara, y en caso afirmativo, determinar si es el objeto esperado, eliminando posibles errores provocados por ruido. 
 Para ello, el nodo importa las librerías cv2 y rospy. Además, para la planificación de trayectorias, se importan moveit\_commander y los distintos mensajes de MoveIt necesarios para la planificación de trayectorias.
-Existen dos ficheros python, uno llamado final\_prototype\_template\_ready.py y otro llamado template.py. 
-El primero contiene la mayor parte de la complejidad de la práctica, y tiene como objetivo abstraer al usuario de los entresijos necesarios para hacer funcionar un brazo robótico con MoveIt! y gestionar imágenes con OpenCV. 
+
+Existen dos ficheros python, uno llamado final\_prototype\_template\_ready.py y otro llamado template.py[\ref{alg:template-py}]. 
+El primero contiene la mayor parte de la complejidad de la práctica, y tiene como objetivo abstraer al usuario final de los entresijos necesarios para hacer funcionar un brazo robótico con MoveIt! y gestionar imágenes con OpenCV, simplificando dichas tareas a través de algunas funciones sencillas. 
 De esta manera, el alumno tendrá disponibles las siguientes interfaces desde el fichero template.py: 
 
 \begin{itemize}
@@ -494,30 +439,16 @@ De esta manera, el alumno tendrá disponibles las siguientes interfaces desde el
 \end{itemize}
 
 \vspace{20pt}
-	\begin{lstlisting}[frame=single]    
-from first_prototype_tests_template_ready import *
-
+\begin{algorithm}[htb!]
+	\begin{lstlisting}[breaklines=true,language=python]    
 def image_callback(msg):
- print(cv2.__version__)
- print("Received an image!") 
- cv2_img = convert_to_cv2(msg)
- save_image(cv2_img)
  global count
  count=count+1
  if count==1:
-  print("ya tenemos la imagen")
+  cv2_img = convert_to_cv2(msg)
+  save_image(cv2_img)
   hsv_img = convert_to_hsv(cv2_img)
   save_image(hsv_img)
-  H_max_R = 5
-  H_min_R = 0
-  H_min_B = 110
-  H_max_B = 130
-  H_min_G = 40
-  H_max_G = 70
-  S_max = 255
-  S_min = 50
-  V_max = 255
-  V_min = 50
   lower_red= np.array([H_min_R,S_min,V_min])
   upper_red= np.array([H_max_R,S_max,V_max])
   lower_blue = np.array([H_min_B,S_min,V_min])
@@ -525,28 +456,19 @@ def image_callback(msg):
   lower_green = np.array([H_min_G,S_min,V_min])
   upper_green = np.array([H_max_G,S_max,V_max])
   objects_detected={"red":0,"green":0,"blue":0}
-  detected_color=detect_objects(cv2_img, lower_red, upper_red, "red")
+  detected_color=detect_objects(cv2_img,low_red,up_red,"red")
   objects_detected["red"]=detected_color
-  detected_color=detect_objects(cv2_img, lower_green, upper_green, "green")
+  detected_color=detect_objects(cv2_img,low_green,up_green,"green")
   objects_detected["green"]=detected_color
-  detected_color=detect_objects(cv2_img, lower_blue, upper_blue, "blue")
+  detected_color=detect_objects(cv2_img,low_blue,up_blue,"blue")
   objects_detected["blue"]=detected_color
   start_planning()
-  set_orientation_constraints("l_wrist_roll_link",1.0,0.1,0.1,0.1)
-  print(objects_detected)
+  set_orientation_constraints("l_wrist_roll_link",1.0,0.5,0.5,0.5)
   for x in objects_detected:
    if objects_detected[x]==1:
-    print("move to goal %s" % x)
     move_to_goal(x)
-   else:
-    print("%s object won't be pushed" % x)
-  print(objects_detected)
   rospy.spin()
- else:
-  print("nothing to do here")
-
 def main():
- print("started")
  rospy.init_node('image_listener')
  x = 0.7
  y = -0.7
@@ -555,39 +477,64 @@ def main():
  count=0
  image_topic = "/head_mount_kinect2/rgb/image_raw"
  rospy.Subscriber(image_topic, Image, image_callback)
- print("suscribed")
  rospy.spin()
- 
-if __name__=='__main__':
- try:
-  main() 
- except rospy.ROSInterruptException:
-  pass
 	\end{lstlisting}
+\caption{\label{alg:template-py}Plantilla simplificada para la práctica de planificación de trayectorias}
+\end{algorithm}
 
 \chapter{Solución de referencia}
 \section{Procesamiento de imagen}
-Para generar una posición de destino correcta, es necesario analizar la imagen proporcionada por la cámara adherida al robot e identificar el objeto en la zona de inicio, si es que lo hay. 
+Para generar una posición de destino correcta, es necesario analizar la imagen proporcionada por la cámara adherida al robot  e identificar el objeto en la zona de inicio, si es que lo hay. 
 A continuación profundizaremos en los elementos que hacen posible este proceso y como se implementa cada uno de ellos en nuestra práctica de planificación de trayectorias. 
 
 \subsection{Cámara Kinect y ROS topic} 
-La cámara Kinect se incorpora en la cabeza del robot, y utiliza el plugin libgazebo\_ros\_openni\_Kinect. Éste permite obtener imágenes con resolución 680x480 y formato BGR, con 8 bits para cada uno de los colores primarios de la luz y por tanto un total de 24 bits por píxel. Además, al tratarse de una de las comúnmente llamadas cámara RGB-D, ofrece imágenes de profundidad que permitirían detectar lo cerca o lejos que se encuentra un objeto de la cámara. El plugin está configurado para refrescar las imágenes cada 1 segundo, de forma que se puedan detectar cambios en el entorno. En nuestro caso, necesitaremos controlar esto para recibir una única imagen y que ello suceda cuando el robot se encuentre mirando a la zona destino, de forma que no se tengan problemas innecesarios de procesamiento debido a código ineficiente.
+La cámara Kinect se incorpora en la cabeza del robot, y utiliza el plugin openni\_Kinect [\ref{alg:kinect2-xacro}]. Éste permite obtener imágenes con resolución 680x480 y formato BGR, con 8 bits para cada uno de los colores primarios de la luz y por tanto un total de 24 bits por píxel. Además, al tratarse de una de las comúnmente llamadas cámara RGB-D, ofrece imágenes de profundidad que permitirían detectar lo cerca o lejos que se encuentra un objeto de la cámara. El plugin está configurado para refrescar las imágenes cada segundo, de forma que se puedan detectar de forma dinámica cambios en el entorno.
+En nuestro caso, necesitaremos controlar esto para recibir una única imagen y que ello suceda cuando el robot se encuentre mirando a la zona destino, de forma que no se tengan problemas innecesarios de procesamiento debido a código ineficiente.
 
-Para obtener la información de imagen desde nuestra aplicación, utilizamos ROS Topics de la siguiente manera: 
 \vspace{20pt}
-	\begin{lstlisting}[frame=single]    
-    rospy.init_node('image_listener')
-    # Define your image topic
-    image_topic = "/head_mount_Kinect2/rgb/image_raw"
-    # Set up your subscriber and define its callback
-    rospy.Subscriber(image_topic, Image, image_callback)
-    print("suscribed")
+\begin{algorithm}[h!]
+	\begin{lstlisting}[breaklines=true,language=python]    
+<xacro:macro name="kinect2_rgb_gazebo_v0" params="link_name frame_name camera_name">
+  <gazebo reference="${link_name}">
+    <sensor type="depth" name="${name}_rgb_sensor">
+      <always_on>true</always_on>
+      <update_rate>1.0</update_rate>
+      <camera>
+        <horizontal_fov>${57.0*M_PI/180.0}</horizontal_fov>
+        <image>
+          <format>B8G8R8</format>
+          <width>640</width>
+          <height>480</height>
+        </image>
+        <clip>
+          <near>0.01</near>
+          <far>5</far>
+        </clip>
+      </camera>
+      <plugin name="${link_name}_controller" filename="libgazebo_ros_openni_kinect.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>1.0</updateRate>
+        <cameraName>${camera_name}_rgb</cameraName>
+        <imageTopicName>/${camera_name}/rgb/image_raw</imageTopicName>
+        <cameraInfoTopicName>/${camera_name}/rgb/camera_info</cameraInfoTopicName>
+        <depthImageTopicName>/${camera_name}/depth/image_raw</depthImageTopicName>
+        <depthImageCameraInfoTopicName>/${camera_name}/depth/camera_info</depthImageCameraInfoTopicName>
+        <pointCloudTopicName>/${camera_name}/depth_registered/points</pointCloudTopicName>
+        <frameName>${frame_name}</frameName>
+        <pointCloudCutoff>0.5</pointCloudCutoff>
+      </plugin>
+    </sensor>
+    <material value="Gazebo/Red" />
+  </gazebo>
+</xacro:macro>
 	\end{lstlisting}
+\caption{\label{alg:kinect2-xacro}Extracto del fichero kinect2.gazebo.xacro, donde se define el plugin para la cámara}
+\end{algorithm}
 
-El image\_callback será el encargado de detectar que hay un nuevo mensaje de ROS de tipo imagen y realizar la conversión a OpenCV, que permitirá hacer más sencillas las maniobras relacionadas con el tratamiento de la imagen.
+Para obtener la información de imagen desde nuestra aplicación, utilizamos ROS Topics. El image\_callback será el encargado de detectar que hay un nuevo mensaje de ROS de tipo imagen y realizar la conversión a OpenCV, que permitirá hacer más sencillas las maniobras relacionadas con el tratamiento de la imagen.
 \subsection{Librería OpenCV} 
-El sensor Kinect situado sobre la cabeza del robot ofrece imágenes RGB-D. Utilizando la librería open source OpenCV, es posible acceder vía código python a un enorme conjunto de posibilidades relacionadas con el procesamiento de imagen. 
-En nuestro caso, además necesitaremos el llamado cv\_bridge para transformar las imágenes del ROS topic a cv2. 
+El sensor Kinect situado sobre la cabeza del robot ofrece imágenes RGB-D. Utilizando la librería open source OpenCV, es posible acceder vía código python a un enorme conjunto de posibilidades relacionadas con el procesamiento de imagen. \cite{open_cv} 
+En nuestro caso, además necesitaremos el llamado cv\_bridge para transformar las imágenes del topic a cv2. 
 \vspace{20pt}
 	\begin{lstlisting}[frame=single]    
     cv2_img = bridge.imgmsg_to_cv2(msg, "bgr8")
@@ -726,7 +673,7 @@ MoveGroupCommander es una librería externa que nos permite acceder a las princi
 
 \subsection{Controladores}
 Para que la planificación y ejecución de los movimientos del robot sean adecuadas, necesitamos unos controladores bien configurados para cada una de las articulaciones del brazo. \cite{pr2_controllers}
-Para ello se especifican los nombres de cada una de ellas de la misma manera que se configuraron al crear el paquete de MoveIt! del robot PR2, cuyos pasos son intuitivos si seguimos los pasos del tutorial oficial de MoveIt!. \cite{SetupAssistant}
+Para ello se especifican los nombres de cada una de ellas de la misma manera que se configuraron al crear el paquete de MoveIt! del robot PR2, cuyos pasos son intuitivos si seguimos los pasos del MoveIt! Setup Assistant desde los tutoriales oficiales. \cite{moveit_tutorials}
 \vspace{20pt}
 	\begin{lstlisting}[frame=single] 
 controller_manager_ns: pr2_controller_manager
@@ -791,4 +738,6 @@ Una vez realizados los pasos anteriores, podremos observar en el simulador Gazeb
 \chapter{Conclusiones}
 
 \printbibliography[heading=bibintoc]
+\printindex
+
 \end{document}
