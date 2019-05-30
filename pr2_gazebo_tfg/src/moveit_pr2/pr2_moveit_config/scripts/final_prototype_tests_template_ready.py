@@ -164,7 +164,7 @@ def move_to_goal(color):
     pose_target.position.z = 0.8 #altura, esta es OK para golpear arriba
     group_left.set_pose_target(pose_target)
     plan1 = group_left.plan()
-    #group_left.execute(plan1)
+    group_left.execute(plan1)
     if color=='red':
         p.removeCollisionObject("redCylinder")
     elif color =='blue':
@@ -173,15 +173,15 @@ def move_to_goal(color):
         p.removeCollisionObject("greenCylinder")
     else:
         print("No objects to remove")
-    '''rospy.sleep(1)
+    rospy.sleep(1)
     pose_target.position.x = pose_target.position.x + 0.15
     print(pose_target.position)
     group_left.set_pose_target(pose_target)
     plan2 = group_left.plan()
     rospy.sleep(2)
-    #group_left.execute(plan2)
+    group_left.execute(plan2)
     print "============ Waiting while RVIZ displays plan2..."
-    rospy.sleep(2)'''
+    rospy.sleep(2)
     moveit_commander.roscpp_shutdown()
 
 def look_at_object(x,y,z):

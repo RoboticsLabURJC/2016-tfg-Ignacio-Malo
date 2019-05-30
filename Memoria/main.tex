@@ -371,15 +371,19 @@ Para lanzar este entorno, se debe ejecutar un fichero .launch [\ref{alg:tfg-laun
 \end{algorithm}
 
 \subsubsection{Modelo PR2}
-El modelado principal del robot PR2 utilizado en esta práctica corresponde a los paquetes pr2\_gazebo y pr2\_common. Se trata de paquetes disponibles para ROS Kinetic, que contienen todo lo necesario para simular el robot de Willow Garage en Gazebo, como  información sobre joints, físicas, colisiones o dimensiones.
-De cara a lograr el objetivo final, ha sido necesario hacer ligeras modificaciones para añadir una cámara Kinect \cite{gazebo_plugins} en la parte alta del modelo, así como desactivar el sensor láser que utiliza por defecto, para evitar generar ruido en las imágenes RGB obtenidas. 
+El modelado principal del robot PR2 utilizado en esta práctica corresponde a los paquetes pr2\_gazebo y pr2\_common. Se trata de paquetes disponibles para ROS Kinetic, que contienen todo lo necesario para simular el robot de Willow Garage en Gazebo, como  información sobre joints, físicas, colisiones o dimensiones. De cara a lograr el objetivo final, ha sido necesario hacer ligeras modificaciones. 
+En primer lugar, para añadir una cámara Kinect \cite{gazebo_plugins} en la parte alta del modelo. Esta es una opción disponible en el paquete original pero que debemos configurar como opción por defecto(la original lanza el robot sin ninguna cámara), utilizando el argumento KINECT2 al lanzar el fichero .launch del robot PR2. 
+Por último, las primeras fases de pruebas con reconocimiento de imagen en el entorno creado, evidenciaban problemas a la hora de detectar los colores a causa del sensor láser incluido por defecto en el modelo. Éste generaba ruido en las imágenes RGB obtenidas dificultando la caracterización de los objetos, motivo por el cual también está desactivado en los paquetes generados.    
+
+Para ello, es necesario conocer el concepto de overlaying \cite{overlaying}, utilizado en ROS para hablar de modificaciones en el espacio de trabajo \cite{wstool} del usuario sobre los paquetes originales descargados de los repositorios oficiales. De esta manera podemos hacer que ros priorice nuestros propios repositorios, donde se habrán modificado los ficheros necesarios para lograr un determinado funcionamiento, como por ejemplo la desactivación del sensor láser.
 
 \subsubsection{Modelos adicionales}
-Se ha desarrollado un fichero .world que define los modelos necesarios para la consecución de la práctica. Para cada uno de los elementos se establecen su posición, como será su visualización, sus criterios de colisión y sus dinámicas. 
+Se ha desarrollado un fichero .world[\ref{alg:model}] que define los modelos necesarios para la consecución de la práctica. Para cada uno de los elementos se establecen su posición, como será su visualización, sus criterios de colisión y sus dinámicas. 
 Para ello se utiliza el formato SDF \cite{sdf_format}, open-source y basado en XML y que permite describir modelos de cualquier complejidad a través de sencillas etiquetas, desde esferas o prismas, hasta robots completos.
 
 \vspace{20pt}
-	\begin{lstlisting}[frame=single]
+\begin{algorithm}[htb!]
+	\begin{lstlisting}[breaklines=true,language=python]  
   <model name="base_A">
    <pose>0.6 -0.7 0.275 0 0 0</pose>
    <static>true</static>
@@ -417,6 +421,8 @@ Para ello se utiliza el formato SDF \cite{sdf_format}, open-source y basado en X
    </link>
   </model>
 	\end{lstlisting}
+\caption{\label{alg:model}Fragmento del fichero .world que define el modelo de la zona origen en Gazebo}
+\end{algorithm}
 
 \section{Plantilla}
 Como se muestra en la sección anterior, el nodo python será capaz de detectar a partir de una imagen de entrada si hay algo azul, rojo o verde delante de la cámara, y en caso afirmativo, determinar si es el objeto esperado, eliminando posibles errores provocados por ruido. 
@@ -492,7 +498,7 @@ La cámara Kinect se incorpora en la cabeza del robot, y utiliza el plugin openn
 En nuestro caso, necesitaremos controlar esto para recibir una única imagen y que ello suceda cuando el robot se encuentre mirando a la zona destino, de forma que no se tengan problemas innecesarios de procesamiento debido a código ineficiente.
 
 \vspace{20pt}
-\begin{algorithm}[h!]
+\begin{algorithm}[htb!]
 	\begin{lstlisting}[breaklines=true,language=python]    
 <xacro:macro name="kinect2_rgb_gazebo_v0" params="link_name frame_name camera_name">
   <gazebo reference="${link_name}">
@@ -531,18 +537,17 @@ En nuestro caso, necesitaremos controlar esto para recibir una única imagen y q
 \caption{\label{alg:kinect2-xacro}Extracto del fichero kinect2.gazebo.xacro, donde se define el plugin para la cámara}
 \end{algorithm}
 
+
+
 Para obtener la información de imagen desde nuestra aplicación, utilizamos ROS Topics. El image\_callback será el encargado de detectar que hay un nuevo mensaje de ROS de tipo imagen y realizar la conversión a OpenCV, que permitirá hacer más sencillas las maniobras relacionadas con el tratamiento de la imagen.
 \subsection{Librería OpenCV} 
 El sensor Kinect situado sobre la cabeza del robot ofrece imágenes RGB-D. Utilizando la librería open source OpenCV, es posible acceder vía código python a un enorme conjunto de posibilidades relacionadas con el procesamiento de imagen. \cite{open_cv} 
-En nuestro caso, además necesitaremos el llamado cv\_bridge para transformar las imágenes del topic a cv2. 
-\vspace{20pt}
+
+En nuestro caso, además necesitaremos el llamado cv\_bridge para transformar las imágenes del topic a cv2, que en código python se puede realizar de la siguiente manera: 
 	\begin{lstlisting}[frame=single]    
     cv2_img = bridge.imgmsg_to_cv2(msg, "bgr8")
 	\end{lstlisting}
-Una vez tenemos nuestra imagen lista para trabajar con OpenCV, se realiza una conversión al espacio de color HSV.
-Este espacio de color se caracteriza por aportar información sobre matiz de color, algo clave para diferenciar de una manera más precisa los diferentes colores, abstrayéndonos de otros parámetros menos intuitivos y determinando correctamente el color del objeto observado por el robot. 
-
-\vspace{20pt}
+Una vez tenemos nuestra imagen lista para trabajar con OpenCV, se realiza una conversión al espacio de color HSV, utilizando la función COLOR\_BGR2HSV. Este espacio de color se caracteriza por aportar información sobre matiz de color, algo clave para diferenciar de una manera más precisa los diferentes colores, abstrayéndonos de otros parámetros menos intuitivos y determinando correctamente el color del objeto observado por el robot. 
 	\begin{lstlisting}[frame=single] 
     color_HSV = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2HSV)
 	\end{lstlisting}
@@ -550,7 +555,7 @@ Como el objetivo final relativo al tratamiento de imágenes es poder diferenciar
 Una vez definidos los umbrales mínimos y máximos para cada uno de los colores a partir de valores del espacio HSV, buscaremos objetos a partir de los contornos encontrados y su área. Si la imagen detecta algún conjunto de puntos conectados de un determinado color, y además esos puntos tienen un área considerable, el robot detecta ese objeto. De esta manera evitamos falsos positivos debidos a ruido en la imagen, consiguiendo un comportamiento robusto en un entorno controlado. 
 \vspace{20pt}
 	\begin{lstlisting}[frame=single] 
-	    lower_blue = np.array([110,50,50])
+        lower_blue = np.array([110,50,50])
         upper_blue = np.array([130,255,255])
         blueMask = cv2.inRange(color_HSV, lower_blue, upper_blue)
         cv2.imwrite('camera_image_hsv_blueMask.jpeg', blueMask)
@@ -592,7 +597,8 @@ La trayectoria final se calcula utilizando mensajes de tipo Pose, donde se defin
 La planificación de trayectorias requiere un fichero de lanzamiento y una serie de controladores para cada una de las articulaciones del brazo. 
 En el fichero de lanzamiento se debe especificar la localización de los paquetes relacionados con planificación, así como los parámetros configurables asociados a cada uno de ellos. 
 \vspace{20pt}
-	\begin{lstlisting}[frame=single] 
+\begin{algorithm}[htb!]
+	\begin{lstlisting}[breaklines=true,language=python]  
 <launch>
 <rosparam command="load" file="$(find pr2_moveit_config)/config/joint_names.yaml"/>
 <include file="$(find pr2_moveit_config)/launch/planning_context.launch" >
@@ -611,7 +617,9 @@ En el fichero de lanzamiento se debe especificar la localización de los paquete
 <param name="trajectory_execution/execution_duration_monitoring" value="false" />
 <param name="allowed_execution_duration_scaling" value="3.0"/>
 </launch>
-    \end{lstlisting}
+	\end{lstlisting}
+\caption{\label{alg:pr2_planning_execution}Fichero pr2\_planning\_execution.launch. Es el encargado de inicializar todo lo necesario para poder planificar trayectorias en MoveIt! con el robot PR2.}
+\end{algorithm}
 \subsection{MoveGroupCommander}
 MoveGroupCommander es una librería externa que nos permite acceder a las principales funcionalidades de MoveIt! a través de python. A continuación enumeraremos algunas de las más relevantes, bien por su uso en la práctica, o por su utilidad en proyectos relacionados. 
 \begin{itemize}
@@ -675,7 +683,8 @@ MoveGroupCommander es una librería externa que nos permite acceder a las princi
 Para que la planificación y ejecución de los movimientos del robot sean adecuadas, necesitamos unos controladores bien configurados para cada una de las articulaciones del brazo. \cite{pr2_controllers}
 Para ello se especifican los nombres de cada una de ellas de la misma manera que se configuraron al crear el paquete de MoveIt! del robot PR2, cuyos pasos son intuitivos si seguimos los pasos del MoveIt! Setup Assistant desde los tutoriales oficiales. \cite{moveit_tutorials}
 \vspace{20pt}
-	\begin{lstlisting}[frame=single] 
+\begin{algorithm}[htb!]
+	\begin{lstlisting}[breaklines=true,language=python] 
 controller_manager_ns: pr2_controller_manager
 controller_list:
  - name: r_arm_controller
@@ -702,36 +711,40 @@ controller_list:
      - l_forearm_roll_joint
      - l_wrist_flex_joint
      - l_wrist_roll_joint
-    \end{lstlisting}
+	\end{lstlisting}
+\caption{\label{alg:pr2_controllers}Fichero controllers.yaml, dónde se definen los controladores que permiten mover cada una de las articulaciones necesarias.}
+\end{algorithm}
 \subsection{Planificador y configuración}
 Las posibilidades de configuración que ofrece MoveIt! son ingentes. Entre ellas se encuentran las posibilidades de seleccionar distintos planificadores. Podemos encontrar desde Open Motion Planning Library(OMPL), que está completamnete soportada e integrada, hasta otras como STOMP, SBL o CHOMP que pese a ofrecer sus ventajas propias en determinados contextos de planificación, no están completamente integradas en la plataforma y dificultan el trabajo de programación. 
 OMPL es la librería open source utilizada en la práctica, ya que está completamente soportada y los algoritmos de planificación que ofrece son con los que trabaja MoveIt! por defecto. \cite{moveit_planners}
 El objetivo de cualquier planificar en robótica consiste en resolver el problema de ir de un lado a otro sin violar las restricciones establecidas. OMPL es un sistema basado en muestreo, que consiste en generar aleatoriamente una serie de posiciones válidas en el espacio en función de los parámetros de entrada y conectarlas entre sí.
 La librería contiene diferentes planificadores que se diferencian en la manera en la que generan las muestras, y ofrecen, generalmente, soluciones más rápidas que otros planificadores con métodos deterministas  a la hora de calcular las trayectorias, generalmente cuando se requieren resultados precisos basados en la optimización.
 Dentro de los planificadores que ofrece OMPL, se utiliza una variante de algoritmo RRT(Rapidly-exploring Random Trees), que como su propio nombre indica, ofrece soluciones rápidas no deterministas, lo que aplicado a un brazo robótico se podría considerar como una analogía de la intuición humana. 
-\begin{center}
-\includegraphics[width=12cm]{Figs/pending.png}
-\end{center}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=12cm]{Figs/rrtConnect.png}
+\par
+\caption{\label{fig:rrtConnect}Explicación gráfica del algoritmo RRT Connect utilizado.}
+\end{figure}
 Aplicado a nuestra práctica, el algoritmo consiste en comenzar a generar de forma simultánea un "árbol" desde el inicio y el destino del movimiento. El árbol inicio se irá expandiendo por posiciones cercanas aleatorias que cumplan las distintas restricciones programadas, hasta que toque al árbol destino, que sigue el mismo patrón de comportamiento, en un determinado punto. En ese momento, se habrá encontrado una solución para la planificación, es decir, un camino válido entre la posición inicial y la final que debe poder ser ejecutado sin impedimentos.
 
 \section{Experimentación}
-La ejecución típica de la práctica requiere los siguientes pasos: 
+La ejecución típica[\cite{tfg_video}] de la práctica requiere los siguientes pasos: 
 
--Lanzar el mundo gazebo, que incluye el robot PR2 y sus modelos.
+- Lanzar el mundo gazebo, que incluye el robot PR2 y sus modelos.
 \vspace{20pt}
 	\begin{lstlisting}[frame=single]
 roslaunch pr2_gazebo tfg_launch.launch
     \end{lstlisting}
--Lanzar MoveIt! y las configuraciones de planificación necesarias para el robot PR2.
+- Lanzar MoveIt! y las configuraciones de planificación necesarias para el robot PR2.
 \vspace{20pt}
 	\begin{lstlisting}[frame=single]
 roslaunch pr2_moveit_config pr2_planning_execution_tfg.launch
     \end{lstlisting}
--Lanzar el script template.py.
+- Lanzar el script template.py.
 	\begin{lstlisting}[frame=single]
 rosrun moveit_tutorials template.py
     \end{lstlisting}
-    
 
 Una vez realizados los pasos anteriores, podremos observar en el simulador Gazebo la práctica de planificación y ejecución de trayectorias con MoveIt!. 
 
