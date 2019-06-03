@@ -190,18 +190,24 @@ En este capítulo se detalla el software necesario para el desarrollo de las apl
 \section{PR2}
 El robot sobre el que se han desarrollado las aplicaciones es el PR2 de Willow Garage, empresa especializada en robótica responsable también del software ROS y otras herramientas open-source. Se compone de dos brazos(derecho e izquierdo)capaces de generar un amplio abanico de oportunidades de movimiento que no serían posibles con un único brazo, y que terminan en una pinza o 'gripper' que permite agarrar objetos. El nombre viene de Personal Robot 2, haciendo referencia a la idea de que fuera un asistente en casa y no un robot industrial como la mayoría de los comercializados hasta el momento.
 Su diseño modular permite integrarlo con otros grippers, brazos o sensores.
-\begin{center}
+\begin{figure}[hbt!]
+\centering
 \includegraphics[width=12cm]{Figs/PR2_structure.png}
-\end{center}
+\par
+\caption{\label{fig:pr2Structure}Estructura del robot PR2}
+\end{figure}
 Su muñeca tiene dos grados de movimiento, que se suman a la libertad que aportan las articulaciones del hombro y el codo para permitir prácticamente cualquier movimiento necesario para una labor doméstica.
 Además de su estructura, una característica fundamental del robot PR2 son las cámaras y láseres que permiten conocer el entorno y actuar según lo que percibe: detectar objetos, saber a qué distancia se encuentran e identificar zonas objetivo permiten llevar a cabo acciones como abrir una puerta o llevar objetos de un lugar a otro.
 \subsection{Microsoft Kinect}
 La cámara Kinect permite conocer el entorno a través de imágenes procesadas en tiempo real. 
 Contiene un sensor de color(RGB) y uno de profundidad, y se sitúa en la parte superior del robot. 
 
-\begin{center}
-\includegraphics[width=12cm]{Figs/kinect.jpg}
-\end{center}
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=12cm]{Figs/kinect.png}
+\par
+\caption{\label{fig:kinect}Cámara Kinect integrado sobre la cabeza del robot PR2}
+\end{figure}
 
 
 \section{Gazebo}
@@ -210,9 +216,12 @@ Gazebo fue adaptado para participar en la prestigiosa DARPA Robotics Challenge (
 
 Como simulador de robótica, lo que ofrece es crear aplicaciones para robots sin necesidad de depender de la máquina física. Así, las aplicaciones creadas para un modelo concreto podrán utilizarse posteriormente en el mundo real sin necesidad de realizar modificaciones, disminuyendo tanto los costes tanto económicos como derivados de la peligrosidad de las pruebas en fase de desarrollo.
 Ofrece visualización 3D y un potente motor de físicas para, en el caso de un brazo robótico, poder determinar parámetros como fricción, rango de movimiento, colisiones etc.
-\begin{center}
+\begin{figure}[hbt!]
+\centering
 \includegraphics[width=12cm]{Figs/GazeboWorld_PR2.png}
-\end{center}
+\par
+\caption{\label{fig:gazeboExample}Mundo sencillo en Gazebo con un robot PR2, una mesa, y un objeto}
+\end{figure}
 La simulación nace a partir de un fichero launch que arranca Gazebo. El entorno de la simulación está compuesto por un world que contiene diferentes models. Estos modelos están definidos en un fichero con formato SDF con los siguientes componentes principales:
 \begin{itemize}
 \item Links: contiene las propiedades físicas de un trozo del modelo, incluyendo algunas de visualización y colisión, sensores, inercias o iluminación.
@@ -294,10 +303,13 @@ Su integración en el proyecto permite aprovechar, en un entorno robótico, toda
 MoveIt! nació en octubre del año 2011 con la idea de agrupar todos los avances relacionados con planificación de movimientos, manipulación, percepción 3D, cinemática, control y navegación en una única herramienta. Actualmente es el software open-source más utilizado para manipulación con robots, con más de 65 autómatas soportados. 
 Tiene un nodo principal llamado move\_group que actúa como integrador, permitiendo a todos los componentes comunicarse entre sí realizando las acciones soportadas. 
 Se puede acceder a move\_group por tres vías: C++, Python y RVIZ.
-\begin{center}
+\begin{figure}[hbt!]
+\centering
 \includegraphics[width=12cm]{Figs/moveGroup.png}
-\end{center}
-Como se puede ver en el esquema, move\_group necesita varios parámetros de entrada:
+\par
+\caption{\label{fig:moveGroup}Resumen esquematizado de las posibles interacciones que ofrece move\_group}
+\end{figure}
+Como se puede ver en la figura, move\_group necesita varios parámetros de entrada:
 \begin{itemize}
 \item URDF(Universal Robot Description Format): Es el formato que utiliza ROS para la descripción del robot. Se ha utilizado el del paquete ‘pr2\_description’, correspondiente al autómata utilizado.
 \item SRDF(Semantic Robot Description Format) complementa al URDF, añadiendo más información como grupos de joints, configuraciones por defecto para el robot o chequeo de colisiones. Para construir este fichero, se recomienda utilizar el MoveIt! Setup Assistant. Esta herramienta permite configurar cualquier robot para ser utilizado en MoveIt! A través de una interfaz gráfica que simplifica el trabajo. 
@@ -717,19 +729,22 @@ controller_list:
 \subsection{Planificador y configuración}
 Las posibilidades de configuración que ofrece MoveIt! son ingentes. Entre ellas se encuentran las posibilidades de seleccionar distintos planificadores. Podemos encontrar desde Open Motion Planning Library(OMPL), que está completamnete soportada e integrada, hasta otras como STOMP, SBL o CHOMP que pese a ofrecer sus ventajas propias en determinados contextos de planificación, no están completamente integradas en la plataforma y dificultan el trabajo de programación. 
 OMPL es la librería open source utilizada en la práctica, ya que está completamente soportada y los algoritmos de planificación que ofrece son con los que trabaja MoveIt! por defecto. \cite{moveit_planners}
-El objetivo de cualquier planificar en robótica consiste en resolver el problema de ir de un lado a otro sin violar las restricciones establecidas. OMPL es un sistema basado en muestreo, que consiste en generar aleatoriamente una serie de posiciones válidas en el espacio en función de los parámetros de entrada y conectarlas entre sí.
+El objetivo de cualquier planificación en robótica consiste en resolver el problema de ir de un lado a otro sin violar las restricciones establecidas. OMPL es un sistema basado en muestreo, que consiste en generar aleatoriamente una serie de posiciones válidas en el espacio en función de los parámetros de entrada y conectarlas entre sí.
+
 La librería contiene diferentes planificadores que se diferencian en la manera en la que generan las muestras, y ofrecen, generalmente, soluciones más rápidas que otros planificadores con métodos deterministas  a la hora de calcular las trayectorias, generalmente cuando se requieren resultados precisos basados en la optimización.
 Dentro de los planificadores que ofrece OMPL, se utiliza una variante de algoritmo RRT(Rapidly-exploring Random Trees), que como su propio nombre indica, ofrece soluciones rápidas no deterministas, lo que aplicado a un brazo robótico se podría considerar como una analogía de la intuición humana. 
+
 \begin{figure}[hbt!]
 \centering
 \includegraphics[width=12cm]{Figs/rrtConnect.png}
 \par
 \caption{\label{fig:rrtConnect}Explicación gráfica del algoritmo RRT Connect utilizado.}
 \end{figure}
+
 Aplicado a nuestra práctica, el algoritmo consiste en comenzar a generar de forma simultánea un "árbol" desde el inicio y el destino del movimiento. El árbol inicio se irá expandiendo por posiciones cercanas aleatorias que cumplan las distintas restricciones programadas, hasta que toque al árbol destino, que sigue el mismo patrón de comportamiento, en un determinado punto. En ese momento, se habrá encontrado una solución para la planificación, es decir, un camino válido entre la posición inicial y la final que debe poder ser ejecutado sin impedimentos.
 
 \section{Experimentación}
-La ejecución típica[\cite{tfg_video}] de la práctica requiere los siguientes pasos: 
+La ejecución típica \cite{tfg_video} de la práctica requiere los siguientes pasos: 
 
 - Lanzar el mundo gazebo, que incluye el robot PR2 y sus modelos.
 \vspace{20pt}
