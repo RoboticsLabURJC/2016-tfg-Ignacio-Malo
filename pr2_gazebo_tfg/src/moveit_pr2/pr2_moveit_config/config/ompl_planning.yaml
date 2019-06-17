@@ -45,7 +45,7 @@ left_arm:
     - BKPIECEkConfigDefault
     - RRTStarkConfigDefault
   projection_evaluator: joints(l_shoulder_pan_joint,l_shoulder_lift_joint)
-  longest_valid_segment_fraction: 0.01
+  longest_valid_segment_fraction: 0.005
 
 left_arm_and_torso: 
   planner_configs:
@@ -59,7 +59,7 @@ left_arm_and_torso:
     - BKPIECEkConfigDefault
     - RRTStarkConfigDefault
   projection_evaluator: joints(l_shoulder_pan_joint,l_shoulder_lift_joint)
-  longest_valid_segment_fraction: 0.01
+  longest_valid_segment_fraction: 0.005
 
 arms:
   planner_configs:

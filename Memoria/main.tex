@@ -153,24 +153,42 @@ Escuela Técnica Superior de Ingeniería de Telecomunicación
 \chapter*{Agradecimientos}
 
 \chapter*{Resumen}
+El nuevo período de esplendor tecnológico que ha comenzado a desarrollarse en los últimos años, supone un reto para los ingenieros de cada una de las áreas en crecimiento. Una de ellas es la robótica, que se encarga de utilizar la informática para desarrollar máquinas al servicio de las personas.  
+
+Hoy en día encontramos robots tanto a nivel industrial como doméstico, desde fabricación, coches autónomos o aplicaciones médicas hasta aspiradoras inteligentes o drones. A pesar de ello, la demanda de empleo en las próximas décadas no será satisfecha si se mantienen las previsiones sobre estudiantes en materias de perfil tecnológico. Ante esta situación cobra vital importancia la educación, que debe ser de calidad y accesible para garantizar el futuro de los profesionales de los robots. 
+
+Este proyecto está dirigido a ampliar los recursos de Robotics-Academy, una plataforma que acerca a los estudiantes al software para robots a través de prácticas simplificadas, de manera que tomar contacto con la robótica no se convierta en una odisea. Partiendo de plantillas donde completar la solución a través de código, proponen resolver algunos problemas típicos de este campo de conocimiento. 
+
+Se ha creado una nueva práctica, utilizando el lenguaje de programación python, enfocada a conocer la planificación y ejecución de trayectorias con un brazo robótico en un entorno simulado en Gazebo. Para ello, se hace uso de tecnologías extendidas como la librería OpenCV, para el procesado de las imágenes recibidas por el robot, o el \textit{framework} MoveIt!, que ofrece todas las herramientas necesarias para trabajar con robots sobre ROS. El objetivo es conseguir detectar objetos de color, además de planificar y ejecutar movimientos en entornos con obstáculos. 
+
+El trabajo permite acceder a los distintos recursos a través de interfaces sencillas para trabajar con imágenes y movimientos, abstrayendo al receptor de la misma de detalles de bajo nivel y configuraciones complejas. La experimentación ha logrado profundizar en la planificación hasta lograr unos resultados estables, que serán presentados a continuación.  
 
 \tableofcontents{}
 
 \mainmatter
 
 \chapter{Introducción}
-\section{Introducción a la robótica}
-La Real Academia Española define la robótica como la "técnica que aplica la informática al diseño y empleo de aparatos que, en sustitución de personas, realizan operaciones o trabajos, por lo general en instalaciones industriales." De aquí se sacan dos ideas principales; trabajar en este área consiste en diseñar y utilizar robots a través de código, y además está enfocada, en un principio, a sustituir tareas que realizan las personas.
+Antes de comenzar a profundizar en un proyecto de robótica es necesario comprender el contexto en el que se sitúa, así como el estado actual de su campo de estudio. A continuación se analizará el por qué del crecimiento que ha experimentado en los últimos años, para después comprender cómo se desarrolla software en robótica y terminar mostrando el funcionamiento de la docencia en esta disciplina a través del entorno Robotics-Academy, al que va dirigido este Trabajo de Fin de Grado. 
 
-Para tratar de entender la importancia del tema expuesto, es necesario asimilarlo a sucesos históricos previos. El ser humano, a lo largo de su historia, se ha caracterizado por su afán de superación, y esa necesidad por obtener más es la que le ha llevado a la excelencia en muchos aspectos tecnológicos. Ellos son los que se analizarán en mayor detalle.
+\section{Robótica}
+La Real Academia Española define la robótica como la "técnica que aplica la informática al diseño y empleo de aparatos que, en sustitución de personas, realizan operaciones o trabajos, por lo general en instalaciones industriales." De aquí se sacan dos ideas principales; trabajar en este área consiste en diseñar y utilizar robots a través de código, y además está enfocada, en un principio, a realizar autónomamente tareas que realizan las personas.
+
+El desarrollo de software para robótica debe tener controlado cada detalle, teniendo en cuenta también el componente ético que requiere el desarrollo de tecnología. Isaac Asimov, uno de los escritores de ciencia ficción más relevantes de nuestra historia, también pasó a formar parte de la historia de la robótica al enunciar sus tres leyes fundamentales, que sin duda seguirán teniéndose muy en cuenta ahora que los robots son una realidad :
+\begin{itemize}
+    \item Un robot no hará daño a un ser humano o, por inacción, permitirá que un ser humano sufra daño
+    \item Un robot debe obedecer las órdenes dadas por los seres humanos excepto si estas órdenes entrasen en conflicto con la 1ª ley.
+    \item Un robot debe proteger su propia existencia en la medida en que esta protección no entre en conflicto con la 1ª o la 2ª Ley.
+\end{itemize}
+
+Para entender completamente la importancia del tema expuesto, conviene asimilarlo a sucesos históricos previos. El ser humano, a lo largo de su historia, se ha caracterizado por su afán de superación, y esa necesidad por obtener más es la que le ha llevado a la excelencia en muchos aspectos tecnológicos. 
 
 Si nos remontamos a la segunda mitad del siglo XVIII,  nos encontramos con una serie de cambios en la tecnología,la sociedad y la cultura que propiciaron la Revolución Industrial. Ésta supuso uno de los grandes saltos cualitativos en cuanto al progreso humano, al centrar las actividades de trabajo en procesos que utilizaban máquinas en sustitución de tareas manuales. Ello llevó principalmente a un incremento de la producción, de la mano de una mejora en el transporte a raíz del uso de la máquina de vapor, a costa de algunos conflictos sociales o el inicio del agotamiento de recursos energéticos y el incremento de la contaminación. 
 
-A finales del siglo XIX y comienzos del XX, nos encontramos con una serie de descubrimientos y nuevos recursos(petróleo, electricidad) que aceleraron enormemente el crecimiento industrial y permitieron mejorar la calidad del transporte. Sumado a los avances científicos y la mejora de la calidad de vida de las personas, es evidente que estamos ante otro punto clave para la tecnología. 
+A finales del siglo XIX y comienzos del XX, nos encontramos con una serie de descubrimientos y nuevos recursos, como el petróleo o la electricidad, que aceleraron enormemente el crecimiento industrial y permitieron mejorar la calidad del transporte. Sumado a los avances científicos y la mejora de la calidad de vida de las personas, es evidente que estamos ante otro punto clave para la tecnología. 
 
-El siguiente gran salto es el más cercano en el tiempo y, sin duda, a pesar de que no hubiese sido posible sin los dos anteriores, es el que propicia en última instancia la aparición de los robots. Los descubrimientos de la segunda mitad del siglo XX en el campo de la electrónica, causaron la explosión de la informática y las telecomunicaciones, desencadenando transformaciones sociales, culturales y económicas tan importantes como las que provocó la llegada de internet. La concienciación para el uso de las energías renovables o la aparición de nuevas tecnologías de la información y la comunicación son otros aspectos destacables. 
+El siguiente gran salto tecnológico es el más cercano en el tiempo y, sin duda, es el que propicia la posterior aparición de los robots. Los descubrimientos de la segunda mitad del siglo XX en el campo de la electrónica, causaron la explosión de la informática y las telecomunicaciones, desencadenando transformaciones sociales, culturales y económicas tan importantes como las que provocó la llegada de internet. La concienciación para el uso de las energías renovables o la aparición de nuevas tecnologías de la información y la comunicación son otros aspectos destacables. 
 
-Si se observa el imparable crecimiento del porcentaje de usuarios de internet en el mundo desde 1990 hasta la actualidad, donde ya es superior al 50\% de los individuos, es fácil hacerse una idea de la influencia que ha alcanzado en todos los niveles de la sociedad. Pero no está todo hecho ya que, como se comenta al inicio del razonamiento y se evidencia con los sucesos expuestos, el ser humano quiere, puede, y debe seguir progresando tecnológicamente.  
+Si se observa el imparable crecimiento del porcentaje de usuarios de internet en el mundo desde 1990 hasta la actualidad, donde ya es superior al 50\% de los individuos, es fácil hacerse una idea de la influencia que ha alcanzado en todos los niveles de la sociedad. Pero no está todo hecho ya que, como se comenta al inicio del razonamiento, el ser humano quiere, puede, y debe seguir progresando tecnológicamente.  
 
 \begin{figure}[hbt!]
 \centering
@@ -180,13 +198,16 @@ Si se observa el imparable crecimiento del porcentaje de usuarios de internet en
 \end{figure}
 
 En el Foro Económico Mundial de 2016 
-\cite{forum_2016} apareció el término Cuarta Revolución Industrial para referirse al siguiente movimiento de esplendor tecnológico: nanotecnología, inteligencia artificial, robótica, computación en la nube, big data, biotecnología, vehículos autónomos, nuevos sistemas de almacenamiento de energía, nuevos materiales, impresión 3D, inteligencia artificial. Sin duda será un reto apasionante para los ingenieros y profesionales de cada una de las áreas de conocimiento, algo posible gracias a un cúmulo de avances a lo largo de los siglos y que ahora es el momento de continuar. 
+\cite{forum_2016} apareció el término Cuarta Revolución Industrial para referirse al siguiente movimiento de esplendor tecnológico: nanotecnología, inteligencia artificial, robótica, computación en la nube, big data, biotecnología, vehículos autónomos, nuevos sistemas de almacenamiento de energía, nuevos materiales, impresión 3D. Sin duda es un reto apasionante para los ingenieros y profesionales de cada una de las áreas de conocimiento, algo posible gracias a un cúmulo de avances a lo largo de los siglos y que ahora es el momento de continuar. 
 
 
 \subsection{El sector: presente y futuro}
+Hoy los robots son una realidad. No sólamente son utilizadas por importantes empresas en labores industriales, como Tesla en la fabricación de vehículos o Amazon en la gestión de almacenes. La NASA utiliza robots para sus misiones espaciales, como el Curiosity para la exploración de la superficie de Marte.  En el ámbito militar, el robot TEODOR permite evitar situaciones de alto riesgo para los humanos como la desactivación de explosivos. En la medicina, Da Vinci permite al cirujano operar a través de una consola para mejorar la precisión y reducir riesgos en ciertas operaciones quirúrgicas. Además, han ido adquiriendo importancia gradualmente en los hogares y la vida cotidiana de las personas. Desde robots aspiradores que reconocen el entorno, lo memorizan y limpian la casa periódicamente, hasta los avances que encaminan a los vehículos hacia la conducción autónoma. 
+
 El mercado de la robótica está llamado a convertirse en uno de los más importantes del presente siglo, alcanzando una valoración estimada superior a los 28 billones de euros en el año 2018. En los últimos años ha experimentado un gran crecimiento y se espera que continúe en los próximos años, con una previsión de un 25\% de revalorización para los próximos 5 años. 
 La explicación más obvia para este hecho se fundamenta en la aún reciente tendencia a la automatización de tareas a nivel empresarial, sumado en menor medida a un incremento en la compra de tecnología robótica a nivel usuario.
-Ahora bien, ¿cuáles son las razones que explican este crecimiento de la automatización, y hacia dónde nos lleva?. Aunque hay algunas características propias del ser humano(creatividad, impredecibilidad) e imposibles de reemplazar hasta el momento, algunas de las razones que explican las tendencias comentadas son:
+
+Ahora bien, ¿cuáles son las razones que explican este crecimiento de la automatización, y hacia dónde nos lleva?. Aunque hay algunas características propias del ser humano, como la creatividad o la impredecibilidad, que son imposibles de reemplazar hasta el momento, algunas de las razones que explican las tendencias comentadas son:
 \begin{itemize}
 \item Aumento de la eficiencia 
 \item Productividad sin descanso
@@ -208,42 +229,34 @@ Si vemos los datos de empleos relacionados con alta tecnología en nuestro país
 \end{figure}
 
 \section{Software en robótica}
-Construir un robot, supone la interacción de muchos componentes entre sí, a su vez formados por piezas más pequeñas. El desarrollo de software para robótica debe tener controlado cada detalle, teniendo en cuenta también el componente ético que requiere el desarrollo de tecnología. 
-Isaac Asimov, uno de los escritores de ciencia ficción más relevantes de nuestra historia, también pasó a formar parte de la historia de la robótica al enunciar sus tres leyes fundamentales, que sin duda seguirán teniéndose muy en cuenta ahora que los robots son una realidad :
-\begin{itemize}
-    \item Un robot no hará daño a un ser humano o, por inacción, permitirá que un ser humano sufra daño
-    \item Un robot debe obedecer las órdenes dadas por los seres humanos excepto si estas órdenes entrasen en conflicto con la 1ª ley.
-    \item Un robot debe proteger su propia existencia en la medida en que esta protección no entre en conflicto con la 1ª o la 2ª Ley.
-\end{itemize}
 
-Una vez están claras las bases para comenzar a trabajar en los proyectos de este área, es necesaria un entorno que facilite la gran complejidad a la que se enfrenta el ingeniero. En informática, se denomina middleware a un software que hace de enlace entre el sistema operativo y las aplicaciones. En robótica, este software está diseñado para ocultar parte de la complejidad de bajo nivel, como la comunicación entre los distintos componentes, y que el usuario pueda diseñar y desarrollar sus soluciones de forma más eficiente. Estos son algunos de los más importantes, y sus principales objetivos: 
+Lograr el comportamiento esperado en un sistema robótico requiere conocer las distintas partes de las que se compone. Construir un robot supone la interacción de muchos componentes entre sí, formados a su vez por piezas más pequeñas. Entre ellos se encuentran los sensores, los actuadores y el computador. 
+En primer lugar, es necesario poder obtener información del entorno a través de la medición de diversas magnitudes físicas. Los sensores deben estar diseñados para obtener las más adecuadas para la tarea a realizar. Las cámaras, sensores láser, sensores de temperatura, de posición o de aceleración son algunos ejemplos. 
+La percepción de lo que hay alrededor requiere procesar esos datos mediante un computador para que sean útiles, es decir, se tomen decisiones y se den órdenes a los actuadores, que son los componentes encargados de interacturar con el mundo a través del movimiento. 
+EL software constituye por tanto el elemento fundamental del robot, dotándolo de inteligencia y determinando su comportamiento. Para lograrlo de una manera adecuada, es necesario adaptarse a algunos requisitos. En primer lugar, el hecho de interactuar con un mundo, el real, que se encuentra en constante movimiento, requiere sistemas que respondan en tiempo real a dichos cambios. Para ello, se requiere hacer uso de la concurrencia para poder tomar decisiones con la mayor rapidez posible, algo crítico teniendo en cuenta la necesaria comunicación entre los distintos componentes. 
+De cara al usuario, es necesario construir interfaces que faciliten la interacción con los robots y la depuración de los diferentes problemas que puedan surgir. Estos pueden estar derivados por el hecho de tener que adaptar los programas al hardware heterogéneo existente, o la dificultad que presenta la reutilización de software de fuentes externas. 
+
+Una vez están claras las bases para comenzar a trabajar en los proyectos de este área, es necesaria un entorno que facilite la gran complejidad a la que se enfrenta el ingeniero. En informática, se denomina \textit{middleware} a un software que hace de enlace entre el sistema operativo y las aplicaciones. En robótica, este software está diseñado para ocultar parte de la complejidad de bajo nivel, como la comunicación entre los distintos componentes, y que el usuario pueda diseñar y desarrollar sus soluciones de forma más eficiente. Estos son algunos de los más importantes, y sus principales objetivos: 
 \begin{figure}[hbt!]
 \centering
 \includegraphics[width=6cm]{Figs/layersMiddleware.png}
 \par
-\caption{\label{fig:sphero}Situación del middleware en una arquitectura software}
+\caption{\label{fig:middleware}Situación del middleware en una arquitectura software}
 \end{figure}
 \begin{itemize}
-\item ROS: Robot Operating System continua creciendo hacia su objetivo de ser un estándar en la industria. Se trata de una solución de código abierto. Ofrece robustez, rapidez, abstracción, colaboración entre usuarios y una gran variedad de paquetes y funcionalidades, facilitando la labor de desarrollo. Se estima que en los próximos años supere el umbral y más del 50\% de los robots comerciales estén basados en él. 
-\item JdeRobot: Enfocada en la robótica y la visión computacional, ofrece compatibilidad con ROS y una serie de herramientas y librerías para robots, escritas en C++, Python y JavaScript. 
-\item Orocos: Open Robot Control Software centra sus esfuerzos en ofrecer resultados en tiempo real y enfocado principalmente en robots industriales. Para ofrecer algunas funcionalidades, se apoya en otros middlewares similares. Es multiplataforma. 
-\item LCM: Lightweight Communications and Marshalling tiene como principal objetivo ser diferencial en contextos de baja latencia, utilizando el protocolo UDP en sus mensajes. 
-\item CLARAty: Promueve la reutilización de software, además de la portabilidad, modularidad y flexibilidad. Surge de la colaboración entre varias instituciones, entre ellas la NASA.
-\item MRDS: Microsoft Roboitics Developer Studio fue el primer intento de la compañía estadounidense por entrar de lleno en el mundo de la robótica. Su lanzamiento fue poco antes de ROS, por lo que nunca ganó suficiente atención. 
+\item ROS \cite{ros}: Robot Operating System continua creciendo hacia su objetivo de ser un estándar en la industria. Se trata de una solución de código abierto. Ofrece robustez, rapidez, abstracción, colaboración entre usuarios y una gran variedad de paquetes y funcionalidades, facilitando la labor de desarrollo. Se estima que en los próximos años supere el umbral y más del 50\% de los robots comerciales estén basados en él. 
+\item Orocos \cite{orocos}: Open Robot Control Software centra sus esfuerzos en ofrecer resultados en tiempo real y enfocado principalmente en robots industriales. Para ofrecer algunas funcionalidades, se apoya en otros middlewares similares. Es multiplataforma.  
+\item CLARAty \cite{claraty}: Promueve la reutilización de software, además de la portabilidad, modularidad y flexibilidad. Surge de la colaboración entre varias instituciones, entre ellas la NASA.
+\item MRDS \cite{mrds}: Microsoft Robotics Developer Studio fue el primer intento de la compañía estadounidense por entrar de lleno en el mundo de la robótica. Su lanzamiento fue poco antes de ROS, por lo que nunca ganó suficiente atención. 
 \end{itemize}
 
 \section{Docencia en robótica}
-En un mundo necesitado de profesionales de la tecnología, pero cuyos individuos no van a cubrir la demanda de empleos en los próximos años, es necesario hacer accesible el conocimiento. Aquí es dónde la docencia, en cualquiera de sus formas, cobra vital importancia. A continuación se comentarán algunos aspectos relacionados con la enseñanza en robótica en la actualidad. 
+En un mundo necesitado de profesionales de la tecnología, pero cuyos individuos no van a cubrir la demanda de empleos en los próximos años, es necesario hacer accesible el conocimiento. Aquí es donde la docencia, en cualquiera de sus formas, cobra vital importancia. A continuación se comentarán algunos aspectos relacionados con la enseñanza en robótica en la actualidad. 
 \subsection{Robótica en la escuela}
-Los conocimientos de robótica y programación han estado, hasta fechas muy recientes, alejados de las escuelas, donde aún su influencia es aún muy limitada. En las universidades,  la robótica está presente solamente en algunas carreras especializadas. Ahora bien, ¿cómo es posible que herramientas básicas para un importante porcentaje de los empleos que vienen en los próximos años hayan comenzado a implantarse hace tan poco tiempo?. Es una pregunta compleja en la que influyen muchos factores, aunque podemos afirmar que algunos de ellos se derivan del hecho de estar hablando de un área de conocimiento joven. Ello por un lado requiere cambios legislativos, además de necesitar unas bases de conocimiento sólidas en el profesorado, y probablemente un presupuesto superior a otras áreas de enseñanza. 
+Los conocimientos de robótica y programación han estado, hasta fechas muy recientes, alejados de las escuelas, donde aún su influencia es aún limitada. En las universidades,  la robótica está presente solamente en algunas carreras especializadas. Ahora bien, ¿cómo es posible que herramientas básicas para un importante porcentaje de los empleos que vienen en los próximos años hayan comenzado a implantarse hace tan poco tiempo?. Es una pregunta compleja en la que influyen muchos factores, aunque podemos afirmar que algunos de ellos se derivan del hecho de estar hablando de un área de conocimiento joven. Ello por un lado requiere cambios legislativos, además de necesitar unas bases de conocimiento sólidas en el profesorado, y probablemente un presupuesto superior a otras áreas de enseñanza. 
 
 Si tenemos en cuenta que los futuros profesionales están hoy en las aulas, es necesario mostrar la robótica de una manera cercana, comprensible y que permita generar entusiasmo en los alumnos interesados. Al fin y al cabo, las decisiones que se toman en las últimas etapas de estudios previos a la universidad, son claves para decidir el futuro, y para hacerlo con criterio el alumno necesita el mayor abanico de conocimiento y opciones posible. 
-La robótica educativa debe ser más relevante en los próximos años si se quieren formar y educar profesionales para la Cuarta Revolución Industrial. Entre las competencias que aporta al alumnado, algunas tan necesarias para otros aspectos profesionales y vitales como el trabajo en equipo, el pensamiento crítico, la creatividad y la resolución de problemas. 
-
-
-\subsection{Robótica al alcance de todos}
-Los dispositivos conectados permiten hoy en día acceder a un sinfín de información a través de internet, ofreciendo a aquel que tenga interés en un tema la posibilidad de aprenderlo por sus propios medios. 
-Las principales plataformas de robótica tienen disponibles sus propios tutoriales, donde destacan los de ROS o JdeRobotAcademy, aunque también se pueden encontrar en otras plataformas de cursos más generalistas. Otros recursos especializados son los disponibles en Robot Ignite Academy, pueden resultar de gran ayuda. Otra opción si se desea aprender de manera más práctica y temprana es la de utilizar algunos de los robots educativos que distintas empresas han lanzado en los últimos años para lo más pequeños. Por ejemplo: 
+La robótica educativa debe ser más relevante en los próximos años si se quieren formar y educar profesionales para la Cuarta Revolución Industrial. Entre las competencias que aporta al alumnado, algunas tan necesarias para otros aspectos profesionales y vitales como el trabajo en equipo, el pensamiento crítico, la creatividad y la resolución de problemas. Existen algunas empresas que tratan de facilitar esta tarea ofreciendo robots educativos. Por ejemplo: 
 \begin{itemize}
     \item Sphero SPRK+: Enfocada a los más pequeños, programable desde aplicaciones móviles a través de bloques, permite planificar rutas para la bola inteligente. Tiene un diseño transparente para poder ver y aprender de su interior.  
     \item Dash: Solución para niños basada en programación con bloques y ampliable con accesorios 
@@ -263,12 +276,17 @@ Las principales plataformas de robótica tienen disponibles sus propios tutorial
     \par
     \caption{\label{fig:bitbloq}Programando un ritmo musical mediantes bloques}
     \end{figure}
-\subsection{JdeRobot-Academy}
-Dentro del proyecto JdeRobot, encontramos un conjunto de prácticas enfocadas al aprendizaje de distintos ámbitos relacionados con la robótica a través de código pyhton, compatibilidad con ROS y el uso del simulador Gazebo. 
+
+En el ámbito universitario, los dispositivos conectados permiten hoy en día acceder a un sinfín de información a través de internet, ofreciendo a aquel que tenga interés en un tema la posibilidad de aprenderlo por sus propios medios. 
+Las principales plataformas de robótica tienen disponibles sus propios tutoriales, donde destacan los de ROS o Robotic-Academy, aunque también se pueden encontrar en otras plataformas de cursos más generalistas. Otros recursos especializados son los disponibles en Robot Ignite Academy, pueden resultar de gran ayuda. 
+
+\subsection{El entorno Robotics-Academy}
+Dentro de la organización sin ánimo de lucro JdeRobot\cite{jderobot}, dedicada al desarrollo de software para robótica e Inteligencia Artificial, encontramos un conjunto de prácticas \textit{open-source} enfocadas al aprendizaje de distintos ámbitos relacionados con la robótica a través de código pyhton, compatibilidad con ROS y el uso del simulador Gazebo. Se trata de soluciones documentadas y en constante crecimiento, que han llegado a participar en el Google Summer of Code en tres ocasiones(2015,2017,2018).
 Cada práctica enfrenta un problema típico diferente, dónde el estudiante encuentra una plantilla que le abstrae de toda la complejidad de bajo nivel del middleware de manera que sólo deba preocuparse de sus algoritmos. 
 Aunque se utiliza el simulador Gazebo para observar el comportamiento del robot con la solución, la adaptación para ejecutar las prácticas en robots reales es sencilla debido a que toda la configuración de la estructura y controladores del robot están definidos.
 
-EL ejercicio de visión color filter, permite configurar un filtro  de color para realizar un filtrado sobre un objeto en las imágenes proporcionadas por un fichero de vídeo. Por último, se debe detectar el movimiento de dicho objeto. Utiliza ICE como protocolo de comunicaciones y OpenCV para manejar las imágenes recibidas. 
+El ejercicio de visión color filter, permite configurar un filtro  de color para realizar un filtrado sobre un objeto en las imágenes proporcionadas por un fichero de vídeo. Por último, se debe detectar el movimiento de dicho objeto. Utiliza ICE como protocolo de comunicaciones y OpenCV para manejar las imágenes recibidas. 
+Sobre tratamiento de imagen podemos encontrar también \textit{Follow Face}, que se encarga de detectar y perseguir caras en los fotogramas obtenidos por la cámara de vídeo\cite{Carlos}. 
 
 \begin{figure}[hbt!]
 \centering
@@ -277,7 +295,7 @@ EL ejercicio de visión color filter, permite configurar un filtro  de color par
 \caption{\label{fig:colorFilter}Filtro de color de la práctica color filter}
 \end{figure}
 
-En la práctica Drone cat\&mouse dos drones deben jugar al gato y el ratón. Uno de ellos debe moverse de forma impredecible mientras el otro debe detectar el movimiento del otro y perseguirle, haciendo uso de las cámaras que lleva integradas y el procesamiento en tiempo real de las mismas. 
+En la práctica Drone cat\&mouse dos drones deben jugar al gato y el ratón. Uno de ellos debe moverse de forma impredecible mientras el otro debe detectar el movimiento del otro y perseguirle, haciendo uso de las cámaras que lleva integradas y el procesamiento en tiempo real de las mismas. Este ejercicio fue utilizado en la competición \textit{program-a-robot}, celebrada en 2018 dentro del programa IROS(International Conference on Intelligent robots and Systems) y promovida por el grupo de robótica de la Universidad Rey Juan Carlos.
 
 \begin{figure}[hbt!]
 \centering
@@ -286,7 +304,7 @@ En la práctica Drone cat\&mouse dos drones deben jugar al gato y el ratón. Uno
 \caption{\label{fig:catMouse}Persecución de drones en cat\&mouse}
 \end{figure}
 
-Entrando en el terreno de la autolocalización y aprovechando la potencia de los sensores de profundidad, la práctica Vacuum-cleaner with visualSLAM permite simular el comportamiento de un robot aspirador de limpieza, detectando las partes de la casa por las que ha pasado y completando de forma eficiente el trabajo programado. 
+Entrando en el terreno de la autolocalización y aprovechando la potencia de los sensores de profundidad, la práctica Vacuum-cleaner with visualSLAM permite simular el comportamiento de un robot aspirador de limpieza, detectando las partes de la casa por las que ha pasado y completando de forma eficiente el trabajo programado. En el mismo campo, la práctica Aspiradora autónoma \cite{Vanessa} permite familiarizarse con algoritmos de navegación. 
 
 \begin{figure}[hbt!]
 \centering
@@ -295,7 +313,7 @@ Entrando en el terreno de la autolocalización y aprovechando la potencia de los
 \caption{\label{fig:vacuum}Mapeo generado en tiempo real en la práctica de la aspiradora}
 \end{figure}
 
-También hay ejemplos relacionados con los coches autónomos, como Visual follow-line behavior on a Formula1 que permite a los estudiantes programar un Formula 1 que siga la línea roja en el centro de la carretera para dar una vuelta al circuito. 
+También hay ejemplos relacionados con los coches autónomos, como Visual follow-line behavior on a Formula1 que permite a los estudiantes programar un Formula 1 que siga la línea roja en el centro de la carretera para dar una vuelta al circuito. Existen alternativas similares, que emplean drones en lugar de coches para seguir una determinada carretera\cite{Pablo}.
 
 \begin{figure}[hbt!]
 \centering
@@ -304,12 +322,13 @@ También hay ejemplos relacionados con los coches autónomos, como Visual follow
 \caption{\label{fig:f1}Mundo Gazebo para la práctica de conducción con Fórmula 1}
 \end{figure}
 
+
 \chapter{Objetivos}
 Comprendido el contexto en que se ha desarrollado el proyecto, a continuación se
 profundizará en los objetivos iniciales del mismo, los requisitos necesarios para el desarrollo de la solución, la metodología de trabajo que ha sido necesaria para conseguirlos y el plan de acción requerido para ser capaz de completar el proceso. 
 
 \section{Objetivos}
-El objetivo principal de este trabajo consiste en añadir una nueva práctica al entorno educativo Unibotics de JdeRobot. Dicha práctica tiene como meta profundizar en la planificación de trayectorias utilizando MoveIt!, el framework de ROS enfocado a la robótica que ofrece herramientas para gestionar movimientos, manipulación, control, físicas y navegación. Además, se deben analizar y filtrar imágenes para detectar objetos y colores, para lo que será necesario conocer algunas de las posibilidades que ofrece la librería OpenCV. 
+El objetivo principal de este trabajo consiste en añadir una nueva práctica al entorno educativo Robotics-Academy de JdeRobot. Dicha práctica tiene como meta profundizar en la planificación de trayectorias utilizando MoveIt!, el framework de ROS enfocado a la robótica que ofrece herramientas para gestionar movimientos, manipulación, control, físicas y navegación. Además, se deben analizar y filtrar imágenes para detectar objetos y colores, para lo que será necesario conocer algunas de las posibilidades que ofrece la librería OpenCV. 
 Para obtener la solución final, será necesario controlar los movimientos de un robot PR2, el procesamiento de imágenes en tiempo real, la creación de modelos y mundos en el simulador Gazebo y la planificación y ejecución de trayectorias evitando obstáculos. Se ofrecerá al destinatario de la práctica educativa una plantilla donde podrá añadir su código, y que le abstraerá de los detalles de implementación más complejos, a los que podrá acceder posteriormente si desea profundizar en alguna parte. De esta forma el estudiante se podrá centrar en su desarrollo sin distraerse con problemas que ya han sido contemplados y resueltos, tomando contacto con la programación en robótica utilizando lenguaje python y conociendo como funciona MoveIt!, a través de una práctica completa cuyo eje es la planificación.
 El software debe realizar acciones en tiempo real, con valores aceptables para las ejecuciones en el simulador. Por último, debe ser capaz de obtener trayectorias válidas en situaciones con varios obstáculos.
 
@@ -912,7 +931,7 @@ Dentro de los planificadores que ofrece OMPL, se utiliza una variante de algorit
 Aplicado a nuestra práctica, el algoritmo consiste en comenzar a generar de forma simultánea un "árbol" desde el inicio y el destino del movimiento. El árbol inicio se irá expandiendo por posiciones cercanas aleatorias que cumplan las distintas restricciones programadas, hasta que toque al árbol destino, que sigue el mismo patrón de comportamiento, en un determinado punto. En ese momento, se habrá encontrado una solución para la planificación, es decir, un camino válido entre la posición inicial y la final que debe poder ser ejecutado sin impedimentos.
 
 \section{Experimentación}
-La ejecución típica \cite{tfg_video} de la práctica requiere los siguientes pasos: 
+La ejecución típica \cite{tfg_video_1} \cite{tfg_video_2} de la práctica requiere los siguientes pasos: 
 
 - Lanzar el mundo gazebo, que incluye el robot PR2 y sus modelos.
 \vspace{20pt}
