@@ -1,25 +1,26 @@
 # Planning and executing movement on robotic arm.
 
 ## Final solution video
-[![Final solution with blue)](https://img.youtube.com/vi/OU1iNR0tzyA/0.jpg)](https://youtu.be/OU1iNR0tzyA)
+[![Final solution with blue](https://img.youtube.com/vi/OU1iNR0tzyA/0.jpg)](https://youtu.be/OU1iNR0tzyA)
 
 ## Add kinematics, create new world, simulate real time in the video
 
-https://youtu.be/SI3x1_jwMlQ
+[![Simulate real time](https://img.youtube.com/vi/SI3x1_jwMlQ/0.jpg)](https://youtu.be/SI3x1_jwMlQ)
 
 ## Add top limit to gazebo, and refine plannings
 
-https://youtu.be/FHlYHk4eQ-c
+[![Refine planning](https://img.youtube.com/vi/FHlYHk4eQ-c/0.jpg)](https://youtu.be/FHlYHk4eQ-c)
 
 ## Modify movements
 
 After lots of tests, the following scenario is solved by moveit without retracting the arm in the majority of cases(flying objects are only in PR2 mind, but not in the real world).
-https://youtu.be/uLwT5br2GeY
+[![Modify movements](https://img.youtube.com/vi/uLwT5br2GeY/0.jpg)](https://youtu.be/uLwT5br2GeY)
+
 
 ## Move head + main obstacle + first prototype
 
 Move head has been added at start. After several tests to make movements showing object avoidance in theatrical way adn refactoring part of the code, the result is here.
-https://youtu.be/KehuFwGSB2g
+[![First prototype](https://img.youtube.com/vi/KehuFwGSB2g/0.jpg)](https://youtu.be/KehuFwGSB2g)
 
 ## Facing some problems with Head movements
 
@@ -39,12 +40,14 @@ orientation:
 [ WARN] [1551045832.784618817, 985.692000000]: Fail: ABORTED: Catastrophic failure [ INFO] [1551046183.362015324, 1037.969000000]: ParallelPlan::solve(): Solution found by one or more threads in 0.080588 seconds [ INFO] [1551046183.362552930, 1037.969000000]: RRTConnect: Starting planning with 1 states already in datastructure [ INFO] [1551046183.363281516, 1037.969000000]: RRTConnect: Starting planning with 1 states already in datastructure [ INFO] [1551046183.379158187, 1037.969000000]: RRTConnect: Created 5 states (2 start + 3 goal) [ INFO] [1551046183.383185065, 1037.969000000]: RRTConnect: Created 5 states (2 start + 3 goal) [ INFO] [1551046183.386655888, 1037.969000000]: ParallelPlan::solve(): Solution found by one or more threads in 0.024388 seconds [ INFO] [1551046183.525537440, 1037.983000000]: SimpleSetup: Path simplification took 0.138544 seconds and changed from 4 to 2 states [ WARN] [1551046221.273289008, 1042.021000000]: Controller head_traj_controller failed with error code GOAL_TOLERANCE_VIOLATED [ WARN] [1551046221.273466699, 1042.021000000]: Controller handle head_traj_controller reports status ABORTED
 ```
 Could be related to collisions between the robot itself. Requires some additional research.
-https://youtu.be/6Y8lpwVPK6o
+[![](https://img.youtube.com/vi/6Y8lpwVPK6o/0.jpg)](https://youtu.be/6Y8lpwVPK6o)
 
 ## Detect colors and push objects: First prototype
 
 After some work to integrate image functionalities with planning and trajectory execution, there is a main node which uses pyhton language to complete the first approach to the final goal. Code refactoring is required but the first trailer is already available.
-https://www.youtube.com/watch?v=weKhvHEJHjM
+
+[![](https://img.youtube.com/vi/weKhvHEJHjM/0.jpg)](https://www.youtube.com/watch?v=weKhvHEJHjM)
+
 
 ## USING PR2 KINECT CAMERA TO DETECT COLORS AND OBJECTS
 
@@ -53,7 +56,8 @@ After inspecting pr2 definition(pr2.urdf.xacro) I have found that Kinect camera 
 KINECT2=true roslaunch pr2_gazebo ims_tfg.launch
 ```
 There is one problem: PR2 laser is generating red noise in front of the robot, so pr2.urdf.xacro has been modified to disable it. New functionality has been added to the image manipulation node. findContours function allows to detect shapes(objects), and we are able to discard those caused by noise by calculating the area.
-https://youtu.be/HBdqTZWjZjc
+[![](https://img.youtube.com/vi/HBdqTZWjZjc/0.jpg)](https://youtu.be/HBdqTZWjZjc)
+
 
 ## KINECT, ROSTOPICS & PYTHON NODE 
 
@@ -67,7 +71,8 @@ Now I'm facing two issues. The main one is the flickering in images, which may b
 ```
 "Received an image! [32FC1] is not a color format. but [bgr8] is. The conversion does not make sense"
 ```
-https://youtu.be/vpZ0TdY35zg
+[![](https://img.youtube.com/vi/vpZ0TdY35zg/0.jpg)](https://youtu.be/vpZ0TdY35zg)
+
 
 ## GAZEBO: ADD CAMERA(FLYING KINECT) 
 
@@ -82,7 +87,7 @@ In order to choose any object in the first area we'll need the color_filter JdeR
 Going back to the move group pyhton interface. The final goal is to plan movements from one area with some objects(bowling) to another area. Objects will be coloured different and a color filter will choose the object to touch and will go to a hardcoded destination crossing some obstacles.
 
 The first step to reach the objective is to resume the planning interface and plan some linked movements. After playing with different scenarios, we get a more complex result using a world in gazebo with three blue objects. It's possible to move to one of them and push
-https://youtu.be/cJSILepNtfs
+[![](https://img.youtube.com/vi/cJSILepNtfs/0.jpg)](https://youtu.be/cJSILepNtfs)
 
 ## MOVEIT-GAZEBO: PICK&PLACE FIRST APPROACH II 
 This week a lot of researching issues were necessary. It has allowed to solve the first problem(INVALID_JOINTS) by adjusting some config and yaml files. After that, new error was found:
@@ -139,13 +144,13 @@ Next step is about trying to define controllers for PR2 robot that allow us to m
 ## PICK OBJECT WITH PR2 IN PYTHON 
 
 After countless issues and some sleepless nights I have started seeing some visual progress. Now I can plan a pick movement using python PickPlaceInterface. Retry policy should be implemented and after completing the place part we will check if the object is moved. But here we can see PR2 in action:
-https://youtu.be/ofS7M9PD6NU
+[![](https://img.youtube.com/vi/ofS7M9PD6NU/0.jpg)](https://youtu.be/ofS7M9PD6NU)
 
 ## BACK TO PR2: MOVEIT BINDINGS FOR PYTHON 
 We are facing some problems trying to use moveIt in python because most of tutorials are developed in c++ and contain additional capabilities in comparison with python ones. After some research, I discovered some bindings that allow us to adapt c++ tutorial to pyhton(https://github.com/mikeferguson/moveit_python). New interfaces provided in this repository have been very useful to develop something similar to move_group_interface_tutorial (http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/pr2_tutorials/planning/src/doc/move_group_interface_tutorial.html).
-https://youtu.be/oiis2xq2IIM
+[![](https://img.youtube.com/vi/oiis2xq2IIM/0.jpg)](https://youtu.be/oiis2xq2IIM)
 Now trying to adapt pick&place tutorial. There isn't any description in ros website in this case so the main goal is to analize the code an reach the behaviour in c++ tutorial. 
-https://youtu.be/CFN-NiZfrWI
+[![](https://img.youtube.com/vi/CFN-NiZfrWI/0.jpg)](https://youtu.be/CFN-NiZfrWI)
 Working on it.
 
 ## MOVEIT MOVE_GROUP_INTERFACE_TUTORIAL FOR UR10 
@@ -170,12 +175,12 @@ After facing problems with UR10 in RViz, I found some additional packages that d
 ## MOVEIT: PR2 TUTORIAL WITH RVIZ & PYTHON 
 
 Same problems identified with Rviz and the UR10 are repeated here with pr2(Rviz isn't showing the interactive marker that allows users to choose the final position). So, using the graphical interface, we can't choose the desired trajectory. Nevertheless I have finished with the python tutorial and pr2 arm is moved following the different instructions in move_group_python_interface_tutorial.py. 
-https://youtu.be/ik97tG6Rm5Q
+[![](https://img.youtube.com/vi/ik97tG6Rm5Q/0.jpg)](https://youtu.be/ik97tG6Rm5Q)
 
 ## MOVEIT: First approach
 
 I have started following tutorials in http://wiki.ros.org/ariac/Tutorials/MoveItInterface . I'm facing some problems in 5.1. Rviz isn't showing the interactive marker that allows users to choose the final position. It could be similar to https://answers.ros.org/question/57611/moveit-rviz-plugin-no-interactive-markers-visibleavailable/ but I don't know if this solution(modifying the URDF) makes sense in this case because the ur10_moveit_config is installed by default and it's not something trivial. Right now, it's possible to plan some movements from Rviz, but they are random. Arm is moved in ARIAC world in gazebo. Now: trying to make work the http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/pr2_tutorials/planning/scripts/doc/move_group_python_interface_tutorial.html . This tutorial allows to control the arm from python. But it's prepared for a different arm.. so first try has been a failure. Maybe I could try with the original arm in order to make progress
-https://youtu.be/Lk1dAtCPxx4
+[![](https://img.youtube.com/vi/Lk1dAtCPxx4/0.jpg)](https://youtu.be/Lk1dAtCPxx4)
 
 ## ARIAC
 
