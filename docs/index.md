@@ -1,8 +1,7 @@
 # Planning and executing movement on robotic arm.
 
 ## Final solution video
-
-https://youtu.be/OU1iNR0tzyA
+[![Final solution with blue)](https://img.youtube.com/vi/OU1iNR0tzyA/0.jpg)](https://youtu.be/OU1iNR0tzyA)
 
 ## Add kinematics, create new world, simulate real time in the video
 
