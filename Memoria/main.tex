@@ -330,25 +330,24 @@ También hay ejemplos relacionados con los coches autónomos, como Visual follow
 
 \chapter{Objetivos}
 Comprendido el contexto en que se ha desarrollado el proyecto, a continuación se
-profundizará en los objetivos iniciales del mismo, los requisitos necesarios para el desarrollo de la solución, la metodología de trabajo que ha sido necesaria para conseguirlos y el plan de acción requerido para ser capaz de completar el proceso. 
+profundizará en los objetivos iniciales del mismo, los requisitos necesarios para el desarrollo de la solución, la metodología de trabajo y el plan de acción que se han seguido para alcanzarlos. 
 
 \section{Objetivos}
-El objetivo principal de este trabajo consiste en añadir una nueva práctica al entorno educativo Robotics-Academy de JdeRobot. Dicha práctica tiene como meta profundizar en la planificación de trayectorias de un brazo robótico. Para realizar dicha práctica se utilizará MoveIt!, el framework de ROS enfocado a la robótica que ofrece herramientas para gestionar movimientos, manipulación, control, físicas y navegación. Además, se deben analizar y filtrar imágenes para detectar objetos y colores, para lo que será necesario conocer algunas de las posibilidades que ofrece la librería OpenCV. 
+El objetivo principal de este trabajo consiste en añadir una nueva práctica al entorno educativo Robotics-Academy de la organización JdeRobot. Dicha práctica tiene como meta profundizar en la planificación de trayectorias de un brazo robótico. Para realizar dicha práctica se utilizará MoveIt!, el entorno de ROS que ofrece herramientas para gestionar movimientos, manipulación, control, físicas y navegación. Además, se deben analizar y filtrar imágenes para detectar objetos y colores, para lo que será necesario conocer algunas de las posibilidades que ofrece la librería OpenCV. 
 
-Para obtener la solución final, será necesario controlar los movimientos de un robot PR2, el procesamiento de imágenes en tiempo real, la creación de modelos y mundos en el simulador Gazebo y la planificación y ejecución de trayectorias evitando obstáculos. Se ofrecerá al destinatario de la práctica educativa una plantilla donde podrá añadir su código, y que le abstraerá de los detalles de implementación más complejos, a los que podrá acceder posteriormente si desea profundizar en alguna parte. 
+Para obtener la solución final, han sido necesarios varios subobjetivos. El primero de ellos consiste en desarrollar la infraestructura necesaria, principalmente a través de un nuevo mundo generado en el simulador que incluirá los modelos para el robot y los distintos objetos. En segundo lugar se debe desarrollar una plantilla en Python que permita al receptor de la práctica tomar contacto con el tratamiento de imágenes y la planificación de trayectorias en MoveIt! de manera sencilla, abstrayéndole de los detalles de implementación más complejos, a los que podrá acceder posteriormente si desea profundizar en ellos. Por último, desarrollar la solución de referencia para lograr satisfacer el comportamiento esperado en esta práctica con un brazo robótico, incluyendo la planificación en entornos con obstáculos, la detección de objetos de color mediante procesado de imagen y la experimentación para optimizar los resultados. 
 
 De esta forma el estudiante se podrá centrar en su desarrollo sin distraerse con problemas que ya han sido contemplados y resueltos, tomando contacto con la programación en robótica utilizando lenguaje Python y conociendo cómo funciona MoveIt!, a través de una práctica completa cuyo eje es la planificación.
 
-Además, el software debe realizar acciones en tiempo real, con valores aceptables para las ejecuciones en el simulador. Por último, debe ser capaz de obtener trayectorias válidas en situaciones con varios obstáculos.
-
 \section{Requisitos}
-A continuación, se enumeran los diferentes recursos de software y hardware que han servido como base para la consecución de los objetivos: 
+A continuación, se enumeran las diferentes condiciones requeridas en el software y hardware para la consecución de los objetivos planteados: 
 \begin{itemize}
-    \item El sistema operativo utilizado es Ubuntu 16.04 LTS.
+    \item El software debe realizar acciones en tiempo real, con valores aceptables para los tiempos de ejecución en el simulador en un ordenador convencional.
+    \item El software debe ser capaz de obtener trayectorias válidas en situaciones con varios obstáculos.
+    \item Se utilizará el sistema operativo Ubuntu 16.04 LTS.
     \item El \textit{middleware} de referencia para trabajar es ROS en su versión Kinetic, debido a motivos de compatibilidad con su solución MoveIt!.
     \item El simulador de referencia es Gazebo 7, la versión recomendada para trabajar con ROS Kinetic. 
     \item El lenguaje de programación utilizado para los desarrollos es Python en su versión 2.7.12, nuevamente por razones de compatibilidad. Además, son necesarias nociones básicas de C++ para comprender el código de los repositorios de ROS. 
-    \item El hardware utilizado debe ser suficiente para soportar el renderizado y procesamiento de la simulación sin sobresaltos. Un equipo con 8GB de RAM, procesador i7 de octava generación y gráficos Intel UHD Graphics 620 cumple las expectativas.
 \end{itemize}
 
 \section{Metodología}
@@ -370,74 +369,96 @@ La propuesta original de Boehm se compone de las siguientes fases [Figura \ref{f
 
 Algunas de las ventajas de este modelo son la capacidad de adaptación, la reacción rápida frente a problemas, la reducción de riesgos y el enfoque realista. Sin embargo, también podría generar algunos inconvenientes, como la necesidad de un alto conocimiento de los posibles riesgos relativos al proyecto para no derivar en problemas en etapas avanzadas del desarrollo. 
 
+La aplicación de los procedimientos propuestos por Boehm ha supuesto la realización de reuniones semanales de revisión del estado del proyecto, dónde se definen tareas, se proponen objetivos y se recopilan los avances. En la etapa de desarrollo, se ha ido alimentando una bitácora \cite{pages} con los hitos alcanzados y los problemas surgidos, además del repositorio disponible en GitHub \cite{repo}. Por tanto, se han gestionado los cambios con el sistema de control de versiones Git, añadiéndolos a la rama \textit{master} principal una vez validados.  
+
 \section{Plan de acción}
-Al enfrentar un proyecto de características técnicas, y marcar unos determinados objetivos, se debe marcar un plan de acción que determine cómo alcanzar dichos objetivos, y de qué manera se lograrán. Para completar la práctica de planificación, se han requerido los siguientes pasos: 
+Al enfrentar un proyecto de características técnicas, y marcar unos determinados objetivos, se debe marcar un plan de acción que determine cómo alcanzarlos, y de qué manera se lograrán. Para completar la práctica de planificación, se han requerido los siguientes pasos: 
 \begin{itemize}
-    \item Estudiar el lenguaje de programación C++ para poder comprender, y afrontar en caso de necesidad, los desarrollos necesarios para trabajar con robots en el contexto comentado. 
-    \item Familiarización con el entorno educativo de JdeRobot a través de diversas prácticas para tomar contacto con la robótica y comenzar a comprender sus principios básicos. Este paso sienta las bases para poder comenzar a desarrollar el proyecto. 
-    \item Conocer el simulador Gazebo a través de los tutoriales oficiales, y búsqueda de un robot comercial soportado completamente en el simulador. Incluye revisar los lenguaje de descripción URDF y SDF para construir mundos y modelos, y también cómo construir plugins para Gazebo. 
-    \item Descubrir y profundizar en el framework de desarrollo software ROS, nuevamente a través de los tutoriales oficiales. Entre las acciones más importantes están construir espacios de trabajo, entender qué es un nodo ROS, como funciona ROS topics o aprender a generar ficheros roslaunch.
+    \item Estudiar el lenguaje de programación C++ para poder comprender, y afrontar en caso de necesidad, los desarrollos necesarios para trabajar con robots.
+    \item Familiarización con el entorno educativo Robotics-Academy a través de diversas prácticas para tomar contacto con la robótica y comenzar a comprender sus principios básicos. Este paso sienta las bases para poder comenzar a desarrollar el proyecto. 
+    \item Conocer el simulador Gazebo a través de los tutoriales oficiales, y realizar la búsqueda de un robot comercial soportado completamente en el simulador. Incluye revisar los lenguaje de descripción URDF y SDF para construir mundos y modelos, y también cómo construir plugins para Gazebo. Posteriormente, utilizar dicho conocimiento para crear el mundo simulado para este ejercicio. 
+    \item Descubrir y profundizar en el entorno de desarrollo software ROS, nuevamente a través de los tutoriales oficiales. Entre las acciones más importantes están construir espacios de trabajo, entender qué es un nodo ROS, como funciona ROS topics o aprender a generar ficheros \textit{roslaunch}.
     \item Comenzar a trabajar con MoveIt! a través de los tutoriales oficiales para ROS Kinetic, inicialmente para el robot PR2 y recientemente migrados a Panda. Algunas de las tareas clave han sido aprender a configurar robots, planificar y ejecutar movimientos, evitar obstáculos, añadir restricciones de planificación o utilizar correctamente el visualizador RVIZ. 
-    \item Utilizar los conocimientos adquiridos para resolver los problemas necesarios y desarrollar una solución a la práctica de robótica escogida, ofreciendo una plantilla al usuario final y un resultado satisfactorio. 
+    \item Utilizar los conocimientos adquiridos para ofrecer una plantilla de código Python que abstraiga al usuario final de la complejidad de MoveIt! y OpenCV, y permita completar una práctica de planificación y ejecución de trayectorias con un brazo robótico en un entorno simulado. 
+    \item Aplicar los conceptos previos para resolver los problemas necesarios y programar una solución de referencia para la práctica de robótica escogida.
+    
 \end{itemize}
 
-\chapter{Infraestructura}
-En este capítulo se detalla el software necesario para el desarrollo de las aplicaciones construidas. Desde ROS Kinetic y JdeRobot como \textit{middleware}s robóticos, pasando por la herramienta MoveIt! para facilitar el trabajo con robots(PR2) hasta el simulador Gazebo. Todo ello corriendo en el sistema operativo Ubuntu 16.04 y desarrollado en Python y C++.  Las comunicaciones entre los distintos componentes utilizan el motor de comunicaciones ICE además de ROS topics. 
-\section{PR2}
-El robot sobre el que se han desarrollado las aplicaciones es el PR2 de Willow Garage, empresa especializada en robótica responsable también del software ROS y otras herramientas open-source. Se compone de dos brazos(derecho e izquierdo)capaces de generar un amplio abanico de oportunidades de movimiento que no serían posibles con un único brazo, y que terminan en una pinza o 'gripper' que permite agarrar objetos. El nombre viene de Personal Robot 2, haciendo referencia a la idea de que fuera un asistente en casa y no un robot industrial como la mayoría de los comercializados hasta el momento.
+\chapter{Infraestructura utilizada}
+En este capítulo se detalla el software que se ha empleado para el desarrollo del TFG. Desde ROS Kinetic y JdeRobot como \textit{middleware}s robóticos, pasando por la herramienta MoveIt! para facilitar el trabajo con robots hasta llegar al simulador Gazebo. Todo ello corriendo en el sistema operativo Ubuntu 16.04 y desarrollado en Python.  Las comunicaciones entre los distintos componentes utilizan principalmente ROS topics. 
+
+\section{Robot PR2}
+El robot sobre el que se ha desarrollado el software es el modelo PR2 \cite{pr2} de la empresa Willow Garage, especializada en robótica y responsable en su día también del software ROS y otras herramientas open-source. El nombre viene de Personal Robot 2, haciendo referencia a la idea de que fuera un asistente en casa y no un robot industrial como la mayoría de los comercializados hasta el momento de su lanzamiento. 
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=12cm]{Figs/PR2_image.jpg}
+\par
+\caption{\label{fig:pr2}Imagen de un robot PR2 real}
+\end{figure}
+
+Se compone de dos brazos (derecho e izquierdo) capaces de generar un amplio abanico de oportunidades de movimiento que no serían posibles con un único brazo, y que terminan en una pinza o 'gripper' que permite agarrar objetos.
 Su diseño modular permite integrarlo con otros grippers, brazos o sensores.
+
 \begin{figure}[hbt!]
 \centering
 \includegraphics[width=12cm]{Figs/PR2_structure.png}
 \par
 \caption{\label{fig:pr2Structure}Estructura del robot PR2}
 \end{figure}
+
 Su muñeca tiene dos grados de movimiento, que se suman a la libertad que aportan las articulaciones del hombro y el codo para permitir prácticamente cualquier movimiento necesario para una labor doméstica.
+
 Además de su estructura, una característica fundamental del robot PR2 son las cámaras y láseres que permiten conocer el entorno y actuar según lo que percibe: detectar objetos, saber a qué distancia se encuentran e identificar zonas objetivo permiten llevar a cabo acciones como abrir una puerta o llevar objetos de un lugar a otro.
-\subsection{Microsoft Kinect}
-La cámara Kinect permite conocer el entorno a través de imágenes procesadas en tiempo real. 
-Contiene un sensor de color(RGB) y uno de profundidad, y se sitúa en la parte superior del robot. 
+
+\subsection{Cámara Microsoft Kinect}
+La cámara Kinect, que ha sido incorporada al PR2 canónico para poder obtener imágenes desde la perspectiva del robot, permite conocer el entorno a través de imágenes procesadas en tiempo real. 
+Contiene un sensor de color RGB y uno de profundidad, y se sitúa en la parte superior del robot. 
+
+Es propiedad de Microsoft, y fue lanzada originalmente en el año 2010 con el objetivo de ofrecer nuevas posibilidades en su consola Xbox, aunque fue perdiendo protagonismo con el paso de los años. Más tarde se comercializó también para ordenadores, dando el salto así a proyectos de índole científica que se sirven de su detección de movimiento y reconocimiento por voz. 
 
 \begin{figure}[hbt!]
 \centering
 \includegraphics[width=12cm]{Figs/kinect.jpg}
 \par
-\caption{\label{fig:kinect}Cámara Kinect integrado sobre la cabeza del robot PR2}
+\caption{\label{fig:kinect}Apariencia de una cámara Kinect de Microsoft}
 \end{figure}
 
+\section{Simulador Gazebo}
+Este simulador \textit{open source} nació en el año 2002 en la Universidad del Sur de California (USC) como proyecto entre un profesor y uno de sus estudiantes. El objetivo era poder trabajar con robots bajo condiciones de alta fidelidad, pensando principalmente en entornos exteriores. Se comenzó a integrar con ROS en 2009 y dos años después la citada Willow Garage comenzó a financiar el desarrollo para este software, del que se hizo cargo la Open Source Robotics Foundation (OSRF).
+Gazebo \cite{gazebo} fue adaptado para participar en la prestigiosa DARPA Robotics Challenge (DRC) en el año 2013. Hay una comunidad activa detrás del proyecto que permite introducir mejoras, resolver bugs y consultar dudas técnicas.
 
-\section{Gazebo}
-Este simulador open source nació en el año 2002 en la Universidad del Sur de California(USC) como proyecto entre un profesor y uno de sus estudiantes. El objetivo era poder trabajar con robots bajo condiciones de alta fidelidad, pensando principalmente en entornos exteriores. Se comenzó a integrar con ROS en 2009 y dos años después la citada Willow Garage comenzó a financiar el desarrollo para este software, del que se hizo cargo la Open Source Robotics Foundation(OSRF).
-Gazebo fue adaptado para participar en la prestigiosa DARPA Robotics Challenge (DRC) en el año 2013. Hay una comunidad activa detrás del proyecto que permite introducir mejoras, resolver bugs y consultar dudas técnicas.
-
-Como simulador de robótica, lo que ofrece es crear aplicaciones para robots sin necesidad de depender de la máquina física. Así, las aplicaciones creadas para un modelo concreto podrán utilizarse posteriormente en el mundo real sin necesidad de realizar modificaciones, disminuyendo tanto los costes tanto económicos como derivados de la peligrosidad de las pruebas en fase de desarrollo.
+Como simulador de robótica de referencia para esta práctica y los desarrollos sobre ROS en general, permite crear aplicaciones para robots sin necesidad de depender de la máquina física. Así, las aplicaciones creadas para un modelo concreto podrán utilizarse posteriormente en el mundo real sin  realizar muchas modificaciones, disminuyendo tanto los costes tanto económicos como derivados de la peligrosidad de las pruebas en fase de desarrollo.
 Ofrece visualización 3D y un potente motor de físicas para, en el caso de un brazo robótico, poder determinar parámetros como fricción, rango de movimiento, colisiones etc.
+
 \begin{figure}[hbt!]
 \centering
-\includegraphics[width=12cm]{Figs/GazeboWorld_PR2.png}
+\includegraphics[width=12cm]{Figs/gazebo_example.jpg}
 \par
-\caption{\label{fig:gazeboExample}Mundo sencillo en Gazebo con un robot PR2, una mesa, y un objeto}
+\caption{\label{fig:gazeboExample}Mundo Gazebo que simula un entorno industrial}
 \end{figure}
-La simulación nace a partir de un fichero launch que arranca Gazebo. El entorno de la simulación está compuesto por un world que contiene diferentes models. Estos modelos están definidos en un fichero con formato SDF con los siguientes componentes principales:
+
+La simulación nace a partir de un fichero \textit{.launch} que arranca Gazebo. El entorno de la simulación está compuesto por un mundo que contiene diferentes modelos. Estos modelos están definidos en un fichero con formato SDF con los siguientes componentes principales:
+
 \begin{itemize}
-\item Links: contiene las propiedades físicas de un trozo del modelo, incluyendo algunas de visualización y colisión, sensores, inercias o iluminación.
-\item Joints: conexión entre dos links.
-\item Plugins: librería externa que controla un modelo. 
+\item \textit{Links}: contiene las propiedades físicas de un trozo del modelo, incluyendo algunas de visualización y colisión, sensores, inercias o iluminación.
+\item \textit{Joints}: conexión entre dos links.
+\item \textit{Plugins}: librería externa que controla un modelo. 
 \end{itemize}
+
 La versión utilizada para este proyecto es Gazebo7.
 
-\section{JdeRobot}
-Este software open source permite desarrollar aplicaciones en el campo de la Robótica a partir de código C++, Python o JavaScript. La compatibilidad con ROS, principalmente con la versión Kinetic es una de las grandes ventajas de esta herramienta.  Los diferentes nodos o componentes se comunican a través del framework ICE(Internet Communications Engine) o de mensajes ROS. Ambas opciones permiten realizar dichas comunicaciones de forma agnóstica al lenguaje en el que están desarrollados los componentes.  
-De esta estructura parte JdeRobot-Academy, una iniciativa para el aprendizaje en Robótica y Visión Computacional que incluye múltiples ejercicios para que los estudiantes puedan entender y añadir su propio código. JdeRobot  contiene una amplia variedad de componentes y librerías que pueden ser reutilizados por la comunidad de desarrolladores. 
-La última versión estable es la 5.6.4, lanzada en mayo de 2018. Uno de los últimos hitos es su participación en el Google Summer of Code 2018. 
+\section{Middleware robótico ROS Kinetic}
+ROS es un entorno para el desarrollo de software para robots. Nació en 2007 en el Laboratorio de Inteligencia Artificial de Standford. La arquitectura de ROS (Robot Operating System) se basa en nodos que se comunican a través de mensajes, lo que permite obtener grafos fácilmente. La práctica con un brazo robótico desarrollada tendrá como eje un nodo ROS que se comunicará con los drivers del PR2 en Gazebo y con las librerías de manejo de imágenes y planificación. 
 
-\section{ROS Kinetic}
-Framework para el desarrollo de software para robots. Nació en 2007 en el Laboratorio de Inteligencia Artificial de Standford. La arquitectura de ROS(Robot Operating System) se basa en nodos que se comunican a través de mensajes, lo que nos permite obtener grafos fácilmente.
-Es un sistema de código abierto que encarga de mantener la OSRF(Open Source Robotics Foundation). Aporta al usuario herramientas como por ejemplo planificación de movimiento(MoveIt) o reconocimiento del entorno y visualización (Rviz), además de soporte para un amplio abanico de Robots. 
+Es un sistema de código abierto que encarga de mantener la OSRF (Open Source Robotics Foundation). Aporta al usuario herramientas como por ejemplo planificación de movimiento (MoveIt) o reconocimiento del entorno y visualización (Rviz), además de soporte para un amplio abanico de Robots. 
+
 La versión Kinetic fue lanzada en mayo de 2016, enfocada al uso desde Ubuntu 16.04. La versión Gazebo7 es la recomendada en ROS Kinetic para este simulador. 
--Estructura y comunicaciones
-Un paquete de ROS agrupa varios programas o nodos con funcionalidades similares. Estos nodos se comunican  a través de mensajes, llamados ROS Topics, que les permiten interactuar entre sí. 
-ROS Core es la herramienta encargada de arrancar el nodo máster y gestionar todas las comunicaciones, por lo que es la primera que debe ser arrancada. Es lanzado automáticamente con los ficheros .launch, que serán muy habituales en el desarrollo. 
+
+Un paquete de ROS agrupa varios programas o nodos con funcionalidades similares. Estos nodos se comunican  a través de mensajes, llamados \textit{ROS Topics}, que les permiten interactuar entre sí, y pueden estar programados en distintos lenguajes como Python y C++.
+ROS Core es la herramienta encargada de arrancar el nodo máster y gestionar todas las comunicaciones, por lo que es la primera que debe ser arrancada. 
+
+Un nodo ROS se puede lanzar automáticamente a través de  ficheros \textit{.launch}, que serán muy habituales en el desarrollo. 
 \begin{lstlisting}
 ~$ roscore
 \end{lstlisting}
@@ -446,7 +467,7 @@ Para ejecutar un nodo, necesitaremos el paquete y el nombre del nodo:
 ~$ rosrun turtlesim turtlesim_node
 \end{lstlisting}
 
-Una vez lanzado el nodo, podemos publicar topics de un tipo concreto que el nodo comprenda, consiguiendo así que realice una acción determinada. Estas comunicaciones son la base del desarrollo con robots en ROS. 
+Una vez lanzado el nodo, podemos publicar \textit{topics} de un tipo concreto que el nodo comprenda, consiguiendo así que realice una acción determinada. Estas comunicaciones son la base del desarrollo con robots en ROS. 
 \begin{lstlisting}
 ~$ rostopic pub -1 /turtle1/cmd_vel geometry_msgs/Twist -- '[2.0, 0.0, 0.0]' '[0.0, 0.0, 1.8]'
 \end{lstlisting}
@@ -469,56 +490,57 @@ Podemos ver en cualquier momento los nodos o topics disponibles con los siguient
 ~$ rostopic list
 \end{lstlisting}
 
-\section{ICE}
-Se trata de un framework RPC(Remote Procedure Call) compatible con lenguajes como C++, C\#, Java, JavaScript o Python. Nace a partir de un modelo cliente-servidor con el objetivo de permitir la comunicación entre distintos lenguajes y sistemas operativos. Esta abstracción ofrece al desarrollador la capacidad de despreocuparse por cómo se gestionan las comunicaciones entre los diferentes módulos para así enfocarse en el problema a resolver. Permite comunicaciones bidireccionales, tanto síncronas como asíncronas. 
-
-Fue diseñado para aplicaciones que requieren un performance y escalabilidad exigentes, minimizando el consumo de CPU y ancho de banda. IceSSL permite añadir seguridad a las comunicaciones, a través de autenticación y encriptación de los datos que viajan en las llamadas. 
-
-\section{C++}
+\section{Lenguaje de programación C++}
 Este lenguaje de programación fue creado por Bjarne Stroustrup en 1979, que lo bautizó en sus inicios como ‘C con clases’. No en vano tiene una sintaxis similar a la de C, manteniendo el vínculo con el lenguaje del que proviene y añadiendo mecanismos de programación orientada a objetos a su predecesor. Su nombre además hace referencia a ese C incrementado, mejorado. 
-Es un lenguaje fuertemente tipado, combinado y portátil. Se rige por un estándar de ISO(International Organization for Standardization) cuya última versión es C++17, lanzada ese mismo año. 
+Es un lenguaje fuertemente tipado, combinado y portátil. Se rige por un estándar de ISO (International Organization for Standardization) cuya última versión es C++17, lanzada ese mismo año. 
 
 El hecho de ser un lenguaje con un grado de complejidad elevado supone una gran versatilidad y potencia, pero también una curva de aprendizaje elevada para dominarlo.
 Algunos IDEs recomendados para trabajar con C++ son VisualStudio y Code:: Blocks. 
-Como curiosidad, se trata del tercer lenguaje de programación más popular en 2018 según el conocido ranking de TIOBE, sólo por detrás de Java y C. Alcanzó su máximo de popularidad 2003 según los datos de esta empresa de software. (https://www.tiobe.com/tiobe-index/)
+Como curiosidad, se trata del tercer lenguaje de programación más popular hoy en día según el conocido ranking de TIOBE\cite{tiobe}, sólo por detrás de Java y C. Alcanzó su máximo de popularidad 2003 según los datos de esta empresa de software. 
 
-\section{Python}
+\section{Lenguaje de programación Python}
 Fue creado en los años 80 por Guido van Rossum. Es un lenguaje de programación interpretado, que utiliza tipado dinámico. Su sintaxis está enfocada a ser fácilmente legible, lo que hace que tenga una curva de aprendizaje suave en relación con otros lenguajes como Java o el propio C. Soporta programación orientada a objetos y es multiplataforma.
 
 Una característica interesante es que puede extenderse con módulos de C o C++.
 Según el mencionado ranking TIOBE, Python es el cuarto lenguaje de programación en popularidad llegando al máximo nivel en 2011. 
 
-Se ha utilizado la versión 2.7.12 debido principalmente a su compatibilidad con ROS Kinetic. En este lenguaje se han desarrollado las aplicaciones de planificación de movimientos y pick\&place. 
+Se ha utilizado la versión 2.7.12 debido principalmente a su compatibilidad con ROS Kinetic. En este lenguaje se han desarrollado la plantilla y la solución de referencia para la aplicación de planificación de movimientos 
 
-\section{OpenCV}
-Librería de código abierto enfocada a proyectos de visión artificial, con interfaces disponibles para varios lenguajes de programación(C++, Python, Java). 
-Open Source Computer Vision Library es muy utlizada, con un número de descargas de alrededor de 15 millones y una comunidad de 47000 seguidores.  
-Su integración en el proyecto permite aprovechar, en un entorno robótico, toda la potencia del análisis de imágenes. 
+\section{Biblioteca de visión OpenCV}
+Es una librería de código abierto enfocada a proyectos de visión artificial, con interfaces disponibles para varios lenguajes de programación(C++, Python, Java, MATLAB). Open Source Computer Vision Library \cite{opencv} es muy utilizada, con un número de descargas de alrededor de 15 millones y una comunidad de 47000 seguidores. Este dato está potenciado por el hecho de ser multiplataforma, soportando sistemas Windows, Linux, MacOS, Android e iOS. 
+Algunos ejemplos de uso de la librería son compañías de la envergadura e influencia de Google, Yahoo, Microsoft, Intel, IBM, Sony, Honda o Toyota.
 
-\section{MoveIt!: Motion Planning Framework}
+Los algoritmos que contiene están desarrollados de forma nativa en C++ debido a su mayor rendimiento en comparación con los demás lenguajes, que utilizan interfaces para acceder a toda la funcionalidad disponible. 
+Se utiliza desde Python a través del paquete cv2, que internamente utiliza la librería Numpy, altamente optimizada e indicada para el cálculo científico y las operaciones matemáticas con matrices. 
+
+Su integración en el proyecto permite aprovechar toda la potencia del análisis de imágenes en un entorno robótico para, en este caso, obtener imágenes de lo que observa el robot y poder detectar objetos de color dinámicamente. Para ello se ha empleado la versión 3.3.1.
+
+\section{Entorno de planificación de movimientos MoveIt!}
 MoveIt! nació en octubre del año 2011 con la idea de agrupar todos los avances relacionados con planificación de movimientos, manipulación, percepción 3D, cinemática, control y navegación en una única herramienta. Actualmente es el software open-source más utilizado para manipulación con robots, con más de 65 autómatas soportados. 
-Tiene un nodo principal llamado move\_group que actúa como integrador, permitiendo a todos los componentes comunicarse entre sí realizando las acciones soportadas. 
-Se puede acceder a move\_group por tres vías: C++, Python y RVIZ.
+
+Tiene un nodo principal llamado \textit{move\_group } que actúa como integrador, permitiendo a todos los componentes comunicarse entre sí realizando las acciones soportadas. 
+Se puede acceder a \textit{move\_group } por tres vías: C++, Python y RVIZ.
 \begin{figure}[hbt!]
 \centering
 \includegraphics[width=12cm]{Figs/moveGroup.png}
 \par
-\caption{\label{fig:moveGroup}Resumen esquematizado de las posibles interacciones que ofrece move\_group}
+\caption{\label{fig:moveGroup}Resumen esquematizado de las posibles interacciones que ofrece \textit{move\_group}}
 \end{figure}
-Como se puede ver en la figura, move\_group necesita varios parámetros de entrada:
+Como se puede ver en la [Figura \ref{fig:moveGroup}], \textit{move\_group } necesita varios parámetros de entrada:
 \begin{itemize}
 \item URDF(Universal Robot Description Format): Es el formato que utiliza ROS para la descripción del robot. Se ha utilizado el del paquete ‘pr2\_description’, correspondiente al autómata utilizado.
 \item SRDF(Semantic Robot Description Format) complementa al URDF, añadiendo más información como grupos de joints, configuraciones por defecto para el robot o chequeo de colisiones. Para construir este fichero, se recomienda utilizar el MoveIt! Setup Assistant. Esta herramienta permite configurar cualquier robot para ser utilizado en MoveIt! A través de una interfaz gráfica que simplifica el trabajo. 
 \item MoveIt! Configuration: Incluye otros ficheros de configuración específicos de MoveIt!, normalmente generados también a través del Setup Assistant. Contienen información necesaria para planificación de movimientos, cinemática o percepción del entorno.
 \end{itemize}
-Las principales interfaces de MoveIt! Permiten acceder a las diferentes funcionalidades a través de código C++. Sin embargo, existe un paquete llamado moveit\_python que permite acceder a las principales interfaces de MoveIt! utilizando Python:
+Las principales interfaces de MoveIt! permiten acceder a las diferentes funcionalidades a través de código C++. Sin embargo, existe un paquete llamado \textit{moveit\_python} que permite acceder a las principales interfaces de MoveIt! utilizando Python:
 \begin{itemize}
-\item MoveGroupInterface: Utilizada para acceder a move\_group y mover el brazo. 
+\item MoveGroupInterface: Utilizada para acceder a \textit{move\_group } y mover el brazo. 
 \item PlanningSceneInterface: Utilizada para añadir o eliminar objetos al entorno y cambiar su apariencia, ya sean conectados o de colisión. 
-\item PickPlaceInterface: Utilizada para realizar acciones de pick\&place.
 \end{itemize}
 
-Con el objetivo de conseguir la integración de MoveIt! con Gazebo, y poder así enviar los movimientos al robot real(o simulado), debemos configurar correctamente los controladores. Para ello necesitaremos dos ficheros clave: controllers.yaml y joint\_names.yaml.  En ellos se especifican el tipo de mensajes que el robot recibe y las joints que controla.  
+Con el objetivo de conseguir la integración de MoveIt! con Gazebo, y poder así enviar los movimientos al robot real o simulado, debemos configurar correctamente los controladores. Para ello necesitaremos dos ficheros clave: \textit{controllers.yaml} y \textit{joint\_names.yaml}.  En ellos se especifican el tipo de mensajes que el robot recibe y las articulaciones que controla.  
+
+Al tratarse de la principal herramienta utilizada para completar el ejercicio, su funcionamiento y la manera en la que se ha empleado se detallarán en los siguientes capítulos.
 
 \chapter{Ejercicio de planificación de trayectorias con brazo robótico}
 En este capítulo se describirán en detalle tanto el objetivo como el desarrollo técnico de la práctica "Movimiento planificado de un brazo robótico" \ para el entorno Robotics-Academy. 
