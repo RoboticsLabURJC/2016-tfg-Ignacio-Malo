@@ -739,7 +739,6 @@ El interfaz de programación accesible desde el fichero template.py ofrece funci
     \end{itemize}
 \end{itemize}
 
-\vspace{20pt}
 \begin{algorithm}[htb!]
 	\begin{lstlisting}[breaklines=true,language=python]    
 def image_callback(msg):
@@ -792,10 +791,10 @@ La resolución del problema a resolver en esta práctica ha supuesto en primer l
 
 \begin{itemize}
     \item Fase 1. El comienzo del ejercicio consiste en lograr que el robot PR2 modifique su posición original y mueva su cabeza hacia la derecha, de manera que pueda observar la zona de muestra. Por simplicidad y velocidad, el movimiento se ejecuta actuando directamente sobre los controladores de la cabeza del robot a través de ROS, con mensajes \textit{PointHeadAction}.
-    \item Fase 2. Una vez la cámara sobre la cabeza del robot apunta al objeto de muestra, se debe aplicar el procesamiento de imágenes para identificar que lo que hay es realmente un objeto, y su color. Para ello se utiliza la librería OpenCV, debido a su potencia y compatibilidad con ROS. 
+    \item Fase 2. Una vez la cámara sobre la cabeza del robot apunta al objeto de muestra, se debe aplicar el procesamiento de imágenes para identificar que lo que hay allí es realmente un objeto, y determinar su color. Para ello se utiliza la librería OpenCV, debido a su potencia y compatibilidad con ROS. 
     \item Fase 3. Se trata de la fase crítica de esta solución de referencia. El robot debe planificar, a través de MoveIt!, una trayectoria con su brazo izquierdo que supere los obstáculos necesarios para situarse frente al objeto cuyo color corresponda con el de muestra. Debe ser lo suficientemente preciso para que la siguiente fase no se vea afectada. 
     \item Fase 4. Ejecución del movimiento planificado en la fase anterior. Se observa en el simulador como el brazo llega hasta el punto deseado. 
-    \item Fase 5. Planificar y ejecutar un movimiento simple de derribo, que envía la mano del robot unos centímetros hacia delante para golpear el objeto y hacerlo caer. 
+    \item Fase 5. Planificar y ejecutar un movimiento de derribo, que envía la pinza del robot unos centímetros hacia delante para golpear el objeto y hacerlo caer. 
 \end{itemize}
 
 
@@ -813,23 +812,28 @@ Para obtener la información de imagen, se utilizan ROS Topics. El \textit{image
 \subsection{Transformación a CVMat de OpenCV y al espacio HSV}
 
 Para realizar operaciones con imágenes en OpenCV, es necesario el llamado cv\_bridge. Este paquete permite transformar las imágenes del mensaje de ROS a una de tipo cv::Mat, que en código Python se puede realizar de la siguiente manera: 
-	\begin{lstlisting}[frame=single]    
-    cv2_img = bridge.imgmsg_to_cv2(msg, "bgr8")
-	\end{lstlisting}
-Una vez tenemos nuestra imagen lista para trabajar con OpenCV, se realiza una conversión al espacio de color HSV, utilizando la función COLOR\_BGR2HSV. Este espacio de color se caracteriza por aportar información sobre matiz de color, algo clave para diferenciar de una manera más precisa los diferentes colores, abstrayéndonos de otros parámetros menos intuitivos y determinando correctamente el color del objeto observado por el robot. 
-	\begin{lstlisting}[frame=single] 
-    color_HSV = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2HSV)
-	\end{lstlisting}
+    
+\ \ \ \ \ cv2\_img = bridge.imgmsg\_to\_cv2(msg, "bgr8")
+
+Una vez tenemos nuestra imagen lista para trabajar con OpenCV, se realiza una conversión al espacio de color HSV, utilizando la función COLOR\_BGR2HSV:
+
+\ \ \ \ \ color\_HSV = cv2.cvtColor(cv2\_img, cv2.COLOR\_BGR2HSV)
+
+Este espacio de color se caracteriza por aportar información sobre matiz de color, algo clave para diferenciar de una manera más precisa los diferentes colores, abstrayéndonos de otros parámetros menos intuitivos y determinando correctamente el color del objeto observado por el robot. 
+
+
+
 \subsubsection{Filtrado por colores}
 %pending: figuras
 Como el objetivo final relativo al tratamiento de imágenes es diferenciar entre los colores rojo, verde y azul, son necesarias tres máscaras de color que permitan realizar un filtrado de la información de color según su matiz, saturación y brillo, y caracterizar así lo que hay frente a la cámara. 
 
 Una vez definidos los umbrales mínimos y máximos para cada uno de los colores a partir de valores del espacio HSV \cite{colores} \cite{py_colors}, buscaremos objetos a partir de los contornos encontrados y su área. Si la imagen detecta algún conjunto de puntos conectados de un determinado color, y además esos puntos tienen un área considerable, el robot detecta ese objeto. De esta manera evitamos falsos positivos debidos a ruido en la imagen, consiguiendo un comportamiento robusto en un entorno controlado. 
 
-Tras aplicar las máscaras, se obtiene una imagen en blanco y negro donde el negro representa los píxeles que no están entre los máximos y mínimos definidos, y el blanco los que sí. En este punto, es necesario un procedimiento para diferenciar entre objetos reales y píxeles independientes que han pasado el filtro pero no deberían ser considerados un objeto. Para ello se utilizan las funciones de OpenCV \textit{findContours} y \textit{contourArea}. 
+Tras aplicar las máscaras se obtiene una imagen en blanco y negro, donde el negro representa los píxeles que no están entre los máximos y mínimos definidos, y el blanco los que sí. En este punto, es necesario un procedimiento para diferenciar entre objetos reales y píxeles independientes que han pasado el filtro pero no deberían ser considerados un objeto. Para ello se utilizan las funciones de OpenCV \textit{findContours} y \textit{contourArea}. 
 
-La primera obtiene los grupos de píxeles contiguos existentes tras aplicar la máscara, y la segunda es capaz de calcular el área de cada uno de ellos. La solución escogida consiste en obtener el área más grande (ordenando todos los contornos encontrados y escogiendo el primero de la lista) y compararlo con un valor por defecto que garantice resultados correctos en el contexto del ejercicio. Tras experimentar con diferentes valores, se ha establecido en 500 píxeles. La deteccción de un objeto azul en Python se puede realizar de la siguiente manera: 
-\vspace{20pt}
+La primera obtiene los grupos de píxeles contiguos existentes tras aplicar la máscara, y la segunda es capaz de calcular el área de cada uno de ellos. La solución escogida consiste en obtener el área más grande (ordenando todos los contornos encontrados y escogiendo el primero de la lista) y compararlo con un valor por defecto que garantice resultados correctos en el contexto del ejercicio. Tras experimentar con diferentes valores, se ha establecido en 500 píxeles. Este procedimiento se realizará para los colores rojo, verde y azul (ver Algoritmo \ref{alg:blueobject}).
+
+\begin{algorithm}[htb!]
     \begin{lstlisting}[frame=single] 
     lower_blue = np.array([110,50,50])
     upper_blue = np.array([130,255,255])
@@ -842,8 +846,10 @@ La primera obtiene los grupos de píxeles contiguos existentes tras aplicar la m
         if area > 500:
             print("es un objeto azul")
     \end{lstlisting}
+\caption{\label{alg:blueobject}Detección de un objeto azul utilizando OpenCV desde Python}
+\end{algorithm}
 
-OpenCV ofrece otras funcionalidades como la posibilidad de visualizar o descargar las imágenes de una ejecución, algo de gran utilidad para el programador en la etapa de depuración. 
+OpenCV ofrece además otras funcionalidades como la posibilidad de visualizar o descargar las imágenes de una ejecución, algo de gran utilidad para el programador en la etapa de depuración. 
 Dependiendo del objeto origen detectado, se llamará con los parámetros necesarios a las funciones encargadas de la planificación y ejecución de movimientos.
 
 \section{Planificación de trayectorias con MoveIt}
@@ -852,9 +858,10 @@ Una vez identificado el color del objeto de la zona origen, el robot deberá uti
 La función \textit{move\_to\_goal} es la encargada de realizar la planificación, tomando como parámetro el color detectado.
 Hace uso de la clase \textit{MoveItCommander}, definida en el fichero \textit{move\_group.py}.  
 	
-La trayectoria final se calcula utilizando mensajes de tipo \textit{Pose}, donde se define la posición destino del brazo y la orientación del mismo en los distintos ejes. Este mensaje de MoveIt! es suficiente para lanzar la planificación y posterior ejecución del movimiento de la siguiente manera: 
-\vspace{20pt}
-	\begin{lstlisting}[frame=single] 
+La trayectoria final se calcula utilizando mensajes de tipo \textit{Pose}, donde se define la posición destino del brazo y la orientación del mismo en los distintos ejes. Este mensaje de MoveIt! es suficiente para lanzar la planificación y posterior ejecución del movimiento (ver Algoritmo \ref{alg:pose}).
+
+\begin{algorithm}[htb!]
+    \begin{lstlisting}[frame=single] 
     pose_target = geometry_msgs.msg.Pose()
     pose_target.orientation.w = 1.0
     pose_target.position.x = 0.34 
@@ -870,11 +877,14 @@ La trayectoria final se calcula utilizando mensajes de tipo \textit{Pose}, donde
     group_left.set_pose_target(pose_target)
     plan1 = group_left.plan()
     group_left.execute(plan1)
-	\end{lstlisting}
+    \end{lstlisting}
+\caption{\label{alg:pose}Planificación y ejecución de la primera fase del movimiento}
+\end{algorithm}
 
-Una vez ejecutado el primer movimiento, se vuelve a realizar una planificación para el movimiento de derribo. Se utiliza el mismo mensaje de tipo \textit{Pose}, pero añadiendo 15cm a la posición x (que corresponde a ir hacia delante para el robot). Así se logra situar la mano del robot donde se encontraba el objeto de color, haciéndolo caer. Nótese que en este punto debemos dejar de considerar el objeto destino como colisión, utilizando la interfaz al mundo que ofrece \textit{moveit\_commander}, como se explicará más adelante. El código para realizar la segunda fase del  movimiento es:
-\vspace{20pt}
-	\begin{lstlisting}[frame=single] 
+Una vez ejecutado el primer movimiento, se vuelve a realizar una planificación para el movimiento de derribo. Se utiliza el mismo mensaje de tipo \textit{Pose}, pero añadiendo 15cm a la posición x (que corresponde a ir hacia delante para el robot). Así, el código para el segundo movimiento (ver Algoritmo \ref{alg:derribo}) logra situar la mano del robot donde se encontraba el objeto de color, haciéndolo caer. Nótese que en este punto debemos dejar de considerar el objeto destino como colisión, utilizando la interfaz al mundo que ofrece \textit{moveit\_commander}, como se explicará más adelante. 
+
+\begin{algorithm}[htb!]
+    \begin{lstlisting}[frame=single] 
     if color=='red':
         p.removeCollisionObject("redCylinder")
     elif color =='blue':
@@ -887,11 +897,13 @@ Una vez ejecutado el primer movimiento, se vuelve a realizar una planificación 
     group_left.set_pose_target(pose_target)
     plan2 = group_left.plan()
     group_left.execute(plan2)
-	\end{lstlisting}
+    \end{lstlisting}
+\caption{\label{alg:derribo}Planificación y ejecución del movimiento de derribo}
+\end{algorithm}
 	
-La planificación de trayectorias requiere un fichero de lanzamiento y una serie de controladores para cada una de las articulaciones del brazo. 
+La planificación de trayectorias requiere un fichero de lanzamiento (ver Algoritmo \ref{alg:pr2_planning_execution}) y una serie de controladores para cada una de las articulaciones del brazo. 
 En el fichero de lanzamiento se debe especificar la localización de los paquetes relacionados con planificación, así como los parámetros configurables asociados a cada uno de ellos. 
-\vspace{20pt}
+
 \begin{algorithm}[htb!]
 	\begin{lstlisting}[breaklines=true,language=python]  
 <launch>
@@ -915,6 +927,7 @@ En el fichero de lanzamiento se debe especificar la localización de los paquete
 	\end{lstlisting}
 \caption{\label{alg:pr2_planning_execution}Fichero pr2\_planning\_execution.launch. Es el encargado de inicializar todo lo necesario para poder planificar trayectorias en MoveIt! con el robot PR2.}
 \end{algorithm}
+
 \subsection{moveit\_commander}
 \textit{moveit\_commander} es un módulo que nos permite acceder a las principales funcionalidades de MoveIt! a través de Python. Contiene tres clases llamadas  \textit{MoveGroupCommander}, \textit{PlanningSceneInterface} y \textit{RobotCommander}, que permitirán realizar todas las acciones necesarias para completar el ejercicio de planificación y ejecución de movimientos en un entorno con obstáculos. 
 
@@ -946,8 +959,8 @@ Algunas de las más relevantes para el desarrollo de este ejercicio son:
 
 \subsection{Controladores}
 Para que la planificación y ejecución de los movimientos del robot sean adecuadas, son necesarios unos controladores bien configurados para cada una de las articulaciones del brazo \cite{pr2_controllers}. Son los encargados de procesar la información recibida por los distintos sensores, haciendo las funciones de cerebro del robot y controlando sus mecanismos.
-Para ello se especifican los nombres de cada una de ellas de la misma manera que se configuraron al crear el paquete de MoveIt! del robot PR2, cuyos pasos son intuitivos si seguimos los pasos del \textit{MoveIt! Setup Assistant} desde los tutoriales oficiales. \cite{moveit_tutorials}
-\vspace{20pt}
+Para ello se especifican los nombres de cada una de ellas (ver Algoritmo \ref{alg:pr2_controllers}) de la misma manera que se configuraron al crear el paquete de MoveIt! del robot PR2, cuyos pasos son intuitivos si seguimos los pasos del \textit{MoveIt! Setup Assistant} desde los tutoriales oficiales. \cite{moveit_tutorials}
+
 \begin{algorithm}[htb!]
 	\begin{lstlisting}[breaklines=true,language=python] 
 controller_manager_ns: pr2_controller_manager
@@ -979,6 +992,7 @@ controller_list:
 	\end{lstlisting}
 \caption{\label{alg:pr2_controllers}Fichero controllers.yaml, dónde se definen los controladores que permiten mover cada una de las articulaciones necesarias.}
 \end{algorithm}
+
 \subsection{Planificador y configuración}
 Las posibilidades de configuración que ofrece MoveIt! son ingentes. Entre ellas se encuentran las posibilidades de seleccionar distintos planificadores. Podemos encontrar desde \textit{Open Motion Planning Library} (OMPL), que está completamente soportada e integrada, hasta otras como STOMP, SBL o CHOMP que pese a ofrecer sus ventajas propias en determinados contextos de planificación, no están completamente integradas en la plataforma y dificultan el trabajo de programación. 
 
@@ -1000,8 +1014,6 @@ Para comprender su funcionamiento, es importante introducir el concepto de espac
 
 Aplicado a nuestra práctica, el algoritmo consiste en comenzar a generar de forma simultánea un "árbol"  desde el inicio y el destino del movimiento. El árbol inicio se irá expandiendo por posiciones cercanas aleatorias que cumplan las distintas restricciones programadas, hasta que toque al árbol destino, que sigue el mismo patrón de comportamiento, en un determinado punto. En ese momento, se habrá encontrado una solución para la planificación, es decir, un camino válido entre la posición inicial y la final que debe poder ser ejecutado sin impedimentos (ver Figura \ref{fig:rrtConnect}). Nótese que cuanto más precisos sean los saltos hacia el siguiente punto del árbol, menor será la probabilidad de infringir zonas inválidas del espacio de configuraciones del robot. 
 
-
-
 \begin{figure}[hbt!]
 \centering
 \includegraphics[width=12cm]{Figs/rrtConnect.png}
@@ -1011,24 +1023,20 @@ Aplicado a nuestra práctica, el algoritmo consiste en comenzar a generar de for
 
 \section{Validación experimental}
 Como se ha deslizado en los anteriores capítulos, la ejecución típica \footnote{Vídeo de ejemplo para la ejecución típica de la práctica con un objeto de color azul: https://youtu.be/OU1iNR0tzyA} \footnote{Vídeo de ejemplo para la ejecución típica de la práctica con un objeto de color rojo: https://youtu.be/Np2g\_3XHoH4} de la práctica requiere el lanzamiento de varios ficheros. En primer lugar, se debe ejecutar un comando \textit{source} que permita utilizar los paquetes personalizados por el desarrollador en su espacio de trabajo. Dicho comando podría añadirse al fichero \textit{.bashrc} para que se detecten los paquetes dentro del directorio creado cada vez que se arranque un terminal en Linux. El fragmento a escribir en línea de comandos sería: 
-	\begin{lstlisting}[frame=single]
-source ~/pr2_gazebo_tfg/devel/setup.bash
-    \end{lstlisting}
-    
+
+\$ \ \ \ \ source ~/pr2\_gazebo\_tfg/devel/setup.bash
+
 A continuación se pueden ejecutar, en distintos terminales, los ficheros que cargarán el entorno Gazebo y el entorno de planificación. Posteriormente, se ejecuta la plantilla \textit{template.py} con la solución al ejercicio. Para ello, se requieren los siguientes comandos: 
 \begin{itemize}
     \item Lanzar el mundo gazebo, que incluye el robot PR2 y sus modelos.
-	\begin{lstlisting}[frame=single]
-roslaunch pr2_gazebo tfg_launch.launch
-    \end{lstlisting}
+    
+    \$ \ \ \ \ roslaunch pr2\_gazebo tfg\_launch.launch
     \item Lanzar MoveIt! y las configuraciones de planificación necesarias para el robot PR2.
-	\begin{lstlisting}[frame=single]
-roslaunch pr2_moveit_config pr2_planning_execution_tfg.launch
-    \end{lstlisting}
+    
+    \$ \ \ \ \ roslaunch pr2\_moveit\_config 
     \item Lanzar el script template.py.
-	\begin{lstlisting}[frame=single]
-rosrun moveit_tutorials template.py
-    \end{lstlisting}
+    
+    \$ \ \ \ \ rosrun moveit\_tutorials template.py
 \end{itemize}
 Una vez realizados los pasos anteriores, podremos observar en el simulador Gazebo la ejecución típica de la práctica de planificación y ejecución de trayectorias con MoveIt!, así como las imágenes del proceso descargadas en la máquina local. 
 En primer lugar tiene lugar la fase 1, donde podemos observar al robot PR2 iniciando un movimiento de su cabeza hacia el lado derecho, apuntando la cámara Kinect hacia la zona de muestra (ver Figura \ref{fig:fase1}).
@@ -1095,7 +1103,7 @@ Por último, se puede observar el movimiento de derribo con el extremo del brazo
 \section{Alternativas probadas}
 \subsection{Ajuste del entorno}
 
-Durante el desarrollo de la práctica ha sido necesario realizar pruebas con diferentes distancias entre el robot, los obstáculos, los objetos y las zonas. Todo ello en búsqueda de los límites del robot, una complejidad adecuada para la ruta de planificación entre los obstáculos del mundo (ver Figura \ref{fig:rviz}) o la distancia idónea para que el apartado visual y estético. 
+Durante el desarrollo de la práctica ha sido necesario realizar pruebas con diferentes distancias entre el robot, los obstáculos, los objetos y las zonas. Todo ello en búsqueda de los límites del robot, una complejidad adecuada para la ruta de planificación entre los obstáculos del mundo (ver Figura \ref{fig:rviz}) o la distancia idónea para el apartado visual y estético. 
 
 \begin{figure}[hbt!]
 \centering
@@ -1104,10 +1112,10 @@ Durante el desarrollo de la práctica ha sido necesario realizar pruebas con dif
 \caption{\label{fig:rviz}Situación creada dinámicamente en RVIZ durante las pruebas con obstáculos}
 \end{figure}
 
-Para llevar a cabo este ensayo se ha utilizado el visualizador RVIZ, una herramienta de MoveIt! que permite configurar los elementos del entorno sin necesidad de utilizar el simulador Gazebo, haciendo posible validar planificaciones secuencialmente sin reiniciar ningún proceso. Entre otras tareas permite planificar movimientos con las diferentes articulaciones del robot, visualizar información de los sensores a través d eun determinado topic, añadir objetos ficticios, realizar pruebas con diferentes configuraciones del planificador u obtener coordenadas en el espacio. 
+Para llevar a cabo este ensayo se ha utilizado el visualizador RVIZ, una herramienta de MoveIt! que permite configurar los elementos del entorno sin necesidad de utilizar el simulador Gazebo, haciendo posible validar planificaciones secuencialmente sin reiniciar ningún proceso. Entre otras tareas permite planificar movimientos con las diferentes articulaciones del robot, visualizar información de los sensores a través de un determinado topic, añadir objetos ficticios, realizar pruebas con diferentes configuraciones del planificador u obtener coordenadas en el espacio. 
 
-Se ha generado un fichero llamado textit{pr2\_planning\_execution\_tfg\_rviz.launch} que permite lanzar el entorno de planificación incluyendo el visualizador, de manera que el desarrollador pueda probar nuevos escenarios o depurar sus cambios de forma sencilla. Para ello, es necesario añadir algunas líneas al fichero \textit{.launch} \cite{planning_rviz}.  %pending: renombrar dicho fichero en el repo
-\vspace{20pt}
+Se ha generado un fichero llamado textit{pr2\_planning\_execution\_tfg\_rviz.launch} que permite lanzar el entorno de planificación incluyendo el visualizador, de manera que el desarrollador pueda probar nuevos escenarios o depurar sus cambios de forma sencilla. Para ello, es necesario añadir algunas líneas al fichero \textit{.launch} (ver Algoritmo \ref{alg:planning_rviz}).  %pending: renombrar dicho fichero en el repo
+
 \begin{algorithm}[htb!]
 	\begin{lstlisting}[breaklines=true,language=xml] 
 <include file="$(find pr2_moveit_config)/launch/moveit_rviz.launch">
@@ -1131,6 +1139,53 @@ Entender como se calculan las posibles trayectorias en OMPL implica que el valor
 \end{figure}
 
 Como se puede observar, cuanto más complejo es el escenario, mayor precisión es necesaria para no obtener errores o \textit{warnings} en la planificación que pueden provocar problemas al ejecutar la ruta. En base a los resultados obtenidos, se ha decidido utilizar un valor de 0.001, ya que es el que garantiza un resultado fiable en el escenario final con 2 obstáculos. Por motivos de fiabilidad y optimización, el algoritmo calculará dos trayectorias y elegirá el mejor resultado, como se ha configurado a través del método \textit{set\_num\_planning\_attempts} que ofrece \textit{MoveGroupCommander}. 
+
+\subsection{Otros planificadores}
+
+Aunque RRT Connect es el algoritmo por defecto que utiliza MoveIt!, la interfaz de Python que ofrece permite seleccionar otros planificadores. Se han valorado otras alternativas de OMPL, concretamente algoritmos con diferencias de funcionamiento considerables, como SBL y KPIECE. 
+
+El algoritmo SBL está basado en árboles, creando uno desde el origen y otro desde el destino de manera análoga a RRT Connect. Sin embargo, cada vez que se añade un nodo a los árboles, se tratan de conectar. En ese punto, se valida si la solución obtenida es correcta y en caso negativo, se eliminan esos puntos y la búsqueda continua. Las validaciones adicionales en comparación con RRT Connect penalizan su rendimiento para el problema propuesto en este ejercicio, ya que no obtiene resultados en el tiempo máximo de 40 segundos establecido para la planificación. Aumentando dicho tiempo, se comprueba que sus tiempos son alrededor de 10 veces superiores al planificar RRT Connect con la misma configuración. 
+
+El algoritmo KPIECE realiza una discretización del espacio en diferentes niveles de precisión, utilizando celdas. A través de priorizar los límites no explorados y combinar los resultados de cada nivel, obtiene un camino correcto que une el inicio y el fin de la planificación. Se observan resultados similares a RRT Connect para el caso de estudio, aunque ligeramente superiores en tiempo y con mayor irregularidad. 
+
+\subsection{Restricciones de planificación}
+
+Con el objetivo de respetar el recorrido en forma de cueva para sortear los obstáculos presentes en el mundo creado, son necesarias algunas restricciones de planificación. La interfaz de programación de manejo del robot creada para el ejercicio, ofrece una función llamada \textit{set\_orientation\_constraints} que permite restringir los movimientos de una determinada articulación. 
+
+Las restricciones en esta práctica aseguran que el robot siga la ruta esperada y no tome atajos que no se consideran válidos para el ejercicio, como por ejemplo encoger el brazo y sortear los obstáculos de golpe por el lado en lugar de por encima o por debajo. 
+A través de mensajes de MoveIt! de tipo \textit{OrientationConstraints}, se han definido restricciones de orientación y de giro en los ejes (ver Algoritmo \ref{alg:constraints}). De esta manera el agarre del brazo izquierdo siempre se encuentra orientado hacia delante, y además el giro en la muñeca es limitado lo suficiente para garantizar que se planifica una trayectoria adecuada para los objetivos propuestos. 
+
+\begin{algorithm}[htb!]
+	\begin{lstlisting}[breaklines=true] 
+    ocm = moveit_msgs.msg.OrientationConstraint()
+    ocm.link_name = link
+    ocm.header.frame_id = "base_link"
+    ocm.orientation.w = orientation
+    ocm.absolute_x_axis_tolerance = x_tol
+    ocm.absolute_y_axis_tolerance = y_tol
+    ocm.absolute_z_axis_tolerance = z_tol
+    ocm.weight = 1.0
+    constraints= moveit_msgs.msg.Constraints()
+    constraints.orientation_constraints.append(ocm)
+    group_left.set_path_constraints(constraints)
+	\end{lstlisting}
+\caption{\label{alg:constraints} Establecimiento de restricciones de planificación para uno de los elementos del robot utilizando mensajes de MoveIt!}
+\end{algorithm}
+
+\subsection{Pruebas con el \textit{gripper}}
+
+Una de las alternativas probadas durante el desarrollo de la práctica consiste en utilizar las posibilidades de la clase \textit{MoveGroupCommander} para hacer uso de las funcionalidades de \textit{Pick and Place}. De esta forma, se transportaría un objeto durante la trayectoria desde la zona de muestra hasta una determinada posición en la zona de destino, que sustituiría a la actual zona de derribo.  
+
+Trabajando con los tutoriales oficiales de MoveIt! para ROS Kinetic como referencia, y adaptando los referentes a \textit{Pick and Place} del lenguaje C++ a código Python, se logró utilizar las funciones \textit{pick} y \textit{place}. En el visualizador RVIZ es posible realizar un movimiento que agarre y transporte un objeto adherido a la pinza del robot a un lugar destino (ver Figura \ref{fig:pick}), utilizando mensajes de MoveIt! de tipo \textit{Grasp}. Sin embargo, los problemas llegaron al tratar de llevar el comportamiento al mundo simulado, enfrentando problemas de integración con el \textit{gripper} del robot PR2, cuyos controladores experimentaban problemas de \textit{timeout} al tratar de abrir la pinza. 
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics[width=7cm]{Figs/pick.png}
+\par
+\caption{\label{fig:pick}Objeto adherido al robot en el visualizador RVIZ utilizando las funciones de \textit{Pick and Place} que ofrece la clase \textit{MoveGroupCommander}}
+\end{figure}
+
+Tras realizar consultas sobre el problema a través de los canales oficiales de ROS \footnote{Consulta en la comunidad de ROS: https://answers.ros.org/question/293834/how-to-integrate-pr2-gripper-with-moveit-gazebo/} y MoveIt \footnote{Consulta en los repositorios de MoveIt!: https://github.com/ros-planning/moveit/issues/110}, se concluye que los tutoriales para el robot PR2 necesitan actualizaciones para ROS Kinetic que no se afrontará desde la plataforma. Esto es debido a que los esfuerzos están centrados en adaptar los tutoriales de MoveIt! para ROS Kinetic a un nuevo robot, el Panda de Franka Emika \cite{emika}, que se convirtió en el robot de referencia para los tutoriales de ROS Kinetic en mayo de 2018. 
 
 \chapter{Conclusiones}
 El capítulo final está enfocado a transmitir cuáles han sido los objetivos cumplidos satisfactoriamente, qué ha aportado el camino realizado para lograrlos, y qué líneas de trabajo se podrían seguir para mejorar o aprovechar los resultados de este Trabajo de Fin de Grado.  
