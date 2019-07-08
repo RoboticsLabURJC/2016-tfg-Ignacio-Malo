@@ -164,13 +164,13 @@ EN EL ENTORNO EDUCATIVO ROBOTICS-ACADEMY}{\LARGE\par}
 \chapter*{Resumen}
 El nuevo período de esplendor tecnológico que se está desarrollando en los últimos años, supone un reto para los ingenieros de cada una de las áreas en crecimiento. Una de ellas es la robótica, que se encarga de utilizar la informática, la mecánica y la electrónica para desarrollar máquinas al servicio de las personas. 
 
-Hoy en día encontramos robots tanto a nivel industrial como doméstico, desde fabricación, coches autónomos o aplicaciones médicas hasta aspiradoras inteligentes o drones. A pesar de ello, la demanda de empleo en las próximas décadas no será satisfecha si se mantienen las previsiones sobre estudiantes en materias de perfil tecnológico. Ante esta situación cobra vital importancia la educación, que debe ser de calidad y accesible para garantizar el futuro de los profesionales que diseñan robots. 
+Hoy en día encontramos robots tanto a nivel industrial como doméstico, desde fabricación, coches autónomos o aplicaciones médicas hasta aspiradoras inteligentes o drones. A pesar de ello, la demanda de empleo en las próximas décadas no será satisfecha si se mantienen las previsiones sobre el número de estudiantes en materias de perfil tecnológico. Ante esta situación cobra vital importancia la educación, que debe ser de calidad y accesible para garantizar el futuro de los profesionales que diseñan robots. 
 
 Este proyecto está dirigido a ampliar los recursos de Robotics-Academy, una plataforma que acerca a los estudiantes al software de control de robots a través de prácticas simplificadas, de manera que tomar contacto con la robótica no se convierta en una odisea. Estas prácticas parten de plantillas donde completar la solución a través de código, y permiten resolver algunos problemas típicos de este campo de conocimiento. 
 
-Con este Trabajo de Fin de Grado se ha creado una nueva práctica, utilizando el lenguaje de programación Python, enfocada a conocer la planificación y ejecución de trayectorias con un brazo robótico en un entorno simulado en Gazebo. Para ello, se hace uso de tecnologías extendidas como la librería OpenCV, para el procesado de las imágenes recibidas por el robot, o el \textit{framework} MoveIt!, que ofrece todas las herramientas necesarias para trabajar con robots sobre ROS. El objetivo es conseguir detectar objetos de color, además de planificar y ejecutar movimientos en entornos con obstáculos. 
+Con este Trabajo de Fin de Grado se ha creado una nueva práctica enfocada a conocer la planificación y ejecución de trayectorias con un brazo robótico en un entorno simulado en Gazebo. Para ello, se hace uso de tecnologías extendidas como la librería OpenCV, para el procesado de las imágenes recibidas por el robot, o el \textit{framework} MoveIt!, que ofrece todas las herramientas necesarias para trabajar con robots sobre ROS. El objetivo es conseguir detectar objetos de color, además de planificar y ejecutar movimientos en entornos con obstáculos, utilizando el lenguaje de programación Python. 
 
-Este trabajo permite acceder a los distintos recursos a través de interfaces sencillas para trabajar con imágenes y movimientos, abstrayendo al receptor de la misma de detalles de bajo nivel y configuraciones complejas. La experimentación realizada ha permitido profundizar en la planificación hasta lograr unos resultados estables, que serán presentados a continuación.  
+Este trabajo permite acceder a los distintos recursos a través de interfaces sencillas para trabajar con imágenes y movimientos, abstrayendo al receptor del mismo de detalles de bajo nivel y configuraciones complejas. La experimentación realizada ha permitido profundizar en la planificación hasta lograr unos resultados estables, que serán presentados a continuación.  
 
 \tableofcontents{}
 
@@ -184,26 +184,26 @@ La Real Academia Española define la robótica como la "técnica que aplica la i
 
 El desarrollo de software para robótica exige controlar cada detalle, teniendo en cuenta también el componente ético que requiere el desarrollo de tecnología. Isaac Asimov, uno de los escritores de ciencia ficción más relevantes de nuestra historia, también pasó a formar parte de la historia de la robótica al enunciar sus tres leyes fundamentales, que sin duda seguirán teniéndose muy en cuenta ahora que los robots son una realidad:
 \begin{itemize}
-    \item Un robot no hará daño a un ser humano o, por inacción, permitirá que un ser humano sufra daño
+    \item Un robot no hará daño a un ser humano o, por inacción, permitirá que un ser humano sufra daño.
     \item Un robot debe obedecer las órdenes dadas por los seres humanos excepto si estas órdenes entrasen en conflicto con la 1ª ley.
     \item Un robot debe proteger su propia existencia en la medida en que esta protección no entre en conflicto con la 1ª o la 2ª Ley.
 \end{itemize}
 
 Para entender completamente la importancia del tema expuesto, conviene asimilarlo a sucesos históricos previos. El ser humano, a lo largo de su historia, se ha caracterizado por su afán de superación, y esa necesidad por obtener más es la que le ha llevado a la excelencia en muchos aspectos tecnológicos. 
 
-Si nos remontamos a la segunda mitad del siglo XVIII,  nos encontramos con una serie de cambios en la tecnología, la sociedad y la cultura que propiciaron la Revolución Industrial. Ésta supuso uno de los grandes saltos cualitativos en cuanto al progreso humano, al centrar las actividades de trabajo en procesos que utilizaban máquinas en sustitución de tareas manuales. Ello llevó principalmente a un incremento de la producción, de la mano de una mejora en el transporte a raíz del uso de la máquina de vapor, a costa de algunos conflictos sociales o el inicio del agotamiento de recursos energéticos y el incremento de la contaminación. 
+Si nos remontamos a la segunda mitad del siglo XVIII,  nos encontramos con una serie de cambios en la tecnología, la sociedad y la cultura que propiciaron la Revolución Industrial. Esta supuso uno de los grandes saltos cualitativos en cuanto al progreso humano, al centrar las actividades de trabajo en procesos que utilizaban máquinas en sustitución de tareas manuales. Ello llevó principalmente a un incremento de la producción, de la mano de una mejora en el transporte a raíz del uso de la máquina de vapor, a costa de algunos conflictos sociales o el inicio del agotamiento de recursos energéticos y el incremento de la contaminación. 
 
 A finales del siglo XIX y comienzos del XX, nos encontramos con una serie de descubrimientos y nuevos recursos, como el petróleo o la electricidad, que aceleraron enormemente el crecimiento industrial y permitieron mejorar la calidad del transporte. Estos, juntos a los avances científicos supusieron una mejora de la calidad de vida de las personas.
 
 El siguiente gran salto tecnológico es el más cercano en el tiempo y, sin duda, es el que propicia la posterior aparición de los robots. Los descubrimientos de la segunda mitad del siglo XX en el campo de la electrónica, causaron la explosión de la informática y las telecomunicaciones, desencadenando transformaciones sociales, culturales y económicas tan importantes como las que provocó la llegada de Internet. La concienciación para el uso de las energías renovables o la aparición de nuevas tecnologías de la información y la comunicación son otros aspectos destacables. 
 
-Si se observa el imparable crecimiento del porcentaje de usuarios de Internet en el mundo desde 1990 hasta la actualidad (ver Figura \ref{fig:internetWorldwide}), donde ya es superior al 50\% de los individuos, es fácil hacerse una idea de la influencia que ha alcanzado en todos los niveles de la sociedad. Pero no está todo hecho ya que, como se comenta al inicio del razonamiento, el ser humano quiere, puede, y debe seguir progresando tecnológicamente.  %pending: unificar figuras en todo el doc
+Si se observa el imparable crecimiento del porcentaje de usuarios de Internet en el mundo desde 1990 hasta la actualidad, donde ya es superior al 50\% de los individuos  (ver Figura \ref{fig:internetWorldwide}), es fácil hacerse una idea de la influencia que ha alcanzado en todos los niveles de la sociedad. Pero no está todo hecho ya que, como se comenta al inicio del razonamiento, el ser humano quiere, puede, y debe seguir progresando tecnológicamente.  
 
 \begin{figure}[hbt!]
 \centering
 \includegraphics[width=12cm]{Figs/internetWorldwide.jpg}
 \par
-\caption{\label{fig:internetWorldwide}Predicción del número de usuarios en Internet 2016-2020}
+\caption{\label{fig:internetWorldwide}Predicción del número de usuarios en Internet 2016-2020.}
 \end{figure}
 
 En el Foro Económico Mundial de 2016 
@@ -211,12 +211,12 @@ En el Foro Económico Mundial de 2016
 
 
 \subsection{El sector: presente y futuro}
-Hoy los robots son una realidad. No sólamente son utilizadas por importantes empresas en labores industriales, como Tesla en la fabricación de vehículos o Amazon en la gestión de almacenes. La NASA utiliza robots para sus misiones espaciales, como el Curiosity para la exploración de la superficie de Marte.  En el ámbito militar, el robot TEODOR permite evitar situaciones de alto riesgo para los humanos como la desactivación de explosivos. En la medicina, Da Vinci permite al cirujano operar a través de una consola para mejorar la precisión y reducir riesgos en ciertas operaciones quirúrgicas. Además, han ido adquiriendo importancia gradualmente en los hogares y la vida cotidiana de las personas. Desde robots aspiradores que reconocen el entorno, lo memorizan y limpian la casa periódicamente, hasta los avances que encaminan a los vehículos hacia la conducción autónoma. 
+Hoy los robots son una realidad. No solamente son utilizadas por importantes empresas en labores industriales, como Tesla en la fabricación de vehículos o Amazon en la gestión de almacenes. La NASA utiliza robots para sus misiones espaciales, como el Curiosity para la exploración de la superficie de Marte.  En el ámbito militar, el robot TEODOR permite evitar situaciones de alto riesgo para los humanos como la desactivación de explosivos. En la medicina, Da Vinci permite al cirujano operar a través de una consola para mejorar la precisión y reducir riesgos en ciertas operaciones quirúrgicas. Además, han ido adquiriendo importancia gradualmente en los hogares y la vida cotidiana de las personas. Desde robots aspiradores que reconocen el entorno, lo memorizan y limpian la casa periódicamente, hasta los avances que encaminan a los vehículos hacia la conducción autónoma. 
 
 El mercado de la robótica está llamado a convertirse en uno de los más importantes del presente siglo, alcanzando una valoración estimada superior a los 28 billones de euros en el año 2018 \cite{robotics_market}. En los últimos años ha experimentado un gran crecimiento y se espera que continúe en los próximos años, con una previsión de un 25\% de revalorización para los próximos 5 años. 
 Una posible explicación para este hecho se fundamentaría en la aún reciente tendencia a la automatización de tareas a nivel empresarial, sumado en menor medida a un incremento en la compra de tecnología robótica a nivel usuario.
 
-Ahora bien, ¿cuáles son las razones que explican este crecimiento de la automatización, y hacia dónde nos lleva?. Aunque hay algunas características propias del ser humano, como la creatividad o la impredecibilidad, que son imposibles de reemplazar hasta el momento, algunas de las razones que explican las tendencias comentadas son:
+Ahora bien, ¿cuáles son las razones que explican este crecimiento de la automatización, y hacia dónde nos lleva?  Aunque hay algunas características propias del ser humano, como la creatividad o la impredecibilidad, que son imposibles de reemplazar hasta el momento, algunas de las razones que explican las tendencias comentadas son:
 \begin{itemize}
 \item Aumento de la eficiencia 
 \item Productividad sin descanso
@@ -225,7 +225,7 @@ Ahora bien, ¿cuáles son las razones que explican este crecimiento de la automa
 \item Más precisión
 \item Control de errores
 \end{itemize}
-Por otro lado, uno de los factores clave para comprender el futuro del sector es el impacto que puede tener en el mercado laboral tal y como lo conocemos actualmente. Algunos estudios \cite{automation_forecast} \cite{mckinsey_automation} apuntan que dentro de 35 años, más del 50\% de los trabajos estarán automatizados, con el impacto que eso conlleva para los diferentes trabajadores, que podrían perder puestos de trabajo en favor de profesionales del software que serán necesarios para afrontar el proceso de transición, y posterior mantenimiento de esta digitalización. 
+Por otro lado, uno de los factores clave para comprender el futuro del sector es el impacto que puede tener en el mercado laboral tal y como lo conocemos actualmente. Algunos estudios \cite{automation_forecast} \cite{mckinsey_automation} apuntan que dentro de 35 años más del 50\% de los trabajos estarán automatizados, con el impacto que eso conlleva para los diferentes trabajadores, que podrían perder puestos de trabajo en favor de profesionales del software que serán necesarios para afrontar el proceso de transición, y posterior mantenimiento, de esta digitalización. 
 
 Los perfiles STEM (carreras relacionadas con ciencia, tecnología, ingeniería y matemáticas) van a ser cada vez más demandados en los próximos años, con el hándicap de que el número de nuevos profesionales relacionados con estas áreas disminuye cada año. 
 Si vemos los datos de empleos relacionados con alta tecnología (ver Figura \ref{fig:empleoEur}) en nuestro país, y los comparamos con el resto de países europeos, observamos que el porcentaje de empleos de este tipo es muy pobre en la gran mayoría de regiones españolas, a excepción de Madrid y, en menor medida, la zona noreste de la península. 
@@ -234,7 +234,7 @@ Si vemos los datos de empleos relacionados con alta tecnología (ver Figura \ref
 \centering
 \includegraphics[width=12cm]{Figs/empleosTecEur.jpg}
 \par
-\caption{\label{fig:empleoEur}Empleos de alta tecnología en Europa}
+\caption{\label{fig:empleoEur}Empleos de alta tecnología en Europa.}
 \end{figure}
 
 \section{Software en robótica}
@@ -243,22 +243,22 @@ Lograr el comportamiento esperado en un sistema robótico requiere conocer las d
 
 En primer lugar, es necesario poder obtener información del entorno a través de la medición de diversas magnitudes físicas. Los sensores deben estar diseñados para obtener las más adecuadas para la tarea a realizar. Las cámaras, sensores láser, sensores de temperatura, de posición o de aceleración son algunos ejemplos. 
 
-La percepción de lo que hay alrededor requiere procesar esos datos mediante un computador para que sean útiles, es decir, se tomen decisiones y se den órdenes a los actuadores, que son los componentes encargados de interacturar con el mundo a través del movimiento. 
+La percepción de lo que hay alrededor requiere procesar esos datos mediante un computador para que sean útiles, es decir, se tomen decisiones y se den órdenes a los actuadores, que son los componentes encargados de interactuar con el mundo a través del movimiento. 
 
 El software constituye por tanto el elemento fundamental del robot, dotándolo de inteligencia y determinando su comportamiento. Para lograrlo de una manera adecuada, es necesario adaptarse a algunos requisitos. En primer lugar, el hecho de interactuar con un mundo, el real, que se encuentra en constante movimiento, requiere sistemas que respondan en tiempo real a dichos cambios. Para ello, se requiere hacer uso de la concurrencia para poder tomar decisiones con la mayor rapidez posible, algo crítico teniendo en cuenta la necesaria comunicación entre los distintos componentes. 
 
 De cara al usuario, es necesario construir interfaces que faciliten la interacción con los robots y la depuración de los diferentes problemas que puedan surgir. Estos pueden estar derivados por el hecho de tener que adaptar los programas al hardware heterogéneo existente, o la dificultad que presenta la reutilización de software de fuentes externas. 
 
-Actualmente, la implementación del comportamiento de los robots se realiza mediante software de control. En este contexto de desarrollo es muy útil un entorno que facilite la gran complejidad a la que se enfrenta el ingeniero. En informática, se denomina \textit{middleware} a un software que hace de enlace entre el sistema operativo y las aplicaciones (ver Figura \ref{fig:middleware}). En robótica, este software está diseñado para ocultar parte de la complejidad de bajo nivel, como la comunicación entre los distintos componentes. Así, el desarrollador puede diseñar y desarrollar sus soluciones de forma más eficiente. EN los siguientes párrafos se presentan algunos de los \textit{middlewares} más importantes, y sus principales objetivos: 
+Actualmente, la implementación del comportamiento de los robots se realiza mediante software de control. En este contexto de desarrollo es muy útil un entorno que facilite la gran complejidad a la que se enfrenta el ingeniero. En informática, se denomina \textit{middleware} a un software que hace de enlace entre el sistema operativo y las aplicaciones (ver Figura \ref{fig:middleware}). En robótica, este software está diseñado para ocultar parte de la complejidad de bajo nivel, como la comunicación entre los distintos componentes. Así, el desarrollador puede diseñar y desarrollar sus soluciones de forma más eficiente. En los siguientes párrafos se presentan algunos de los \textit{middlewares} más importantes, y sus principales objetivos: 
 \begin{figure}[hbt!]
 \centering
 \includegraphics[width=6cm]{Figs/layersMiddleware.png}
 \par
-\caption{\label{fig:middleware}Situación del \textit{middleware} en una arquitectura software}
+\caption{\label{fig:middleware}Situación del \textit{middleware} en una arquitectura software.}
 \end{figure}
 \begin{itemize}
-\item ROS \cite{ros}: Robot Operating System continua creciendo hacia su objetivo de ser un estándar en la industria. Se trata de una solución de código abierto. Ofrece robustez, rapidez, abstracción, colaboración entre usuarios y una gran variedad de paquetes y funcionalidades, facilitando la labor de desarrollo. Se estima que en los próximos años supere el umbral y más del 50\% de los robots comerciales estén basados en él. 
-\item Orocos \cite{orocos}: Open Robot Control Software centra sus esfuerzos en ofrecer resultados en tiempo real y enfocado principalmente en robots industriales. Para ofrecer algunas funcionalidades, se apoya en otros \textit{middleware}s similares. Es multiplataforma.  
+\item ROS \cite{ros}: Robot Operating System continúa creciendo hacia su objetivo de ser un estándar en la industria. Se trata de una solución de código abierto. Ofrece robustez, rapidez, abstracción, colaboración entre usuarios y una gran variedad de paquetes y funcionalidades, facilitando la labor de desarrollo. Se estima que en los próximos años supere el umbral y más del 50\% de los robots comerciales estén basados en él. 
+\item Orocos \cite{orocos}: Open Robot Control Software centra sus esfuerzos en ofrecer resultados en tiempo real y está enfocado principalmente en robots industriales. Para ofrecer algunas funcionalidades, se apoya en \textit{middlewares} similares. Es multiplataforma.  
 \item CLARAty \cite{claraty}: Promueve la reutilización de software, además de la portabilidad, modularidad y flexibilidad. Surge de la colaboración entre varias instituciones, entre ellas la NASA.
 \item MRDS \cite{mrds}: Microsoft Robotics Developer Studio fue el primer intento de la compañía estadounidense por entrar de lleno en el mundo de la robótica. Su lanzamiento se produjo poco antes que el de ROS, por lo que nunca ganó suficiente atención. 
 \end{itemize}
@@ -266,21 +266,21 @@ Actualmente, la implementación del comportamiento de los robots se realiza medi
 \section{Docencia en robótica}
 En un mundo necesitado de profesionales de la tecnología, pero cuyos individuos no van a cubrir la demanda de empleos en los próximos años, es necesario hacer accesible el conocimiento. Aquí es donde la docencia, en cualquiera de sus formas, cobra vital importancia. A continuación se comentarán algunos aspectos relacionados con la enseñanza en robótica en la actualidad. 
 \subsection{Robótica en la escuela}
-Los conocimientos de robótica y programación han estado, hasta fechas muy recientes, alejados de las escuelas, donde aún su influencia es aún limitada. En las universidades,  la robótica está presente solamente en algunas carreras especializadas. Ahora bien, ¿cómo es posible que herramientas básicas para un importante porcentaje de los empleos que vienen en los próximos años hayan comenzado a implantarse hace tan poco tiempo?  \cite{noticia_estudiantes}. Es una pregunta compleja en la que influyen muchos factores, aunque podemos afirmar que algunos de ellos se derivan del hecho de estar hablando de un área de conocimiento joven. Otros factores pueden deberse a la necesidad de cambios legislativos, a necesitar unas bases de conocimiento sólidas en el profesorado, y probablemente un presupuesto superior a otras áreas de enseñanza. 
+Los conocimientos de robótica y programación han estado, hasta fechas muy recientes, alejados de las escuelas, donde  su influencia es aún limitada. En las universidades,  la robótica está presente solamente en algunas carreras especializadas. Ahora bien, ¿cómo es posible que herramientas básicas para un importante porcentaje de los empleos que vienen en los próximos años hayan comenzado a implantarse hace tan poco tiempo?  \cite{noticia_estudiantes} Es una pregunta compleja en la que influyen muchos factores, aunque podemos afirmar que algunos de ellos se derivan del hecho de estar hablando de un área de conocimiento joven. Otros factores pueden deberse a la necesidad de cambios legislativos, a necesitar unas bases de conocimiento sólidas en el profesorado, y probablemente un presupuesto superior a otras áreas de enseñanza. 
 
 Si tenemos en cuenta que los futuros profesionales están hoy en las aulas, es necesario mostrar la robótica de una manera cercana, comprensible y que permita generar entusiasmo en los alumnos interesados. Al fin y al cabo, las decisiones que se toman en las últimas etapas de estudios previos a la universidad, son claves para decidir el futuro, y para hacerlo con criterio el alumno necesita el mayor abanico de conocimiento y opciones posible. 
 La robótica educativa debe ser más relevante en los próximos años si se quieren formar y educar profesionales para la Cuarta Revolución Industrial. Entre las competencias que aporta al alumnado, están algunas tan necesarias para otros aspectos profesionales y vitales como el trabajo en equipo, el pensamiento crítico, la creatividad y la resolución de problemas. Existen algunas empresas que tratan de facilitar esta tarea ofreciendo robots educativos. Por ejemplo: 
 \begin{itemize}
     \item Sphero SPRK+: Enfocada a los más pequeños, programable desde aplicaciones móviles a través de bloques, permite planificar rutas para la bola inteligente. Tiene un diseño transparente para poder ver y aprender de su interior (ver Figura \ref{fig:sphero}).  
-    \item Dash: Solución para niños basada en programación con bloques y ampliable con accesorios 
+    \item Dash: Solución para niños basada en programación con bloques y ampliable con accesorios. 
     \item Zowi: La propuesta educativa de BQ tiene su propia interfaz para la programación por bloques, llamada Bitbloq (ver Figura \ref{fig:bitbloq}). La app para controlar el robot tiene como objetivo demostrar que se puede aprender jugando.
     \item Mindstorms: La línea de LEGO dedicada a construir robots a partir de sus míticas piezas (ver Figura \ref{fig:sphero}), permite después aprender a programarlos a través de bloques para que realicen diversas acciones. 
     \begin{figure}[h!]
     \centering
-    \includegraphics[width=6cm]{Figs/spheroedu-sprkplus.png}
-    \includegraphics[width=6cm]{Figs/mindstorms.jpg}
+    \includegraphics[width=4.5cm]{Figs/spheroedu-sprkplus.png}
+    \includegraphics[width=4.5cm]{Figs/mindstorms.jpg}
     \par
-    \caption{\label{fig:sphero}Sphero SPRK+ y LEGO mindstorms}
+    \caption{\label{fig:sphero}Sphero SPRK+ y LEGO Mindstorms.}
     \end{figure}
 \end{itemize}
 
@@ -288,14 +288,14 @@ La robótica educativa debe ser más relevante en los próximos años si se quie
     \centering
     \includegraphics[width=14cm]{Figs/compas_bitbloq.png}
     \par
-    \caption{\label{fig:bitbloq}Programando un ritmo musical mediantes bloques}
+    \caption{\label{fig:bitbloq}Programando un ritmo musical mediantes bloques.}
     \end{figure}
 
 En el ámbito universitario, los dispositivos conectados permiten hoy en día acceder a un sinfín de información a través de Internet, ofreciendo a aquel que tenga interés en un tema la posibilidad de aprenderlo por sus propios medios. 
-Las principales plataformas de robótica tienen disponibles sus propios tutoriales, donde destacan los de ROS o Robotic-Academy, aunque también se pueden encontrar en otras plataformas de cursos más generalistas. Otros recursos especializados son los disponibles en Robot Ignite Academy, pueden resultar de gran ayuda. 
+Las principales plataformas de robótica tienen disponibles sus propios tutoriales, donde destacan los de ROS o Robotics-Academy, aunque también se pueden encontrar en otras plataformas de cursos más generalistas. Otros recursos especializados, como los disponibles en Robot Ignite Academy, pueden resultar de gran ayuda. 
 
 \subsection{El entorno Robotics-Academy}
-Dentro de la organización sin ánimo de lucro JdeRobot \cite{jderobot}, dedicada al desarrollo de software para robótica e Inteligencia Artificial, encontramos un conjunto de prácticas \textit{open-source} enfocadas al aprendizaje de distintos ámbitos relacionados con la robótica a través de código Python, compatibilidad con ROS y el uso del simulador Gazebo. Se trata de soluciones documentadas y en constante crecimiento, que han llegado a participar en el Google Summer of Code en tres ocasiones (2015,2017,2018).
+Dentro de la organización sin ánimo de lucro JdeRobot \cite{jderobot}, dedicada al desarrollo de software para robótica e Inteligencia Artificial, encontramos un conjunto de prácticas \textit{open-source} enfocadas al aprendizaje de distintos ámbitos relacionados con la robótica a través de código Python, compatibilidad con ROS y el uso del simulador Gazebo. Se trata de soluciones documentadas y en constante crecimiento, que han llegado a participar en el Google Summer of Code en tres ocasiones (2015, 2017, 2018).
 Cada práctica enfrenta un problema típico diferente, dónde el estudiante encuentra una plantilla que le abstrae de toda la complejidad de bajo nivel del \textit{middleware} de manera que sólo deba preocuparse de sus algoritmos. 
 
 Aunque se utiliza el simulador Gazebo para observar el comportamiento del robot con la solución, la adaptación para ejecutar las prácticas en robots reales es sencilla debido a que toda la configuración de la estructura y controladores del robot están definidos. A continuación se presentan algunas prácticas disponibles en Robotics-Academy.
@@ -307,16 +307,16 @@ Sobre tratamiento de imagen podemos encontrar también \textit{Follow Face}, que
 \centering
 \includegraphics[width=12cm]{Figs/colorFilter.png}
 \par
-\caption{\label{fig:colorFilter}Filtro de color de la práctica color filter}
+\caption{\label{fig:colorFilter}Filtro de color de la práctica color filter.}
 \end{figure}
 
-En la práctica Drone cat\&mouse (ver Figura \ref{fig:catMouse}) dos drones deben jugar al gato y el ratón. Uno de ellos debe moverse de forma impredecible mientras el otro debe detectar el movimiento del otro y perseguirle, haciendo uso de las cámaras que lleva integradas y el procesamiento en tiempo real de las mismas. Este ejercicio fue utilizado en la competición \textit{program-a-robot}, celebrada en 2018 dentro del programa IROS(International Conference on Intelligent robots and Systems) y promovida por el grupo de robótica de la Universidad Rey Juan Carlos.
+En la práctica Drone cat\&mouse (ver Figura \ref{fig:catMouse}) dos drones deben jugar al gato y el ratón. Uno de ellos debe moverse de forma impredecible mientras el otro debe detectar el movimiento del otro y perseguirle, haciendo uso de las cámaras que lleva integradas y el procesamiento en tiempo real de las mismas. Este ejercicio fue utilizado en la competición \textit{program-a-robot}, celebrada en 2018 dentro del programa IROS(International Conference on Intelligent Robots and Systems) y promovida por el grupo de robótica de la Universidad Rey Juan Carlos.
 
 \begin{figure}[hbt!]
 \centering
 \includegraphics[width=12cm]{Figs/catMouse.png}
 \par
-\caption{\label{fig:catMouse}Persecución de drones en cat\&mouse}
+\caption{\label{fig:catMouse}Persecución de drones en cat\&mouse.}
 \end{figure}
 
 Entrando en el terreno de la autolocalización y aprovechando la potencia de los sensores de profundidad, la práctica Vacuum-cleaner with visualSLAM (ver Figura \ref{fig:vacuum}) permite simular el comportamiento de un robot aspirador de limpieza, detectando las partes de la casa por las que ha pasado y completando de forma eficiente el trabajo programado. En el mismo campo, la práctica Aspiradora autónoma \cite{Vanessa} permite familiarizarse con algoritmos de navegación. 
@@ -325,7 +325,7 @@ Entrando en el terreno de la autolocalización y aprovechando la potencia de los
 \centering
 \includegraphics[width=12cm]{Figs/vacuumcleaner.png}
 \par
-\caption{\label{fig:vacuum}Mapeo generado en tiempo real en la práctica de la aspiradora}
+\caption{\label{fig:vacuum}Mapeo generado en tiempo real en la práctica de la aspiradora.}
 \end{figure}
 
 También hay ejemplos relacionados con los coches autónomos, como Visual follow-line behavior on a Formula1 (ver Figura \ref{fig:f1}) que permite a los estudiantes programar un Formula 1 que siga la línea roja en el centro de la carretera para dar una vuelta al circuito. Existen alternativas similares, que emplean drones en lugar de coches para seguir una determinada carretera \cite{Pablo}.
@@ -334,7 +334,7 @@ También hay ejemplos relacionados con los coches autónomos, como Visual follow
 \centering
 \includegraphics[width=12cm]{Figs/f1.png}
 \par
-\caption{\label{fig:f1}Mundo Gazebo para la práctica de conducción con Fórmula 1}
+\caption{\label{fig:f1}Mundo Gazebo para la práctica de conducción con Fórmula 1.}
 \end{figure}
 
 
@@ -348,9 +348,9 @@ El objetivo principal de este trabajo consiste en añadir una nueva práctica al
 Este objetivo general se ha articulado en tres subobjetivos: 
 
 \begin{enumerate}
-    \item Desarrollar la infraestructura necesaria, principalmente a través de un nuevo mundo generado en el simulador que incluirá los modelos para el robot y los distintos objetos.
+    \item Desarrollar la infraestructura necesaria, principalmente a través de un nuevo mundo generado en el simulador que incluye los modelos para el robot y los distintos objetos.
     \item Desarrollar una plantilla en Python que permita al receptor de la práctica tomar contacto con el tratamiento de imágenes y la planificación de trayectorias en MoveIt! de manera sencilla, abstrayéndole de los detalles de implementación más complejos, a los que podrá acceder posteriormente si desea profundizar en ellos.
-    \item Desarrollar la solución de referencia para lograr satisfacer el comportamiento esperado en esta práctica con un brazo robótico, incluyendo la planificación en entornos con obstáculos, la detección de objetos de color mediante procesado de imagen y la experimentación para optimizar los resultados
+    \item Desarrollar la solución de referencia para lograr satisfacer el comportamiento esperado en esta práctica con un brazo robótico, incluyendo la planificación en entornos con obstáculos, la detección de objetos de color mediante procesado de imagen y la experimentación para optimizar los resultados.
 \end{enumerate}
 
 De esta forma el estudiante se podrá centrar en su desarrollo sin distraerse con problemas que ya han sido contemplados y resueltos, tomando contacto con la programación en robótica utilizando lenguaje Python y conociendo cómo funciona MoveIt!, a través de una práctica completa cuyo eje es la planificación.
@@ -372,7 +372,7 @@ La propuesta original de Boehm se compone de las siguientes fases (ver Figura \r
 \begin{itemize}
     \item Determinar objetivos. Incluye definir las tareas pendientes, las especificaciones, las restricciones y las estrategias para evitar riesgos.
     \item Análisis de riesgos. Consiste en estudiar las amenazas de cada etapa para tratar de minimizar los potenciales problemas y maximizar la eficiencia del trabajo. 
-    \item Desarrollo y testing. En esta etapa, el ingeniero genera su solución, la verifica, y la valida. Es decir, se asegura de que se está desarrollando el producto como se ha definido y de que funciona como se espera que funcione. Parte de las tareas de pruebas consisten en anticipar errores, siendo éste uno de los principales ahorros de costes \cite{ibm_costs} \cite{inc_costs} que podemos encontrar en un proyecto software. 
+    \item Desarrollo y testing. En esta etapa, el ingeniero genera su solución, la verifica, y la valida. Es decir, se asegura de que se está desarrollando el producto como se ha definido y de que funciona como se espera que funcione. Parte de las tareas de pruebas consisten en anticipar errores, siendo este uno de los principales ahorros de costes \cite{ibm_costs} \cite{inc_costs} que podemos encontrar en un proyecto software. 
     \item Planificación. Se revisa el estado de los objetivos y se definen las tareas a llevar a cabo con los recursos disponibles para la iteración en curso.  
 \end{itemize}
 
@@ -380,12 +380,12 @@ La propuesta original de Boehm se compone de las siguientes fases (ver Figura \r
 \centering
 \includegraphics[width=12cm]{Figs/spiral_model.jpg}
 \par
-\caption{\label{fig:spiralModel}Representación gráfica del modelo en espiral para desarrollo software}
+\caption{\label{fig:spiralModel}Representación gráfica del modelo en espiral para desarrollo software.}
 \end{figure}
 
 Algunas de las ventajas de este modelo son la capacidad de adaptación, la reacción rápida frente a problemas, la reducción de riesgos y el enfoque realista. Sin embargo, también podría generar algunos inconvenientes, como la necesidad de un alto conocimiento de los posibles riesgos relativos al proyecto para no derivar en problemas en etapas avanzadas del desarrollo. 
 
-La aplicación de los procedimientos propuestos por Boehm ha supuesto la realización de reuniones semanales de revisión del estado del proyecto, dónde se definen tareas, se proponen objetivos y se recopilan los avances. En la etapa de desarrollo, se ha ido alimentando una bitácora \cite{pages} con los hitos alcanzados y los problemas surgidos, además del repositorio disponible en GitHub \cite{repo}. Por tanto, se han gestionado los cambios con el sistema de control de versiones Git, añadiéndolos a la rama \textit{master} principal una vez validados.  
+La aplicación de los procedimientos propuestos por Boehm ha supuesto la realización de reuniones semanales de revisión del estado del proyecto, donde se definen tareas, se proponen objetivos y se recopilan los avances. En la etapa de desarrollo, se ha ido alimentando una bitácora \footnote{Bitácora en GitHub Pages del TFG:  http://roboticsurjc-students.github.io/2016-tfg-Ignacio-Malo/} con los hitos alcanzados y los problemas surgidos, además del repositorio disponible en GitHub \footnote{Repositorio  GitHub del TFG: https://github.com/RoboticsURJC-students/2016-tfg-Ignacio-Malo}. Por tanto, se han gestionado los cambios con el sistema de control de versiones Git, añadiéndolos a la rama \textit{master} principal una vez validados.  
 
 \section{Plan de acción}
 Al enfrentar un proyecto de características técnicas, y marcar unos determinados objetivos, se debe marcar un plan de acción que determine cómo alcanzarlos, y de qué manera se lograrán. Para completar la práctica de planificación, se han requerido los siguientes pasos: 
@@ -393,7 +393,7 @@ Al enfrentar un proyecto de características técnicas, y marcar unos determinad
     \item Estudiar el lenguaje de programación C++ para poder comprender, y afrontar en caso de necesidad, los desarrollos necesarios para trabajar con robots.
     \item Familiarización con el entorno educativo Robotics-Academy a través de diversas prácticas para tomar contacto con la robótica y comenzar a comprender sus principios básicos. Este paso sienta las bases para poder comenzar a desarrollar el proyecto. 
     \item Conocer el simulador Gazebo a través de los tutoriales oficiales, y realizar la búsqueda de un robot comercial soportado completamente en el simulador. Incluye revisar los lenguaje de descripción URDF y SDF para construir mundos y modelos, y también cómo construir plugins para Gazebo. Posteriormente, utilizar dicho conocimiento para crear el mundo simulado para este ejercicio. 
-    \item Descubrir y profundizar en el entorno de desarrollo software ROS, nuevamente a través de los tutoriales oficiales. Entre las acciones más importantes están construir espacios de trabajo, entender qué es un nodo ROS, como funciona ROS topics o aprender a generar ficheros \textit{roslaunch}.
+    \item Descubrir y profundizar en el entorno de desarrollo software ROS, nuevamente a través de los tutoriales oficiales. Entre las acciones más importantes están construir espacios de trabajo, entender qué es un nodo ROS, como funciona \textit{ROS topics} o aprender a generar ficheros \textit{roslaunch}.
     \item Comenzar a trabajar con MoveIt! a través de los tutoriales oficiales para ROS Kinetic, inicialmente para el robot PR2 y recientemente migrados a Panda. Algunas de las tareas clave han sido aprender a configurar robots, planificar y ejecutar movimientos, evitar obstáculos, añadir restricciones de planificación o utilizar correctamente el visualizador RViz. 
     \item Utilizar los conocimientos adquiridos para ofrecer una plantilla de código Python que abstraiga al usuario final de la complejidad de MoveIt! y OpenCV, y permita completar una práctica de planificación y ejecución de trayectorias con un brazo robótico en un entorno simulado. 
     \item Aplicar los conceptos previos para resolver los problemas necesarios y programar una solución de referencia para la práctica de robótica escogida.
@@ -401,7 +401,7 @@ Al enfrentar un proyecto de características técnicas, y marcar unos determinad
 \end{itemize}
 
 \chapter{Infraestructura utilizada}
-En este capítulo se detalla el software que se ha empleado para el desarrollo del TFG. Desde ROS Kinetic y JdeRobot como \textit{middleware}s robóticos, pasando por la herramienta MoveIt! para facilitar el trabajo con robots hasta llegar al simulador Gazebo. Todo ello corriendo en el sistema operativo Ubuntu 16.04 y desarrollado en Python.  Las comunicaciones entre los distintos componentes utilizan principalmente ROS topics. 
+En este capítulo se detalla el software que se ha empleado para el desarrollo del TFG. Desde ROS Kinetic y JdeRobot como \textit{middleware}s robóticos, pasando por la herramienta MoveIt! para facilitar el trabajo con robots hasta llegar al simulador Gazebo. Todo ello corriendo en el sistema operativo Ubuntu 16.04 y desarrollado en Python.  Las comunicaciones entre los distintos componentes utilizan principalmente \textit{ROS topics}. 
 
 \section{Robot PR2}
 El robot (ver Figura \ref{fig:pr2}) sobre el que se ha desarrollado el software es el modelo PR2 \cite{pr2} de la empresa Willow Garage, especializada en robótica y responsable en su día también del software ROS y otras herramientas de código abierto. El nombre viene de Personal Robot 2, haciendo referencia a la idea de que fuera un asistente en casa y no un robot industrial como la mayoría de los comercializados hasta el momento de su lanzamiento. 
@@ -410,7 +410,7 @@ El robot (ver Figura \ref{fig:pr2}) sobre el que se ha desarrollado el software 
 \centering
 \includegraphics[width=10cm]{Figs/PR2_image.jpg}
 \par
-\caption{\label{fig:pr2}Imagen de un robot PR2 real}
+\caption{\label{fig:pr2}Imagen de un robot PR2 real.}
 \end{figure}
 
 Se compone de dos brazos (derecho e izquierdo) capaces de generar un amplio abanico de oportunidades de movimiento que no serían posibles con un único brazo, y que terminan en una pinza o \textit{gripper} que permite agarrar objetos.
@@ -420,7 +420,7 @@ Su diseño modular (ver Figura \ref{fig:pr2Structure}) permite integrarlo con ot
 \centering
 \includegraphics[width=12cm]{Figs/PR2_structure.png}
 \par
-\caption{\label{fig:pr2Structure}Estructura del robot PR2}
+\caption{\label{fig:pr2Structure}Estructura del robot PR2.}
 \end{figure}
 
 Su muñeca tiene dos grados de movimiento, que se suman a la libertad que aportan las articulaciones del hombro y el codo para permitir prácticamente cualquier movimiento necesario para una labor doméstica.
@@ -435,7 +435,7 @@ Contiene un sensor de color RGB y uno de profundidad, y se sitúa en la parte su
 \centering
 \includegraphics[width=11cm]{Figs/kinect.jpg}
 \par
-\caption{\label{fig:kinect}Apariencia de una cámara Kinect de Microsoft}
+\caption{\label{fig:kinect}Apariencia de una cámara Kinect de Microsoft.}
 \end{figure}
 
 Kinect es propiedad de Microsoft, y fue lanzada originalmente en el año 2010 con el objetivo de ofrecer nuevas posibilidades para su consola Xbox, aunque fue perdiendo protagonismo con el paso de los años. Más tarde se comercializó también para ordenadores, dando el salto así a proyectos de índole científica que se sirven de su detección de movimiento y reconocimiento de voz. 
@@ -451,7 +451,7 @@ Ofrece visualización 3D y un potente motor de físicas (ver Figura \ref{fig:gaz
 \centering
 \includegraphics[width=12cm]{Figs/gazebo_example.jpg}
 \par
-\caption{\label{fig:gazeboExample}Mundo Gazebo que simula un entorno industrial}
+\caption{\label{fig:gazeboExample}Mundo Gazebo que simula un entorno industrial.}
 \end{figure}
 
 La simulación nace a partir de un fichero \textit{.launch} que arranca Gazebo. El entorno de la simulación está compuesto por un mundo que contiene diferentes modelos. Estos modelos están definidos en un fichero con formato SDF con los siguientes componentes principales:
@@ -464,10 +464,10 @@ La simulación nace a partir de un fichero \textit{.launch} que arranca Gazebo. 
 
 La versión utilizada para este proyecto es Gazebo7.
 
-\section{Middleware robótico ROS Kinetic}
+\section{\textit{Middleware} robótico ROS Kinetic}
 ROS es un entorno para el desarrollo de software para robots. Nació en 2007 en el Laboratorio de Inteligencia Artificial de Standford. La arquitectura de grafos de ROS (Robot Operating System) se basa en nodos que se comunican a través de mensajes. La práctica con un brazo robótico desarrollada tendrá como eje un nodo ROS que se comunicará con los drivers del PR2 en Gazebo y con las librerías de manejo de imágenes y planificación. 
 
-Es un sistema de código abierto que encarga de mantener la OSRF (Open Source Robotics Foundation). Aporta al usuario herramientas como por ejemplo planificación de movimiento (MoveIt!) o reconocimiento del entorno y visualización (RViz), además de soporte para un amplio abanico de Robots. 
+Es un sistema de código abierto que encarga de mantener la OSRF (Open Source Robotics Foundation). Aporta al usuario herramientas como por ejemplo planificación de movimiento (MoveIt!) o reconocimiento del entorno y visualización (RViz), además de soporte para un amplio abanico de robots. 
 
 La versión Kinetic fue lanzada en mayo de 2016, enfocada al uso desde Ubuntu 16.04. La versión Gazebo7 es la recomendada en ROS Kinetic para este simulador. 
 
@@ -501,16 +501,16 @@ Las comunicaciones entre nodos son la base del desarrollo con robots en ROS, y s
 \centering
 \includegraphics[width=10cm]{Figs/turtle_graph.png}
 \par
-\caption{\label{fig:turtlesim}Representación gráfica utilizando \textit{rqt} de un nodo teleoperador comunicándose con un nodo tortuga a través de un \textit{topic}}
+\caption{\label{fig:turtlesim}Representación gráfica utilizando \textit{rqt} de un nodo teleoperador comunicándose con un nodo tortuga a través de un \textit{topic}.}
 \end{figure}
 
 \section{Lenguaje de programación C++}
 Este lenguaje de programación fue creado por Bjarne Stroustrup en 1979, que lo bautizó en sus inicios como ‘C con clases’. No en vano tiene una sintaxis similar a la de C, manteniendo el vínculo con el lenguaje del que proviene y añadiendo mecanismos de programación orientada a objetos a su predecesor. Su nombre además hace referencia a ese C incrementado, mejorado. 
 Es un lenguaje fuertemente tipado y portátil. Se rige por un estándar de ISO (International Organization for Standardization) cuya última versión es C++17, lanzada en 2017. 
 
-Es lenguaje con un grado de complejidad elevado, que permite una gran versatilidad y potencia, pero también tiene una curva de aprendizaje elevada para dominarlo.
+Es un lenguaje con un alto grado de complejidad, que permite una gran versatilidad y potencia, pero también tiene una curva de aprendizaje elevada para dominarlo.
 Algunos IDEs recomendados para trabajar con C++ son VisualStudio y Code::Blocks. 
-Como curiosidad, se trata del cuarto lenguaje de programación más popular hoy en día según el conocido ranking de TIOBE \cite{tiobe}, sólo por detrás de Java, C y Python. Alcanzó su máximo de popularidad 2003 según los datos de esta empresa de software. 
+Como curiosidad, se trata del cuarto lenguaje de programación más popular hoy en día según el conocido ranking de TIOBE \cite{tiobe}, sólo por detrás de Java, C y Python. Alcanzó su máximo de popularidad en 2003 según los datos de esta empresa de software. 
 
 \section{Lenguaje de programación Python}
 Fue creado en los años 80 por Guido van Rossum. Es un lenguaje de programación interpretado, que utiliza tipado dinámico. Su sintaxis está enfocada a ser fácilmente legible, lo que hace que tenga una curva de aprendizaje suave en relación con otros lenguajes como Java o el propio C. Soporta programación orientada a objetos y es multiplataforma.
@@ -518,16 +518,16 @@ Fue creado en los años 80 por Guido van Rossum. Es un lenguaje de programación
 Una característica interesante es que puede extenderse con módulos de C o C++.
 Según el mencionado ranking TIOBE, Python es el tercer lenguaje de programación en popularidad, alcanzando en 2019 su máximo nivel en la lista. 
 
-Se ha utilizado la versión 2.7.12 debido principalmente a su compatibilidad con ROS Kinetic. En este lenguaje se han desarrollado la plantilla y la solución de referencia para la aplicación de planificación de movimientos 
+Se ha utilizado la versión 2.7.12 debido principalmente a su compatibilidad con ROS Kinetic. En este lenguaje se han desarrollado la plantilla y la solución de referencia para la aplicación de planificación de movimientos.
 
 \section{Biblioteca de visión OpenCV}
 Es una biblioteca de código abierto enfocada a proyectos de visión artificial, con interfaces disponibles para varios lenguajes de programación (C++, Python, Java, MATLAB...). Open Source Computer Vision Library (OpenCV) \cite{opencv} es muy utilizada, con un número de descargas de alrededor de 15 millones y una comunidad de 47000 seguidores. Este dato está potenciado por el hecho de ser multiplataforma, soportando sistemas Windows, Linux, MacOS, Android e iOS. 
 Algunos ejemplos de uso de la librería son compañías de la envergadura e influencia de Google, Yahoo, Microsoft, Intel, IBM, Sony, Honda o Toyota.
 
 Los algoritmos que contiene están desarrollados de forma nativa en C++ debido a su mayor rendimiento en comparación con los demás lenguajes. El resto de ellos utilizan interfaces para acceder a toda la funcionalidad disponible. 
-En el caso de Python, se utiliza a través del paquete cv2, que internamente utiliza la librería Numpy, altamente optimizada e indicada para el cálculo científico y las operaciones matemáticas con matrices. 
+En el caso de Python, se utiliza a través del paquete \textit{cv2}, que internamente utiliza la librería \textit{Numpy}, altamente optimizada e indicada para el cálculo científico y las operaciones matemáticas con matrices. 
 
-Su integración en el proyecto permite aprovechar toda la potencia del análisis de imágenes en un entorno robótico para, en este caso, analizar imágenes de lo que observa el robot y poder detectar objetos de color dinámicamente. En este trabajo se ha empleado la versión 3.3.1.
+Su integración en el proyecto permite aprovechar toda la potencia del análisis de imágenes en un entorno robótico para, en este caso, analizar imágenes de lo que observa el robot y poder detectar objetos de color dinámicamente. En este trabajo se ha empleado la versión 3.3.1 de la biblioteca. 
 
 \section{Entorno de planificación de movimientos MoveIt!}
 MoveIt! nació en octubre del año 2011 con la idea de agrupar todos los avances relacionados con planificación de movimientos, manipulación, percepción 3D, cinemática, control y navegación en una única herramienta. Actualmente es el software de código abierto más utilizado para manipulación con robots, con más de 65 autómatas soportados. 
@@ -538,18 +538,18 @@ Se puede acceder a \textit{move\_group } por tres vías: C++, Python y RViz.
 \centering
 \includegraphics[width=12cm]{Figs/moveGroup.png}
 \par
-\caption{\label{fig:moveGroup}Resumen esquematizado de las posibles interacciones que ofrece \textit{move\_group}}
+\caption{\label{fig:moveGroup}Resumen esquematizado de las posibles interacciones que ofrece \textit{move\_group}.}
 \end{figure}
 El nodo \textit{move\_group} necesita varios parámetros de entrada (ver Figura \ref{fig:moveGroup}):
 \begin{itemize}
 \item URDF (Universal Robot Description Format): Es el formato que utiliza ROS para la descripción del robot. Se ha utilizado el del paquete \textit{pr2\_description}, correspondiente al autómata utilizado.
-\item SRDF (Semantic Robot Description Format) complementa al URDF, añadiendo más información como grupos de joints, configuraciones por defecto para el robot o chequeo de colisiones. Para construir este fichero, se recomienda utilizar el MoveIt! Setup Assistant. Esta herramienta permite configurar cualquier robot para ser utilizado en MoveIt! A través de una interfaz gráfica que simplifica el trabajo. 
-\item MoveIt! Configuration: Incluye otros ficheros de configuración específicos de MoveIt!, normalmente generados también a través del Setup Assistant. Contienen información necesaria para planificación de movimientos, cinemática o percepción del entorno.
+\item SRDF (Semantic Robot Description Format): Complementa al URDF, añadiendo más información como grupos de joints, configuraciones por defecto para el robot o chequeo de colisiones. Para construir este fichero, se recomienda utilizar el MoveIt! Setup Assistant. Esta herramienta permite configurar cualquier robot para ser utilizado en MoveIt! a través de una interfaz gráfica que simplifica el trabajo. 
+\item MoveIt! Configuration: Incluye otros ficheros de configuración específicos de MoveIt!, normalmente generados también a través del MoveIt! Setup Assistant. Contienen información necesaria para planificación de movimientos, cinemática o percepción del entorno.
 \end{itemize}
 Las principales interfaces de MoveIt! permiten acceder a las diferentes funcionalidades a través de código C++. Sin embargo, existe un paquete llamado \textit{moveit\_python} que permite acceder a las principales interfaces de MoveIt! utilizando Python:
 \begin{itemize}
 \item MoveGroupInterface: Utilizada para acceder a \textit{move\_group } y mover el brazo. 
-\item PlanningSceneInterface: Utilizada para añadir o eliminar objetos al entorno y cambiar su apariencia, ya sean conectados o de colisión. 
+\item PlanningSceneInterface: Utilizada para añadir o eliminar objetos al entorno y cambiar su apariencia.
 \end{itemize}
 
 Con el objetivo de conseguir la integración de MoveIt! con Gazebo, y poder así enviar los movimientos al robot real o simulado, debemos configurar correctamente los controladores. Para ello necesitaremos dos ficheros clave: \textit{controllers.yaml} y \textit{joint\_names.yaml}.  En ellos se especifican el tipo de mensajes que el robot recibe y las articulaciones que controla.  
@@ -560,7 +560,7 @@ Al tratarse de la principal herramienta utilizada para completar el ejercicio, s
 En este capítulo se describirá en detalle la práctica "Movimiento planificado de un brazo robótico" \ en el entorno Robotics-Academy, incluyendo el enunciado de la práctica, la infraestructura específica necesaria y la plantilla de código Python desarrollada para albergar la solución del estudiante. 
 
 \section{Enunciado}
- El objetivo de este ejercicio consiste en un robot PR2 que debe observar un objeto y planificar un movimiento con el brazo izquierdo sorteando obstáculos, hasta golpear un objeto final que será del mismo color que el observado al comienzo. Incluye por tanto la planificación de trayectorias con obstáculos en un entorno simulado, el reconocimiento de objetos analizando espacios de color y la ejecución de movimientos. Se utilizarán la librería OpenCV para el análisis de imágenes y el paquete MoveIt! para la fase de planificación. 
+ El objetivo de este ejercicio consiste en un robot PR2 que debe observar un objeto y planificar un movimiento con el brazo izquierdo sorteando obstáculos, hasta golpear un objeto final que será del mismo color que el observado al comienzo. Incluye, por tanto, la planificación de trayectorias con obstáculos en un entorno simulado, el reconocimiento de objetos analizando espacios de color y la ejecución de movimientos. Se utilizarán la librería OpenCV para el análisis de imágenes y el paquete MoveIt! para la fase de planificación. 
 
 \begin{figure}[hbt!]
 \centering
@@ -639,7 +639,7 @@ Utiliza el plugin openni\_Kinect (ver Algoritmo \ref{alg:kinect2-xacro}), que pe
 \caption{\label{alg:kinect2-xacro}Extracto del fichero kinect2.gazebo.xacro, donde se define el plugin para la cámara Kinect}
 \end{algorithm}
 
-Para lanzar este entorno, se debe ejecutar un fichero \textit{.launch} (ver Algoritmo \ref{alg:tfg-launch}), que pondrá en funcionamiento los modelos necesarios para las dos zonas de referencia, los modelos de los objetos y obstáculos, y el robot PR2 con todos sus controladores. La cámara Kinect integrada se pasa como parámetro, aunque está configurada para aparecer por defecto. Se puede lanzar el mundo escribiendo en un terminal siguiente comando:
+Para lanzar este entorno, se debe ejecutar un fichero \textit{.launch} (ver Algoritmo \ref{alg:tfg-launch}), que pondrá en funcionamiento los modelos necesarios para las dos zonas de referencia, los modelos de los objetos y obstáculos, y el robot PR2 con todos sus controladores. La cámara Kinect integrada se pasa como parámetro, aunque está configurada para aparecer por defecto. Se puede lanzar el mundo escribiendo en un terminal el siguiente comando:
 
 \$\ \ \ \ roslaunch pr2\_gazebo tfg\_launch.launch
 
@@ -673,7 +673,7 @@ Para lanzar este entorno, se debe ejecutar un fichero \textit{.launch} (ver Algo
 \subsubsection{Modelo PR2 enriquecido}
 El modelado principal del robot PR2 utilizado en esta práctica corresponde a los paquetes \textit{pr2\_gazebo} y \textit{pr2\_common}. Se trata de paquetes disponibles para ROS Kinetic, que contienen todo lo necesario para simular el robot de Willow Garage en Gazebo, como  información sobre articulaciones, físicas, colisiones o dimensiones. 
 
-De cara a lograr el objetivo final, ha sido necesario hacer ligeras modificaciones. En primer lugar, para añadir una cámara Kinect \cite{gazebo_plugins} en la parte alta del modelo. Esta es una opción disponible en el paquete original pero que debemos configurar como opción por defecto (la original lanza el robot sin ninguna cámara), utilizando el argumento KINECT2 al lanzar el fichero \textit{.launch} del robot PR2. 
+De cara a lograr el objetivo final, ha sido necesario hacer ligeras modificaciones. En primer lugar, para añadir una cámara Kinect \cite{gazebo_plugins} en la parte alta del modelo. Esta es una opción disponible en el paquete original pero que debemos configurar como opción por defecto (la configuración original lanza el robot sin ninguna cámara), utilizando el argumento KINECT2 al lanzar el fichero \textit{.launch} del robot PR2. 
 
 En segundo lugar, en la fase inicial de pruebas con reconocimiento de imagen en el entorno creado, se evidenciaban problemas a la hora de detectar los colores a causa del sensor láser incluido por defecto en el modelo. El sensor generaba ruido en las imágenes RGB obtenidas, dificultando la caracterización de los objetos, motivo que provocó su desactivación en los paquetes generados.    
 
@@ -729,7 +729,7 @@ Para ello se utiliza el formato SDF \cite{sdf_format}, de código abierto y basa
 \section{Plantilla Python}\label{sec:plantilla}
 Para simplificar la realización de la práctica a los estudiantes, se ha desarrollado una plantilla en Python que ofrece interfaces de programación sencillas sobre las cuales el alumno escribe su solución. Esta plantilla es un nodo ROS que utiliza OpenCV y MoveIt!. 
 
-Como se ha mencionado, la solución será capaz de detectar a partir de una imagen de entrada si hay algo azul, rojo o verde delante de la cámara, y en caso afirmativo, determinar si es el objeto esperado, eliminando posibles errores provocados por ruido. 
+Como se ha mencionado, la solución será capaz de detectar a partir de una imagen de entrada si hay algo azul, rojo o verde delante de la cámara y, en caso afirmativo, determinar si es el objeto esperado, eliminando posibles errores provocados por ruido. 
 Para ello, el nodo importa las librerías \textit{cv2} y \textit{rospy}. Además, para la planificación de trayectorias, se importan \textit{moveit\_commander} y los distintos mensajes de MoveIt! necesarios para la planificación de trayectorias.
 
 Existen dos ficheros Python, uno llamado \textit{final\_prototype\_template\_ready.py} y otro llamado \textit{template.py} (ver Algoritmo \ref{alg:template-py}). 
@@ -755,7 +755,7 @@ El interfaz de programación accesible desde el fichero \textit{template.py} ofr
     
 \item{API para el manejo del robot}
     \begin{itemize}
-    \item \textit{look\_at\_object(x,y,z)}: Mueve la cabeza del robot PR2 configurando y enviando un mensaje \textit{PointHeadGoal} con los parámetros recibidos. Para ello utiliza la librería \textit{SimpleActionClient}, que permite enviar un mensaje a través de ROS topics, en este caso al controlador de la cabeza del robot. 
+    \item \textit{look\_at\_object(x,y,z)}: Mueve la cabeza del robot PR2 configurando y enviando un mensaje \textit{PointHeadGoal} con los parámetros recibidos. Para ello utiliza la librería \textit{SimpleActionClient}, que permite enviar un mensaje a través de \textit{ROS topics}, en este caso al controlador de la cabeza del robot. 
     \item \textit{Subscriber(image\_topic, Image, image\_callaback)}: es el encargado de llamar al método \textit{image\_callback} para que realice acciones cuando se recibe una imagen en el topic definido. Para la cámara Kinect utilizada, se corresponde con \textit{/head\_mount\_kinect2/rgb/image\_raw}.
     \item \textit{start\_planning()}: instancia los objetos necesarios para obtener y modificar valores del robot, la escena y la planificación. Estos son, respectivamente, \textit{RobotCommander}, \textit{PlanningSceneInterface} y \textit{MoveGroupCommander}. Añade los objetos, zonas y obstáculos a considerar como obstáculos en la planificación y configura tanto el tiempo máximo como el número de intentos para la misma. 
     \item \textit{set\_orientation\_constraints(link, orientation, x\_tol,y\_tol,z\_tol)}: define restricciones de tolerancia para cada eje de una determinada articulación del robot. Para ello utiliza un mensaje de MoveIt! de tipo \textit{orientation\_constraints}.
@@ -807,7 +807,7 @@ def main():
 \end{algorithm}
 
 \chapter{Solución de referencia}\label{sec:solución}
-La solución de referencia desarrollada sobre ROS para este ejercicio consta de cinco fases. Una fase inicial de movimiento del cuello del robot, una segunda fase de percepción utilizando OpenCV, una tercera deplanificación utilizando MoveIt!, la cuarta de realización del movimiento del brazo, y finalmente una de maniobra de derribo. 
+La solución de referencia desarrollada sobre ROS para este ejercicio consta de cinco fases. Una fase inicial de movimiento del cuello del robot, una segunda fase de percepción utilizando OpenCV, una tercera de planificación utilizando MoveIt!, la cuarta de realización del movimiento del brazo, y finalmente una de maniobra de derribo. 
 
 \section{Diseño de la solución}
 
@@ -823,7 +823,7 @@ La resolución del problema a resolver en esta práctica ha supuesto en primer l
 
 
 \section{Movimiento inicial y procesamiento de imagen}
-Antes de generar una posición de destino correcta, es necesario analizar la imagen proporcionada por la cámara adherida al robot  e identificar el objeto en la zona de inicio, si es que lo hay. 
+Antes de generar una posición de destino correcta, es necesario analizar la imagen proporcionada por la cámara adherida al robot  e identificar el objeto en la zona de muestra, si es que lo hay. 
 A continuación profundizaremos en los elementos que hacen posible este proceso y como se implementa cada uno de ellos en nuestra práctica de planificación de trayectorias. 
 
 \subsection{Movimiento de cuello}
@@ -835,15 +835,15 @@ El escenario inicial muestra al robot PR2 mirando hacia el frente, con la zona d
 \includegraphics[width=4.66cm]{Figs/fase1_2.png}
 \includegraphics[width=4.66cm]{Figs/fase1_4.png}
 \par
-\caption{\label{fig:cuello}Secuencia del movimiento de la cabeza del robot}
+\caption{\label{fig:cuello}Secuencia del movimiento de la cabeza del robot.}
 \end{figure}
 
-\subsection{ROS topics para acceder a las imágenes de Kinect} 
+\subsection{\textit{ROS topics} para acceder a las imágenes de Kinect} 
 
 El plugin que utiliza la cámara Kinect está configurado para refrescar las imágenes cada segundo, de forma que se puedan detectar dinámicamente cambios en el entorno.
 En nuestro caso, necesitaremos controlar esto para recibir una única imagen y que ello suceda cuando el robot se encuentre mirando a la zona destino, de forma que no se tengan problemas innecesarios de procesamiento debido a código ineficiente.
 
-Para obtener la información de imagen, se utilizan ROS Topics. El \textit{image\_callback} será el encargado de detectar que hay un nuevo mensaje de ROS de tipo imagen y realizar la conversión a OpenCV, que permitirá hacer más sencillas las maniobras relacionadas con el tratamiento de la imagen.
+Para obtener la información de imagen, se utilizan \textit{ROS Topics}. El \textit{image\_callback} será el encargado de detectar que hay un nuevo mensaje de ROS de tipo imagen y realizar la conversión a OpenCV, que permitirá hacer más sencillas las maniobras relacionadas con el tratamiento de la imagen.
 
 \subsection{Transformación a CVMat de OpenCV y al espacio HSV}
 
@@ -859,7 +859,7 @@ Este espacio de color se caracteriza por aportar información sobre matiz de col
 
 \subsection{Filtrado por colores}
 
-Como el objetivo final relativo al tratamiento de imágenes es diferenciar entre los colores rojo, verde y azul, son necesarias tres máscaras de color que realicen un filtrado de la información de color según su matiz, saturación y brillo, y caracterizar así lo que hay frente a la cámara (ver Figura \ref{fig:masks}).
+Como el objetivo final relativo al tratamiento de imágenes es diferenciar entre los colores rojo, verde y azul, son necesarias tres máscaras de color que realicen un filtrado de la información de color según su matiz, saturación y brillo, caracterizando así lo que hay frente a la cámara (ver Figura \ref{fig:masks}).
 
 \begin{figure}[hbt!]
 \centering
@@ -871,7 +871,7 @@ Como el objetivo final relativo al tratamiento de imágenes es diferenciar entre
 \includegraphics[width=4.66cm]{Figs/blue_mask.jpeg}
 \includegraphics[width=4.66cm]{Figs/green_mask.jpeg}
 \par
-\caption{\label{fig:masks}Secuencia que muestra la transformación al espacio HSV y los resultados tras aplicar las máscaras de color para el rojo, azul y verde, respectivamente}
+\caption{\label{fig:masks}Secuencia que muestra la transformación al espacio HSV y los resultados tras aplicar las máscaras de color para el rojo, azul y verde, respectivamente.}
 \end{figure}
 
 Una vez definidos los umbrales mínimos y máximos para cada uno de los colores a partir de valores del espacio HSV \cite{colores} \cite{py_colors}, buscaremos objetos a partir de los contornos encontrados y su área. Si la imagen detecta algún conjunto de puntos conectados de un determinado color, y además esos puntos tienen un área considerable, el robot detecta ese objeto. De esta manera evitamos falsos positivos debidos a ruido en la imagen, consiguiendo un comportamiento robusto en un entorno controlado. 
@@ -976,7 +976,7 @@ En el fichero de lanzamiento se debe especificar la localización de los paquete
 
 La clase \textit{RobotCommander} ofrece una interfaz al robot y la capacidad de obtener información sobre él. Son especialmente útiles dos de las funciones disponibles: 
 \begin{itemize}
-\item \textit{get\_group\_names}: Obtiene los grupos definidos para el robot, es decir, conjuntos de articulaciones y enlaces bajo un mismo nombre.  Por ejemplo el grupo 'arms' engloba todo lo que hay en los brazos derecho e izquierdo. 
+\item \textit{get\_group\_names}: Obtiene los grupos definidos para el robot, es decir, conjuntos de articulaciones y enlaces bajo un mismo nombre.  Por ejemplo,  el grupo 'arms' engloba todo lo que hay en los brazos derecho e izquierdo. 
 \item \textit{get\_current\_state}: Obtiene el estado actual del robot, incluyendo todas las articulaciones del robot y sus posiciones relativas. 
 \end{itemize}
 \newpage
@@ -993,8 +993,8 @@ Algunas de las más relevantes para el desarrollo de este ejercicio son:
 \item \textit{get\_planning\_frame}: Permite obtener el nombre del marco de referencia para la planificación. A partir de él se obtienen las posiciones del resto de elementos del robot. 
 \item \textit{get\_end\_effector\_link}: Permite obtener el nombre del elemento final del robot. En este caso, corresponde a la pinza que tiene el robot PR2 en el brazo izquierdo. 
 \item \textit{set\_pose\_target}: Permite establecer el objetivo final de una planificación de movimiento. 
-\item \textit{set\_path\_constraints}: Permite configurar restricciones relativas a alguna de las articulaciones para la planificación. Ello limitará las posiciones posibles en el espacio de configuraciones.
-\item \textit{set\_planning\_time}: Permite definir el tiempo máximo dedicada a la planificación antes de generar un error. 
+\item \textit{set\_path\_constraints}: Permite configurar restricciones relativas a alguna de las articulaciones para la planificación. Esto limitará las posiciones posibles en el espacio de configuraciones.
+\item \textit{set\_planning\_time}: Permite definir el tiempo máximo dedicado a la planificación antes de generar un error. 
 \item \textit{set\_num\_planning\_attempts}: Permite definir el número de intentos de planificación a realizar en cada ejecución.  
 \item \textit{plan}: Permite planificar una trayectoria entre dos puntos.  
 \item \textit{execute}: Permite ejecutar un movimiento previamente planificado. 
@@ -1002,7 +1002,7 @@ Algunas de las más relevantes para el desarrollo de este ejercicio son:
 
 \subsection{Controladores}
 Para que la planificación y ejecución de los movimientos del robot sean adecuadas, son necesarios unos controladores bien configurados para cada una de las articulaciones del brazo \cite{pr2_controllers}. Son los encargados de procesar la información recibida por los distintos sensores, haciendo las funciones de cerebro del robot y controlando sus mecanismos.
-Para ello se especifican los nombres de cada una de ellas (ver Algoritmo \ref{alg:pr2_controllers}) de la misma manera que se configuraron al crear el paquete de MoveIt! del robot PR2, cuyos pasos son intuitivos si seguimos los pasos del \textit{MoveIt! Setup Assistant} desde los tutoriales oficiales. \cite{moveit_tutorials}
+Para ello se especifican los nombres de cada una de ellas (ver Algoritmo \ref{alg:pr2_controllers}) de la misma manera que se configuraron al crear el paquete de MoveIt! del robot PR2, cuyos pasos son intuitivos si seguimos los pasos del \textit{MoveIt! Setup Assistant} desde los tutoriales oficiales \cite{moveit_tutorials}.
 
 \begin{algorithm}[htb!]
 	\begin{lstlisting}[breaklines=true,language=python] 
@@ -1033,19 +1033,19 @@ controller_list:
      - l_wrist_flex_joint
      - l_wrist_roll_joint
 	\end{lstlisting}
-\caption{\label{alg:pr2_controllers}Fichero controllers.yaml, dónde se definen los controladores que permiten mover cada una de las articulaciones necesarias.}
+\caption{\label{alg:pr2_controllers}Fichero controllers.yaml, donde se definen los controladores que permiten mover cada una de las articulaciones necesarias.}
 \end{algorithm}
 
 \subsection{Planificador y configuración de MoveIt!}
 Las posibilidades de configuración que ofrece MoveIt! son ingentes. Entre ellas se encuentran las posibilidades de seleccionar distintos planificadores. Podemos encontrar desde \textit{Open Motion Planning Library} (OMPL), que está completamente soportada e integrada, hasta otras como STOMP, SBL o CHOMP que pese a ofrecer sus ventajas propias en determinados contextos de planificación, no están completamente integradas en la plataforma y dificultan el trabajo de programación. 
 
-OMPL es la librería \textit{open source} utilizada en la práctica, ya que está completamente soportada y los algoritmos de planificación que ofrece son con los que trabaja MoveIt! por defecto. \cite{moveit_planners}
+OMPL es la librería \textit{open source} utilizada en la práctica, ya que está completamente soportada y los algoritmos de planificación que ofrece son con los que trabaja MoveIt! por defecto \cite{moveit_planners}.
 
 El objetivo de cualquier planificación en robótica consiste en resolver el problema de ir de un lado a otro sin violar las restricciones establecidas. OMPL utiliza un sistema basado en muestreo, que consiste en generar aleatoriamente una serie de posiciones válidas en el espacio en función de los parámetros de entrada y conectarlas entre sí.
 \newpage
-La librería contiene diferentes planificadores que se diferencian en la manera en la que generan las muestras, y ofrecen, generalmente, soluciones más rápidas que otros planificadores con métodos deterministas  a la hora de calcular las trayectorias, más indicados cuando se requieren resultados precisos basados en la optimización.
+La librería contiene diferentes planificadores que se diferencian en la manera en la que generan las muestras y ofrecen, generalmente, soluciones más rápidas que otros planificadores con métodos deterministas  a la hora de calcular las trayectorias, más indicados cuando se requieren resultados precisos basados en la optimización.
 
-Dentro de los planificadores que ofrece OMPL, se utiliza una variante de algoritmo RRT (\textit{Rapidly-exploring Random Trees}), que como su propio nombre indica, ofrece soluciones rápidas no deterministas, lo que aplicado a un brazo robótico se podría considerar como una analogía de la intuición humana. Este tipo de algoritmos son útiles en situaciones donde la presencia de obstáculos o la cantidad de grados de libertad del robot aumentan considerablemente la complejidad de los cálculos.  
+Dentro de los planificadores que ofrece OMPL se utiliza una variante de algoritmo RRT (\textit{Rapidly-exploring Random Trees}) que, como su propio nombre indica, ofrece soluciones rápidas no deterministas, lo que aplicado a un brazo robótico podría considerarse como una analogía de la intuición humana. Este tipo de algoritmos son útiles en situaciones donde la presencia de obstáculos o la cantidad de grados de libertad del robot aumentan considerablemente la complejidad de los cálculos.  
 
 Para comprender su funcionamiento, es importante introducir el concepto de espacio de configuraciones. Se denomina configuración a la especificación completa de las posiciones de cada punto de un sistema mecánico, es decir, el espacio de configuraciones del robot PR2 es cada una de las orientaciones y posiciones válidas que puede alcanzar. 
 
@@ -1058,7 +1058,7 @@ Los obstáculos del entorno, por ejemplo, supondrían posiciones inválidas en e
 \caption{\label{fig:cspace}Explicación gráfica en 2D de la diferencia entre el espacio de trabajo y el espacio de configuraciones.}
 \end{figure}
 
-Aplicado a nuestra práctica, el algoritmo consiste en comenzar a generar de forma simultánea un "árbol"  desde el inicio y el destino del movimiento. El árbol inicio se irá expandiendo por posiciones cercanas aleatorias que cumplan las distintas restricciones programadas, hasta que toque al árbol destino, que sigue el mismo patrón de comportamiento, en un determinado punto. En ese momento, se habrá encontrado una solución para la planificación, es decir, un camino válido entre la posición inicial y la final que debe poder ser ejecutado sin impedimentos (ver Figura \ref{fig:rrtConnect}). Nótese que cuanto más precisos sean los saltos hacia el siguiente punto del árbol, menor será la probabilidad de infringir zonas inválidas del espacio de configuraciones del robot. 
+Aplicado a nuestra práctica, el algoritmo consiste en comenzar a generar de forma simultánea un "árbol" \ desde el inicio y el destino del movimiento. El árbol inicio se irá expandiendo por posiciones cercanas aleatorias, que cumplan las distintas restricciones programadas hasta que toque al árbol destino, que sigue el mismo patrón de comportamiento, en un determinado punto. En ese momento, se habrá encontrado una solución para la planificación, es decir, un camino válido entre la posición inicial y la final que debe poder ser ejecutado sin impedimentos (ver Figura \ref{fig:rrtConnect}). Nótese que cuanto más precisos sean los saltos hacia el siguiente punto del árbol, menor será la probabilidad de infringir zonas inválidas del espacio de configuraciones del robot. 
 
 \begin{figure}[hbt!]
 \centering
@@ -1079,7 +1079,7 @@ Una vez ejecutado el primer movimiento, se vuelve a realizar una planificación 
 \includegraphics[width=7cm]{Figs/fase5_3.png}
 \includegraphics[width=7cm]{Figs/pose2_2.png}
 \par
-\caption{\label{fig:derribo}Secuencia que muestra el movimiento de derribo}
+\caption{\label{fig:derribo}Secuencia que muestra el movimiento de derribo.}
 \end{figure}
 
 Así, el código para el segundo movimiento (ver Algoritmo \ref{alg:derribo}) logra situar la mano del robot donde se encontraba el objeto de color, haciéndolo caer. Nótese que en este punto debemos dejar de considerar el objeto destino como colisión, utilizando la interfaz al mundo que ofrece \textit{moveit\_commander}. 
@@ -1107,7 +1107,7 @@ La ejecución típica \footnote{Vídeo de ejemplo para la ejecución típica de 
 
 \$ \ \ \ \ source ~/pr2\_gazebo\_tfg/devel/setup.bash
 
-A continuación se pueden ejecutar, en distintos terminales, los ficheros que cargarán el entorno Gazebo y el entorno de planificación. Posteriormente, se ejecuta la plantilla \textit{template.py} con la solución al ejercicio. Para ello, se requieren los siguientes comandos: 
+A continuación, se pueden ejecutar en distintos terminales los ficheros que cargarán el entorno Gazebo y el entorno de planificación. Posteriormente, se ejecuta la plantilla \textit{template.py} con la solución al ejercicio. Para ello, se requieren los siguientes comandos: 
 \begin{itemize}
     \item Lanzar el mundo gazebo, que incluye el robot PR2 y sus modelos.
     
@@ -1117,10 +1117,10 @@ A continuación se pueden ejecutar, en distintos terminales, los ficheros que ca
     \$ \ \ \ \ roslaunch pr2\_moveit\_config 
     \item Lanzar el script template.py.
     
-    \$ \ \ \ \ rosrun moveit\_tutorials template.py
+    \$ \ \ \ \ rosrun moveit\_tutorials \textit{template.py}
 \end{itemize}
 Una vez realizados los pasos anteriores, podremos observar en el simulador Gazebo la ejecución típica de la práctica de planificación y ejecución de trayectorias con MoveIt!, así como las imágenes del proceso descargadas en la máquina local. 
-En primer lugar tiene lugar la fase 1, donde podemos observar al robot PR2 iniciando un movimiento de su cabeza hacia el lado derecho, apuntando la cámara Kinect hacia la zona de muestra (ver Figura \ref{fig:fase1}).
+inicialmente tiene lugar la fase 1, donde podemos observar al robot PR2 iniciando un movimiento de su cabeza hacia el lado derecho, apuntando la cámara Kinect hacia la zona de muestra (ver Figura \ref{fig:fase1}).
 
 \begin{figure}[hbt!]
 \centering
@@ -1131,7 +1131,7 @@ En primer lugar tiene lugar la fase 1, donde podemos observar al robot PR2 inici
 \includegraphics[width=7cm]{Figs/frame195.png}
 \includegraphics[width=7cm]{Figs/frame358.png}
 \par
-\caption{\label{fig:fase1}Secuencia que muestra la primera fase del ejercicio}
+\caption{\label{fig:fase1}Secuencia que muestra la primera fase del ejercicio.}
 \end{figure}
 
 A continuación se obtiene una imagen RGB a través de Kinect que se debe transformar al espacio HSV utilizando OpenCV para después aplicar las máscaras de color para el rojo, el verde y el azul. El funcionamiento del detector de objetos que ofrece la API de manejo de imágenes, permite detectar únicamente el color válido y descartar aquellos en los que se observa algo de ruido al aplicar la máscara de color, ya que de otra manera el robot detectaría objetos que en realidad no son válidos.
@@ -1155,7 +1155,7 @@ Una vez conocido el color del objeto, y por tanto la posición destino a utiliza
 \includegraphics[width=6.5cm]{Figs/frame1791.png}
 \includegraphics[width=6.5cm]{Figs/frame1910.png}
 \par
-\caption{\label{fig:fase4}Secuencia que muestra el movimiento de aproximación del brazo}
+\caption{\label{fig:fase4}Secuencia que muestra el movimiento de aproximación del brazo.}
 \end{figure}
 
 Por último, se puede observar el movimiento de derribo con el extremo del brazo izquierdo del robot, haciendo caer el objeto esperado y finalizando así la ejecución de la práctica (ver Figura \ref{fig:fase5}). 
@@ -1165,7 +1165,7 @@ Por último, se puede observar el movimiento de derribo con el extremo del brazo
 \includegraphics[width=6.5cm]{Figs/frame1910.png}
 \includegraphics[width=6.5cm]{Figs/frame2264.png}
 \par
-\caption{\label{fig:fase5}Secuencia que muestra el movimiento de derribo del brazo}
+\caption{\label{fig:fase5}Secuencia que muestra el movimiento de derribo del brazo.}
 \end{figure}
 
 \section{Alternativas probadas}
@@ -1179,12 +1179,12 @@ Durante el desarrollo de la práctica ha sido necesario realizar pruebas con dif
 \centering
 \includegraphics[height=4.5cm]{Figs/RVIZ.png}
 \par
-\caption{\label{fig:rviz}Situación creada dinámicamente en RViz durante las pruebas con obstáculos}
+\caption{\label{fig:rviz}Situación creada dinámicamente en RViz durante las pruebas con obstáculos.}
 \end{figure}
 
 Para llevar a cabo este ensayo se ha utilizado el visualizador RViz, una herramienta de ROS integrada en MoveIt! que permite configurar los elementos del entorno sin necesidad de utilizar el simulador Gazebo, haciendo posible validar planificaciones secuencialmente sin reiniciar ningún proceso. Entre otras tareas permite planificar movimientos con las diferentes articulaciones del robot, visualizar información de los sensores a través de un determinado \textit{topic}, añadir objetos ficticios, realizar pruebas con diferentes configuraciones del planificador u obtener coordenadas en el espacio. 
 
-Se ha generado un fichero llamado \textit{pr2\_planning\_execution\_tfg\_rviz.launch} que permite lanzar el entorno de planificación incluyendo el visualizador, de manera que el desarrollador pueda probar nuevos escenarios o depurar sus cambios de forma sencilla. Para ello, es necesario añadir algunas líneas al fichero \textit{.launch} (ver Algoritmo \ref{alg:planning_rviz}).  %pending: renombrar dicho fichero en el repo
+Se ha generado un fichero llamado \textit{pr2\_planning\_execution\_tfg\_rviz.launch} que permite lanzar el entorno de planificación incluyendo el visualizador, de manera que el desarrollador pueda probar nuevos escenarios o depurar sus cambios de forma sencilla. Para conseguirlo, es necesario añadir algunas líneas al fichero \textit{.launch} (ver Algoritmo \ref{alg:planning_rviz}).  %pending: renombrar dicho fichero en el repo
 
 \begin{algorithm}[htb!]
 	\begin{lstlisting}[breaklines=true,language=xml] 
@@ -1197,7 +1197,7 @@ Se ha generado un fichero llamado \textit{pr2\_planning\_execution\_tfg\_rviz.la
 \newpage
 \subsection{Ajuste del planificador de trayectorias}
 
-La primera de las trayectorias ejecutadas por el brazo robótico del PR2 es la de mayor complejidad, trabajando con la planificación de trayectorias para esquivar varios obstáculos. En este punto ha sido necesario ajustar el parámetro del planificador OMPL llamado \textit{longest\_valid\_segment\_fraction}, que define la distancia a la que se considera asumible viajar por el espacio en búsqueda del siguiente nodo del grafo sin validar el estado de colisiones. Es decir, valores altos de este parámetro serán más rápidos pero podrían provocar errores en zonas estrechas o esquinas, y valores bajos garantizarán que el robot no se choque en su trayectoria a cambio de más lentitud. 
+La primera de las trayectorias ejecutadas por el brazo robótico del PR2 es la de mayor complejidad, trabajando con la planificación de trayectorias para esquivar varios obstáculos. En este punto, ha sido necesario ajustar el parámetro del planificador OMPL llamado \textit{longest\_valid\_segment\_fraction}, que define la distancia a la que se considera asumible viajar por el espacio en búsqueda del siguiente nodo del grafo sin validar el estado de colisiones. Es decir, valores altos de este parámetro serán más rápidos pero podrían provocar errores en zonas estrechas o esquinas, y valores bajos garantizarán que el robot no se choque en su trayectoria a cambio de más lentitud. 
 
 Entender cómo se calculan las posibles trayectorias en OMPL implica que el valor predeterminado por MoveIt! para este parámetro, que es configurable a través del fichero \textit{ompl\_planning.yaml} e igual a 0.05 por defecto, no tiene por qué ser el idóneo. Para adaptarlo a las necesidades de esta práctica ha sido necesario modificarlo, tras el análisis  realizado simulando 30 planificaciones para diferentes combinaciones según el número de obstáculos y la configuración de \textit{longest\_valid\_segment\_fraction}  (ver Figura \ref{fig:analisis_ejecuciones}).
 
@@ -1208,7 +1208,7 @@ Entender cómo se calculan las posibles trayectorias en OMPL implica que el valo
 \caption{\label{fig:analisis_ejecuciones}Respuesta del sistema ante distintas situaciones de entorno y diferentes configuraciones del planificador.}
 \end{figure}
 
-Como se puede observar, cuanto más complejo es el escenario, mayor precisión es necesaria para no obtener errores o \textit{warnings} en la planificación que pueden provocar problemas al ejecutar la ruta. En base a los resultados obtenidos, se ha decidido utilizar un valor de 0.001, ya que es el que garantiza un resultado fiable en el escenario final con 2 obstáculos. Por motivos de fiabilidad y optimización, el algoritmo calculará dos trayectorias y elegirá el mejor resultado, como se ha configurado a través del método \textit{set\_num\_planning\_attempts} que ofrece \textit{MoveGroupCommander}. 
+Como se puede observar, cuanto más complejo es el escenario, mayor precisión es necesaria para no obtener errores o \textit{warnings} en la planificación que pueden provocar problemas al ejecutar la ruta. En base a los resultados obtenidos, se ha decidido utilizar un valor de 0.001, ya que es el que garantiza un resultado fiable en el escenario final con dos obstáculos. Por motivos de fiabilidad y optimización, el algoritmo calculará dos trayectorias y elegirá el mejor resultado, como se ha configurado a través del método \textit{set\_num\_planning\_attempts} que ofrece \textit{MoveGroupCommander}. 
 
 \subsection{Otros planificadores}
 
@@ -1252,7 +1252,7 @@ Trabajando con los tutoriales oficiales de MoveIt! para ROS Kinetic como referen
 \centering
 \includegraphics[width=7cm]{Figs/pick.png}
 \par
-\caption{\label{fig:pick}Objeto adherido al robot en el visualizador RViz utilizando las funciones de \textit{Pick and Place} que ofrece la clase \textit{MoveGroupCommander}}
+\caption{\label{fig:pick}Objeto adherido al robot en el visualizador RViz utilizando las funciones de \textit{Pick and Place} que ofrece la clase \textit{MoveGroupCommander}.}
 \end{figure}
 
 Tras realizar consultas sobre el problema a través de los canales oficiales de ROS \footnote{Consulta en la comunidad de ROS: https://answers.ros.org/question/293834/how-to-integrate-pr2-gripper-with-moveit-gazebo/} y MoveIt! \footnote{Consulta en los repositorios de MoveIt!: https://github.com/ros-planning/moveit/issues/110}, se concluye que los tutoriales para el robot PR2 necesitan actualizaciones para ROS Kinetic. Esto es debido a que los esfuerzos están centrados en adaptar los tutoriales de MoveIt! para ROS Kinetic a un nuevo robot, el Panda de Franka Emika \cite{emika}, que se convirtió en el robot de referencia para los tutoriales de ROS Kinetic en mayo de 2018. 
@@ -1263,15 +1263,15 @@ El capítulo final está enfocado a transmitir cuáles han sido los objetivos cu
 
 El objetivo principal propuesto al comienzo del desarrollo del proyecto ha sido alcanzado con éxito, generando una práctica completa de planificación de trayectorias utilizando herramientas modernas y extendidas en el ámbito robótico. Se logra así enriquecer el entorno educativo Robotics-Academy con el primer ejercicio sobre brazos robóticos disponible. 
 
-El desarrollo de esta práctica ha supuesto importantes retos que enfrentar. En primer lugar, enfrentarse a un área de conocimiento nueva hasta ser capaz de aprovechar las posibilidades que ofrece y completar una solución técnica que incluye el habitual software heterogéneo de robótica. Desde el nodo ROS creado se han integrado elementos que van desde la biblioteca de procesamiento de imágenes OpenCV hasta el entorno de planificación de movimientos MoveIt!.
+El desarrollo de esta práctica ha supuesto importantes retos que afrontar. En primer lugar, enfrentarse a un área de conocimiento nueva hasta ser capaz de aprovechar las posibilidades que ofrece y completar una solución técnica que incluye el habitual software heterogéneo de robótica. Desde el nodo ROS creado se han integrado elementos que van desde la biblioteca de procesamiento de imágenes OpenCV hasta el entorno de planificación de movimientos MoveIt!.
 
 El camino hasta la solución de referencia ha sido largo, con numerosas alternativas probadas. Estas dificultades han requerido aprender cada semana para resolver los problemas del día a día, mejorando así en una de las facetas clave de la ingeniería y adquiriendo nuevos conocimientos.
 
 Primero, dentro del primer subobjetivo, se ha creado la infraestructura de la práctica "Movimiento planificado de un brazo robótico". Para ello se ha creado un mundo en Gazebo (ver sección \ref{sec:infraestructura}) que consiste en un robot PR2, dos zonas de acción, cilindros de colores y algunos obstáculos, que sirve como punto de partida para poder desarrollar el ejercicio de planificación. El modelo del robot PR2 ha requerido algunos cambios, como añadir por defecto una cámara Kinect sobre su cabeza o la desactivación del sensor láser para evitar problemas de ruido en las imágenes obtenidas por la cámara. 
 
-Segundo, se ha desarrollado una plantilla ROS en Python que simplifica el contacto con el procesamiento de imagen y la planificación con robots, se ha desarrollado un fichero \textit{template.py} que permite acceder a través de dos APIs a las funcionalidades relacionadas con cada uno de dichos procesos (ver sección \ref{sec:plantilla}). De esta manera, los alumnos pueden abstraerse de la complejidad de OpenCV y MoveIt! y preocuparse únicamente de obtener una solución válida, sin necesidad de configurar las transformaciones entre espacios de color, los umbrales de detección de contornos en imágenes, los controladores del PR2, los umbrales adecuados para el planificador RRT Connect o los ROS \textit{topics} utilizados para definir las posiciones objetivo de los distintos movimientos.
+Segundo, se ha desarrollado una plantilla ROS en Python que simplifica el contacto con el procesamiento de imagen y la planificación con robots, permitiendo acceder a través de dos APIs a las funcionalidades relacionadas con cada uno de dichos procesos (ver sección \ref{sec:plantilla}). De esta manera, los alumnos pueden abstraerse de la complejidad de OpenCV y MoveIt! y preocuparse únicamente de obtener una solución válida, sin necesidad de configurar las transformaciones entre espacios de color, los umbrales de detección de contornos en imágenes, los controladores del PR2, los umbrales adecuados para el planificador RRT Connect o los ROS \textit{topics} utilizados para definir las posiciones objetivo de los distintos movimientos.
 
-Al hilo del tercer subobjetivo, se ha desarrollado una solución de referencia (ver sección \ref{sec:solución}) a través del diseño de varias fases que dividen el problema a resolver. La primera de ellas consiste en actuar sobre los controladores de la cabeza del PR2 para lograr que gire a la derecha y observe la zona de muestra. A continuación, se utiliza la cámara Kinect para obtener una imagen que se transforma al espacio de color HSV con OpenCV y detecta si realmente hay un objeto y su color. Después, la interfaz de MoveIt! para Python \textit{moveit\_commander}  permite planificar y ejecutar una trayectoria de aproximación con el brazo izquierdo del robot hasta situarlo frente al objeto a derribar, que será aquel cuyo color coincide con la zona de muestra. Por último, se realiza un movimiento de derribo que hace caer el cilindro.
+Al hilo del tercer subobjetivo, se ha desarrollado una solución de referencia (ver sección \ref{sec:solución}) a través del diseño de varias fases que dividen el problema a resolver. La primera de ellas consiste en actuar sobre los controladores de la cabeza del PR2 para lograr que gire a la derecha y observe la zona de muestra. A continuación, se utiliza la cámara Kinect para obtener una imagen que se transforma al espacio de color HSV con OpenCV y detecta si realmente hay un objeto y su color. Después, la interfaz de MoveIt! para Python \textit{moveit\_commander}  permite planificar y ejecutar una trayectoria de aproximación con el brazo izquierdo del robot hasta situarlo frente al objeto a derribar, que será aquel cuyo color coincide con el de la zona de muestra. Por último, se realiza un movimiento de derribo que hace caer el cilindro.
 
 En cuanto a la evaluación personal de este TFG, además del apartado puramente técnico, la motivación ha permitido superar el reto de completar un proyecto de ingeniería actual e innovador utilizando metodología de desarrollo de software ampliamente extendida. Ello ha permitido profundizar en habilidades útiles para el entorno laboral, ampliar los conocimientos de programación y tratamiento de imágenes, conocer el mundo de la robótica, diseñar modelos y arquitecturas, optimizar costes o trabajar en una solución integrada por distintos componentes que se comunican entre sí.  
 
